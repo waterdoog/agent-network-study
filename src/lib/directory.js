@@ -94,15 +94,20 @@ export function buildDirectory({ scenario, instance, E, seed }) {
     });
   }
 
-  // E is the fraction of the cards this scenario needs that sit OUTSIDE the roster.
-  const needed = [...holders.map((h) => `hold-${h}`), 'build-html', 'build-logic'];
-  const order = shuffle(needed, rand);
-  const outsideCount = Math.round(E * needed.length);
+  // E is the fraction of the scenario's FACT HOLDERS that sit outside the roster.
+  // Builders are deliberately not part of that split: a roster with no builder in
+  // it cannot produce an artifact at all, which would make E a switch for
+  // "private arm scores zero" rather than a measure of reach.
+  const holderIds = holders.map((h) => `hold-${h}`);
+  const alwaysInside = BUILDERS.map((b) => b.id);
+  const needed = [...holderIds, ...alwaysInside];
+  const order = shuffle(holderIds, rand);
+  const outsideCount = Math.round(E * holderIds.length);
   const outside = new Set(order.slice(0, outsideCount));
   const insideNeeded = order.slice(outsideCount);
 
-  const filler = shuffle(cards.filter((c) => !needed.includes(c.id)).map((c) => c.id), rand);
-  const roster = [...insideNeeded];
+  const roster = [...alwaysInside, ...insideNeeded];
+  const filler = shuffle(cards.filter((c) => !roster.includes(c.id) && !outside.has(c.id)).map((c) => c.id), rand);
   for (const id of filler) { if (roster.length >= 20) break; roster.push(id); }
 
   return {

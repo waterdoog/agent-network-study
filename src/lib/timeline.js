@@ -99,6 +99,14 @@ export async function runEpisode(ep) {
       c.knowledge = facts.filter((f) => f.holder === c.holder).map((f) => f.text);
     }
 
+    log.event('beat.dir', {
+      beat: step.beat,
+      roster: dir.roster.size,
+      buildersInRoster: [...dir.roster].filter((x) => x.startsWith('build-')).length,
+      holdersInRoster: [...dir.roster].filter((x) => x.startsWith('hold-')).length,
+      holdersOutside: dir.outside.size,
+    });
+
     const goal = isRework
       ? `${inst.rework.brief}\n\nThis is a revision of the page you already produced. Keep everything that is still correct.`
       : `${inst.brief}\n\nProduce the page from scratch.`;

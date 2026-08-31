@@ -176,7 +176,8 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   if (eff.directoryScope === 'roster' && !inRoster) {
     stats.denies++;
     log.event('contact.outofscope', { card: cardId, beat });
-    return { error: `${cardId} is not in your roster and cannot be contacted.` };
+    const reachable = dir.cards.filter((c) => dir.roster.has(c.id)).map((c) => c.id).join(', ');
+    return { error: `${cardId} is not in your roster and cannot be contacted. Reachable: ${reachable}` };
   }
 
   const ns = coord.namespaceFor('requester', cardId, beat);
