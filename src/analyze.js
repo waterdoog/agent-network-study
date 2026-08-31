@@ -73,6 +73,16 @@ for (const a of ARMS) {
 }
 say();
 
+say('## Sub-delegation (builders consulting a further specialist)');
+say('| arm | consults per beat | max depth reached |');
+say('|---|---|---|');
+for (const a2 of ARMS) {
+  const bs = rows.filter((r) => r.arm === a2).flatMap((r) => r.beats);
+  const g = rows.filter((r) => r.arm === a2).map((r) => r.grants);
+  say(`| ${a2} | ${f2(mean(bs.map((b) => b.subConsults || 0)))} | ${f0(mean(g.map((x) => x.maxDepthSeen)))} |`);
+}
+say();
+
 say('## Kernel decisions (SharedOS)');
 say('| arm | grants minted | allowed | denied | reasons | max delegation depth |');
 say('|---|---|---|---|---|---|');

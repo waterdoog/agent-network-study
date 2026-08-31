@@ -9,7 +9,7 @@ import { effectiveArm } from './arms.js';
 const MAX_ITERS = Number(process.env.STUDY_MAX_ITERS || 22);
 const MAX_ARTIFACT_ECHO = 9000;
 
-const TOOLS = (arm) => {
+const TOOLS = ({ phase }) => {
   const t = [
     {
       type: 'function',
@@ -52,6 +52,8 @@ const TOOLS = (arm) => {
       },
     },
   ];
+  if (phase === 'must-build') return t.filter((x) => ['delegate_build', 'submit', 'write_notes'].includes(x.function.name));
+  if (phase === 'must-submit') return t.filter((x) => x.function.name === 'submit');
   return t;
 };
 
@@ -62,9 +64,10 @@ const TOOLS = (arm) => {
 export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders }) {
   const stats = {
     asks: 0, builds: 0, searches: 0, denies: 0, tokens: 0, contacted: new Set(),
-    usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0, depth: 0,
+    usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0, depth: 0, subConsults: 0,
   };
   let html = null;
+  let lastBuilt = null;
 
   const sys = [
     'You coordinate other agents to produce a deliverable. You have no knowledge of your own about this task.',
@@ -88,11 +91,23 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
     ].filter(Boolean).join('\n') },
   ];
 
+  let lastPhase = 'open';
   for (let i = 0; i < MAX_ITERS && html == null; i++) {
     stats.iters = i + 1;
+    const phase = stats.builds === 0 && i >= Math.floor(MAX_ITERS * 0.6) ? 'must-build'
+      : lastBuilt && i >= Math.floor(MAX_ITERS * 0.85) ? 'must-submit'
+      : 'open';
+    if (phase !== 'open' && phase !== lastPhase) {
+      log.event('req.phase', { phase, iter: i, beat });
+      messages.push({ role: 'user', content: phase === 'must-build'
+        ? `You have used ${i} of ${MAX_ITERS} turns. Stop gathering: delegate the build now with everything you have, then submit.`
+        : 'Submit the finished HTML now.' });
+      lastPhase = phase;
+    }
+
     let res;
     try {
-      res = await chat({ messages, tools: TOOLS(arm), log, tag: `req.i${i}`, maxTokens: 6000 });
+      res = await chat({ messages, tools: TOOLS({ phase }), log, tag: `req.i${i}`, maxTokens: 6000 });
     } catch (err) {
       log.fail('req.llm', err, { beat, iter: i });
       break;
@@ -100,11 +115,6 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
     stats.tokens += res.tokensIn + res.tokensOut;
     const msg = res.message;
     messages.push(msg);
-
-    if (i === Math.floor(MAX_ITERS * 0.6) && stats.builds === 0) {
-      messages.push({ role: 'user', content: `You have used ${i} of ${MAX_ITERS} turns and have not built anything yet. Delegate the build now with everything you have, then submit.` });
-      log.event('req.nudge', { iter: i, beat });
-    }
 
     const calls = msg.tool_calls || [];
     if (!calls.length) {
@@ -128,6 +138,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
         result = { cards: hits };
       } else if (name === 'ask_agent' || name === 'delegate_build') {
         const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact });
+        if (r && r.html) lastBuilt = r.html;
         result = r;
       } else if (name === 'write_notes') {
         notes = `${notes || ''}\n${args.text}`.trim().slice(-4000);
@@ -145,6 +156,10 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
     }
   }
 
+  if (html == null && lastBuilt) {
+    html = lastBuilt;
+    log.event('req.fallback', { why: 'built-but-never-submitted', len: html.length, beat });
+  }
   return { html, notes, stats };
 }
 
@@ -201,6 +216,13 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   const ask = isBuild ? String(args.instructions || '') : String(args.question || '');
   msgs.push({ role: 'user', content: ask });
 
+  // A builder that is short a number may consult one more specialist. Whether it
+  // is allowed to is decided by deriveGrant, i.e. by this arm's delegationDepth.
+  if (isBuild) {
+    const sub = await builderConsult({ msgs, parentGrant: grant, dir, arm, coord, log, beat, stats, responders, requesterCardId: cardId });
+    if (sub) msgs.push(sub);
+  }
+
   let res;
   try {
     res = await chat({ messages: msgs, log, tag: `${isBuild ? 'build' : 'ask'}.${cardId}`, maxTokens: isBuild ? 8000 : 700, temperature: isBuild ? 0.2 : 0.1 });
@@ -228,6 +250,59 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   });
 
   return isBuild ? { html: stripFence(reply) } : { answer: reply };
+}
+
+/**
+ * One consult round for a builder. The builder is asked whether anything is
+ * missing; if it names a specialist, the kernel decides whether the mandate may
+ * be passed on at all. Public arms carry delegationDepth 0, so this is where
+ * `parent_not_delegable` shows up in the logs.
+ */
+async function builderConsult({ msgs, parentGrant, dir, arm, coord, log, beat, stats, responders, requesterCardId }) {
+  let probe;
+  try {
+    probe = await chat({
+      messages: [
+        ...msgs,
+        { role: 'user', content: 'Before you build: is any required number or fact missing from these instructions? Reply with exactly one line, either NONE, or CONSULT <agent-id> <one short question>.' },
+      ],
+      log, tag: `consult.probe.${requesterCardId}`, maxTokens: 120, temperature: 0,
+    });
+  } catch { return null; }
+  stats.tokens += probe.tokensIn + probe.tokensOut;
+
+  const line = String(probe.message?.content || '').trim();
+  const m = line.match(/^CONSULT\s+([A-Za-z0-9_-]+)\s+(.+)$/);
+  if (!m) return null;
+
+  const [, targetId, question] = m;
+  const target = dir.byId.get(targetId);
+  if (!target) { log.event('consult.nocard', { to: targetId, beat }); return null; }
+
+  const d = coord.subDelegate({ parentGrant, toCardId: targetId, depth: 1, beat });
+  if (!d.ok) {
+    return { role: 'user', content: `You may not consult another agent here (${d.reason}). Build with what you have.` };
+  }
+
+  const sys = [
+    `You are ${target.name}. Your skills: ${target.tags.join(', ')}.`,
+    'Answer only from the knowledge listed below. If you were not told something, say you do not know it.',
+    '', 'WHAT YOU KNOW:',
+    ...(target.knowledge.length ? target.knowledge.map((k) => `- ${k}`) : ['- (nothing relevant)']),
+    ...(target.planted.length ? ['', 'ALSO IN YOUR NOTES:', ...target.planted.map((k) => `- ${k}`)] : []),
+  ].join('\n');
+
+  let ans;
+  try {
+    ans = await chat({ messages: [{ role: 'system', content: sys }, { role: 'user', content: question }], log, tag: `consult.${targetId}`, maxTokens: 400, temperature: 0.1 });
+  } catch { return null; }
+  stats.tokens += ans.tokensIn + ans.tokensOut;
+  stats.subConsults = (stats.subConsults || 0) + 1;
+  if (target.knowledge.length) stats.usefulContacts.add(targetId);
+  for (const p of target.planted) stats.pollutionSeen.add(p);
+  log.event('consult.ok', { to: targetId, beat, len: String(ans.message?.content || '').length });
+
+  return { role: 'user', content: `You consulted ${target.name}, who replied: ${String(ans.message?.content || '').slice(0, 800)}` };
 }
 
 export function stripFence(s) {

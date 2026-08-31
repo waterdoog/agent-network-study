@@ -114,7 +114,7 @@ export async function runEpisode(ep) {
       });
     } catch (err) {
       log.fail('beat.crash', err, { beat: step.beat });
-      out = { html: null, notes, stats: { asks: 0, builds: 0, searches: 0, denies: 0, tokens: 0, contacted: new Set(), usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0 } };
+      out = { html: null, notes, stats: { asks: 0, builds: 0, searches: 0, denies: 0, tokens: 0, contacted: new Set(), usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0, subConsults: 0 } };
     }
     notes = out.notes || notes;
 
@@ -141,7 +141,7 @@ export async function runEpisode(ep) {
       f1: requirementF1(res), recall: res.total ? res.pass / res.total : 0,
       regression,
       asks: out.stats.asks, builds: out.stats.builds, searches: out.stats.searches,
-      denies: out.stats.denies, iters: out.stats.iters,
+      denies: out.stats.denies, iters: out.stats.iters, subConsults: out.stats.subConsults || 0,
       contacted: out.stats.contacted.size,
       useful: out.stats.usefulContacts.size,
       searchPrecision: out.stats.contacted.size ? out.stats.usefulContacts.size / out.stats.contacted.size : 0,
