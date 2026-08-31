@@ -1,0 +1,17 @@
+{
+  "name": "agent-network-study",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Public vs private vs hybrid agent networks: one SharedOS kernel, four knobs, a four-beat timeline.",
+  "engines": { "node": ">=20.11" },
+  "scripts": {
+    "smoke": "node src/run.js --smoke",
+    "run": "node src/run.js",
+    "analyze": "node src/analyze.js"
+  },
+  "dependencies": {
+    "@aicoo/sharedos": "0.1.0-alpha.2",
+    "jsdom": "^26.0.0"
+  }
+}
