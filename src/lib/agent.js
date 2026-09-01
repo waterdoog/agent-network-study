@@ -5,11 +5,12 @@
 import { chat } from './openrouter.js';
 import { searchCards } from './directory.js';
 import { effectiveArm } from './arms.js';
+import { buildBrief } from './store.js';
 
-const MAX_ITERS = Number(process.env.STUDY_MAX_ITERS || 22);
+const BASE_ITERS = Number(process.env.STUDY_MAX_ITERS || 22);
 const MAX_ARTIFACT_ECHO = 9000;
 
-const TOOLS = ({ phase, arm }) => {
+const TOOLS = ({ phase, arm, plan }) => {
   const t = [
     {
       type: 'function',
@@ -32,7 +33,16 @@ const TOOLS = ({ phase, arm }) => {
       function: {
         name: 'delegate_build',
         description: 'Hand the build to a builder agent and receive the finished HTML document. Include every fact and number the builder needs; the builder cannot look anything up.',
-        parameters: { type: 'object', properties: { card_id: { type: 'string' }, instructions: { type: 'string' } }, required: ['card_id', 'instructions'] },
+        parameters: { type: 'object', properties: {
+          card_id: { type: 'string' },
+          // An enum, not a free string: the model otherwise invents names like
+          // "full page", which match no component, so the dependency lookup
+          // silently returns nothing and the mechanism never fires.
+          component: plan && plan.length > 1
+            ? { type: 'string', enum: plan.map((c) => c.name), description: 'which component of the deliverable this build produces' }
+            : { type: 'string', description: 'name of the component (use "page")' },
+          instructions: { type: 'string' },
+        }, required: ['card_id', 'component', 'instructions'] },
       },
     },
     {
@@ -88,7 +98,9 @@ const ALLOWED = {
  * Run one beat as the requester.
  * @returns {{html:string|null, stats:object}}
  */
-export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders }) {
+export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders, store, plan }) {
+  // Five components cannot be delegated inside a budget sized for one.
+  const MAX_ITERS = BASE_ITERS + 4 * Math.max(0, (plan?.length || 1) - 1);
   const stats = {
     asks: 0, builds: 0, searches: 0, denies: 0, tokens: 0, contacted: new Set(),
     usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0, depth: 0, subConsults: 0,
@@ -110,6 +122,13 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
     'Work efficiently. Do not ask an agent something you already know.',
     `You get at most ${MAX_ITERS} turns for the whole task. Gather what you need, then delegate the build and submit.`,
     'Budget your turns: leave at least three for delegate_build and submit.',
+    '',
+    ...(plan && plan.length > 1 ? [
+      '',
+      'This deliverable is built as separate components. Delegate each one, naming it in the `component` argument:',
+      ...plan.map((c) => `  ${c.name}${c.deps.length ? `  (depends on: ${c.deps.join(', ')})` : ''}`),
+      'Build a component only after the ones it depends on. The last one assembles the final document.',
+    ] : []),
     '',
     'DELIVERABLE SPEC (the page must satisfy this exactly):',
     spec,
@@ -140,7 +159,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
 
     let res;
     try {
-      res = await chat({ messages, tools: TOOLS({ phase, arm }), log, tag: `req.i${i}`, maxTokens: 6000 });
+      res = await chat({ messages, tools: TOOLS({ phase, arm, plan }), log, tag: `req.i${i}`, maxTokens: 6000 });
     } catch (err) {
       log.fail('req.llm', err, { beat, iter: i });
       break;
@@ -180,7 +199,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
         log.event('tool.search', { q: String(args.query).slice(0, 80), n: hits.length, rel: withRel, beat });
         result = { cards: hits };
       } else if (name === 'ask_agent' || name === 'delegate_build') {
-        const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact });
+        const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan });
         if (r && r.html) lastBuilt = r.html;
         result = r;
       } else if (name === 'list_store' || name === 'read_store') {
@@ -190,6 +209,15 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
         log.event('tool.notes', { len: notes.length, beat });
         result = { ok: true };
       } else if (name === 'submit') {
+        const missing = plan && plan.length > 1
+          ? plan.map((c) => c.name).filter((n) => !store?.read(n))
+          : [];
+        if (missing.length) {
+          log.event('submit.blocked', { missing: missing.join(','), beat });
+          result = { error: `These components have not been built yet: ${missing.join(', ')}. Delegate each one before submitting.` };
+          messages.push({ role: 'tool', tool_call_id: call.id, content: JSON.stringify(result) });
+          continue;
+        }
         html = String(args.html || '');
         log.event('tool.submit', { len: html.length, beat });
         result = { ok: true, received: html.length };
@@ -208,8 +236,10 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
   return { html, notes, stats };
 }
 
+
+
 /** One authorized contact with one card. This is where the arm's knobs bite. */
-async function contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact }) {
+async function contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan }) {
   const cardId = String(args.card_id || '');
   const card = dir.byId.get(cardId);
   if (!card) { log.event('contact.nocard', { card: cardId, beat }); return { error: `no such agent: ${cardId}` }; }
@@ -238,6 +268,7 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   const carry = eff.responderMemory === true;
 
   const isBuild = name === 'delegate_build';
+  const canRead = eff.access === 'store';
   const sys = isBuild
     ? [
       'You are a builder agent. You produce one complete, self-contained HTML document and nothing else.',
@@ -267,7 +298,25 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   if (carry && isBuild && state.lastArtifact) {
     msgs.push({ role: 'user', content: `The version of this page you produced earlier:\n\n${state.lastArtifact.slice(0, MAX_ARTIFACT_ECHO)}` });
   }
-  const ask = isBuild ? String(args.instructions || '') : String(args.question || '');
+  let ask = isBuild ? String(args.instructions || '') : String(args.question || '');
+  let inlineBytes = 0;
+  const compName = isBuild ? String(args.component || '') : '';
+  if (isBuild && plan) {
+    const spec = plan.find((c) => c.name === compName);
+    if (!spec) {
+      log.event('tool.badcomponent', { got: compName, valid: plan.map((c) => c.name).join(','), beat });
+      return { error: `"${compName}" is not a component of this deliverable. Use exactly one of: ${plan.map((c) => c.name).join(', ')}.` };
+    }
+    const deps = spec.deps;
+    // The arms diverge here and only here: with a store the dependency travels
+    // as a name, without one it travels as bytes -- every time, for every
+    // dependent. That is the tax, and it is charged to this prompt.
+    const brief = buildBrief({ component: compName, deps, store, canRead: false });
+    inlineBytes = brief.inlineBytes;
+    ask = `${ask}\n\n${brief.text}`;
+    if (spec.sections?.length) ask += `\n\nProduce ONLY these sections: ${spec.sections.join(', ')}.`;
+    if (spec.assembles) ask += `\n\nAssemble the final complete HTML document from the components.`;
+  }
   msgs.push({ role: 'user', content: ask });
 
   // A builder that is short a number may consult one more specialist. Whether it
@@ -279,6 +328,7 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
 
   let res;
   try {
+    if (isBuild && canRead && !store) throw new Error('store arm reached a build with no store: wiring is broken');
     res = await chat({ messages: msgs, log, tag: `${isBuild ? 'build' : 'ask'}.${cardId}`, maxTokens: isBuild ? 8000 : 700, temperature: isBuild ? 0.2 : 0.1 });
   } catch (err) {
     log.fail('contact.llm', err, { card: cardId, beat });
@@ -287,7 +337,12 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   stats.tokens += res.tokensIn + res.tokensOut;
 
   const reply = String(res.message?.content || '');
-  if (isBuild) { stats.builds++; state.lastArtifact = stripFence(reply); }
+  if (isBuild) {
+    stats.builds++;
+    state.lastArtifact = stripFence(reply);
+    if (store && compName) store.write(compName, stripFence(reply), { by: cardId, beat });
+    stats.inlineBytes = (stats.inlineBytes || 0) + inlineBytes;
+  }
   else {
     stats.asks++;
     if (card.knowledge.length) stats.usefulContacts.add(cardId);
@@ -301,9 +356,23 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   log.event(isBuild ? 'tool.build' : 'tool.ask', {
     card: cardId, kind: card.kind, roster: inRoster, mem: carry,
     ti: res.tokensIn, to: res.tokensOut, len: reply.length, beat,
+    ...(isBuild ? { comp: compName, inlineBytes, storeReads: res.storeReads || 0 } : {}),
   });
 
-  return isBuild ? { html: stripFence(reply) } : { answer: reply };
+  if (!isBuild) return { answer: reply };
+  const built = stripFence(reply);
+  // The arms diverge here, and this is the mechanism the study is about.
+  // Without a store the requester has to hold each component itself, because
+  // it is the only thing that can carry it to whoever needs it next: the bytes
+  // enter its context and stay there. With a store the component lives in the
+  // store, the builder that needs it is handed it directly, and the requester
+  // gets a receipt. The tax is paid in the requester's context, not the
+  // builder's, which is what the earlier version measured and why it saw
+  // nothing.
+  if (canRead) {
+    return { ok: true, component: compName, bytes: built.length, note: 'written to the component store' };
+  }
+  return { html: built, component: compName, bytes: built.length };
 }
 
 /** Enumerate or read a counterpart's store. Only exists under access:'store'. */

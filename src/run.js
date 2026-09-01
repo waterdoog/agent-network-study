@@ -20,7 +20,8 @@ const SC_LIST = (flag('scenarios', Object.keys(SCENARIOS).join(','))).split(',')
 const E_LIST = (flag('E', '0.3,0.7')).split(',').map(Number);
 const SEEDS = Number(flag('seeds', 3));
 const PAR = Number(flag('par', 6));
-const PROFILE = flag('profile', 'bare');   // bare | vetted | relational | realistic
+const PROFILE = flag('profile', 'bare');
+const K_LIST = String(flag('k', '1')).split(',').map(Number);   // components the deliverable is split into
 setLogLevel(has('verbose') ? 'verbose' : flag('log', 'normal'));
 
 const smoke = has('smoke');
@@ -29,8 +30,9 @@ const episodes = [];
 for (const sc of smoke ? [SC_LIST[0]] : SC_LIST)
   for (const armId of smoke ? ['public', 'private'] : ARM_LIST)
     for (const E of smoke ? [E_LIST[0]] : E_LIST)
-      for (let seed = 1; seed <= (smoke ? 1 : SEEDS); seed++)
-        episodes.push({ armId, scenarioId: sc, E, seed });
+      for (const k of smoke ? [K_LIST[0]] : K_LIST)
+        for (let seed = 1; seed <= (smoke ? 1 : SEEDS); seed++)
+          episodes.push({ armId, scenarioId: sc, E, seed, k });
 
 mkdirSync(ROOT, { recursive: true });
 note(`run ${RUN_ID}  model=${MODEL}  episodes=${episodes.length}  par=${PAR}`);
@@ -45,7 +47,7 @@ const started = Date.now();
 async function worker(queue) {
   while (queue.length) {
     const spec = queue.shift();
-    const id = `${spec.armId}_${spec.scenarioId}_E${spec.E}_s${spec.seed}`;
+    const id = `${spec.armId}_${spec.scenarioId}_E${spec.E}_k${spec.k}_s${spec.seed}`;
     const outDir = join(ROOT, id);
     const summaryPath = join(outDir, 'summary.json');
     if (existsSync(summaryPath)) {
@@ -56,11 +58,11 @@ async function worker(queue) {
       continue;
     }
     mkdirSync(outDir, { recursive: true });
-    const meta = { id, arm: spec.armId, scenario: spec.scenarioId, E: spec.E, seed: spec.seed, model: MODEL, profile: PROFILE };
+    const meta = { id, arm: spec.armId, scenario: spec.scenarioId, E: spec.E, seed: spec.seed, model: MODEL, profile: PROFILE, k: spec.k };
     const log = new EpisodeLog(join(outDir, 'events.jsonl'), meta);
     try {
       const summary = await runEpisode({
-        id, arm: ARMS[spec.armId], scenarioId: spec.scenarioId, E: spec.E, seed: spec.seed, profile: PROFILE,
+        id, arm: ARMS[spec.armId], scenarioId: spec.scenarioId, E: spec.E, seed: spec.seed, profile: PROFILE, k: spec.k,
         outDir, log, meta,
       });
       writeFileSync(summaryPath, JSON.stringify(summary, null, 2));

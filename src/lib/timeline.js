@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
 
 import { buildDirectory, SCENARIOS } from './directory.js';
+import { ComponentStore } from './store.js';
 import { Coordinator } from './kernel.js';
 import { runRequester } from './agent.js';
 import { beatLine } from './log.js';
@@ -66,9 +67,13 @@ function requirementF1(res) {
 }
 
 export async function runEpisode(ep) {
-  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare' } = ep;
+  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1 } = ep;
   const sc = SCENARIOS[scenarioId];
   const responders = new Map();
+  // One store per episode. Persistent arms carry components across beats; the
+  // rest forget between them, so a rework starts from bytes again.
+  const store = new ComponentStore({ persistent: arm.namespace === 'persistent' });
+  const compPlan = (sc.componentPlans && sc.componentPlans[k]) || null;
   const coord = new Coordinator({ episodeId: ep.id, arm, log });
   mkdirSync(outDir, { recursive: true });
 
@@ -101,6 +106,7 @@ export async function runEpisode(ep) {
       c.knowledge = facts.filter((f) => f.holder === c.holder).map((f) => f.text);
     }
 
+    store.endBeat();
     log.event('beat.dir', {
       beat: step.beat,
       roster: dir.roster.size,
@@ -121,6 +127,7 @@ export async function runEpisode(ep) {
       out = await runRequester({
         goal, spec: sc.spec, notes, dir, arm, coord, log,
         beat: step.beat, priorArtifact, responders,
+        store, plan: compPlan,
       });
     } catch (err) {
       log.fail('beat.crash', err, { beat: step.beat });
@@ -156,6 +163,10 @@ export async function runEpisode(ep) {
       contacted: out.stats.contacted.size,
       useful: out.stats.usefulContacts.size,
       searchPrecision: out.stats.contacted.size ? out.stats.usefulContacts.size / out.stats.contacted.size : 0,
+      inlineBytes: out.stats.inlineBytes || 0,
+      storeReads: out.stats.storeReads || 0,
+      storeWrites: store.stats().writes,
+      k,
       pollutionSeen: out.stats.pollutionSeen.size,
       pollutionAbsorbed: pol.absorbed,
       wrongInvented: pol.invented,

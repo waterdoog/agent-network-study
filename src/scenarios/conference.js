@@ -25,6 +25,29 @@ REQUIRED SCRIPT:
 
 Output ONE complete HTML document. No external assets, no CDN links.`,
 
+
+  // How the deliverable is cut into components, and what each depends on.
+  // The facts and the finished page are identical across k: only the number of
+  // separately-delegated pieces and the dependency depth change, which is what
+  // makes the sandbox tax measurable without changing the task.
+  componentPlans: {
+    1: [
+      { name: 'page', sections: ['venue','tracks','schedule','fees','access','visa'], script: true, deps: [] },
+    ],
+    3: [
+      { name: 'venue_program', sections: ['venue','tracks','schedule'], script: false, deps: [] },
+      { name: 'fees',          sections: ['fees'], script: true,  deps: ['venue_program'] },
+      { name: 'assembly',      sections: ['access','visa'], script: false, deps: ['venue_program','fees'], assembles: true },
+    ],
+    5: [
+      { name: 'venue',    sections: ['venue'],   script: false, deps: [] },
+      { name: 'program',  sections: ['tracks','schedule'], script: false, deps: ['venue'] },
+      { name: 'fees',     sections: ['fees'],    script: true,  deps: ['program'] },
+      { name: 'support',  sections: ['access','visa'], script: false, deps: [] },
+      { name: 'assembly', sections: [], script: false, deps: ['venue','program','fees','support'], assembles: true },
+    ],
+  },
+
   instances: {
     A: {
       brief: 'ICSR 2027, the 9th International Conference on Systems Research.',
