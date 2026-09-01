@@ -52,9 +52,16 @@ const TOOLS = ({ phase }) => {
       },
     },
   ];
-  if (phase === 'must-build') return t.filter((x) => ['delegate_build', 'submit', 'write_notes'].includes(x.function.name));
-  if (phase === 'must-submit') return t.filter((x) => x.function.name === 'submit');
-  return t;
+  return t.filter((x) => ALLOWED[phase].has(x.function.name));
+};
+
+// Narrowing the offered tool list is not enough: a model that saw a tool earlier
+// keeps emitting it, and a dispatcher that executes whatever arrives silently
+// undoes the phase. The phase is enforced here, on the call, not on the menu.
+const ALLOWED = {
+  open: new Set(['search_directory', 'ask_agent', 'delegate_build', 'write_notes', 'submit']),
+  'must-build': new Set(['delegate_build', 'submit']),
+  'must-submit': new Set(['submit']),
 };
 
 /**
@@ -131,6 +138,12 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
       catch (e) { log.event('tool.badargs', { name, raw: String(call.function?.arguments).slice(0, 200) }); }
 
       let result;
+      if (!ALLOWED[phase].has(name)) {
+        log.event('tool.blocked', { name, phase, iter: i, beat });
+        result = { error: `${name} is not available at this stage. Call delegate_build with everything you have, then submit.` };
+        messages.push({ role: 'tool', tool_call_id: call.id, content: JSON.stringify(result) });
+        continue;
+      }
       if (name === 'search_directory') {
         stats.searches++;
         const hits = searchCards(dir, arm, args.query);
