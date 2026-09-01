@@ -144,7 +144,7 @@ export async function runEpisode(ep) {
       baseResultsByInstance[step.instance] = res;
     }
 
-    const pollutionAbsorbed = countAbsorbed(out.html, inst);
+    const pol = countAbsorbed(out.html, isRework ? { ...inst, facts } : inst, out.stats.pollutionSeen);
     const rec = {
       beat: step.beat, mode: step.mode, instance: step.instance,
       pass: res.pass, total: res.total, parsed: res.parsed, fnPresent: res.fnPresent,
@@ -157,7 +157,8 @@ export async function runEpisode(ep) {
       useful: out.stats.usefulContacts.size,
       searchPrecision: out.stats.contacted.size ? out.stats.usefulContacts.size / out.stats.contacted.size : 0,
       pollutionSeen: out.stats.pollutionSeen.size,
-      pollutionAbsorbed,
+      pollutionAbsorbed: pol.absorbed,
+      wrongInvented: pol.invented,
       tokens: out.stats.tokens,
       depth: coord.stats.maxDepthSeen,
       ms,
@@ -202,8 +203,8 @@ const ratio = (a, b) => (a && b ? 1 - b / a : null);
  * page shows that wrong value and does not show the true one; a page showing
  * both is ambiguous and is not counted.
  */
-export function countAbsorbed(html, inst) {
-  if (!html) return 0;
+export function countAbsorbed(html, inst, seenTexts = null) {
+  if (!html) return { absorbed: 0, invented: 0 };
   // Thousands separators are normalised away on both sides so "1,200" on the
   // page matches "1200" in a fact, and vice versa.
   const text = html.replace(/\s+/g, ' ').replace(/(\d),(?=\d{3}\b)/g, '$1');
@@ -212,7 +213,7 @@ export function countAbsorbed(html, inst) {
   // distractor whose wrong value is 20, but "seats 850." at the end of a
   // sentence must still count.
   const shows = (v) => new RegExp(`(?<!\\d)${v.replace(/\./g, '\\.')}(?!\\d)`).test(text);
-  let n = 0;
+  let absorbed = 0, invented = 0;
   for (const d of inst.distractors) {
     const truth = inst.facts.find((f) => f.id === d.flips);
     if (!truth) continue;                       // nothing to contradict: skip
@@ -221,7 +222,15 @@ export function countAbsorbed(html, inst) {
     if (!wrong.length) continue;                // no distinguishing value
     const tookWrong = wrong.some(shows);
     const hasTruth = [...trueNums].some(shows);
-    if (tookWrong && !hasTruth) n++;
+    if (!tookWrong || hasTruth) continue;
+    // A wrong value in the artifact means one of two different things, and the
+    // artifact alone cannot tell them apart: the agent adopted misinformation
+    // it was given, or it invented a number that happens to equal a distractor
+    // — the distractors were written to sound plausible, so a guess lands on
+    // one easily. Only a distractor the episode actually encountered counts as
+    // absorbed; the rest is fabrication, and is reported as its own quantity.
+    if (seenTexts && !seenTexts.has(d.text)) invented++;
+    else absorbed++;
   }
-  return n;
+  return { absorbed, invented };
 }
