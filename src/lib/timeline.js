@@ -144,7 +144,7 @@ export async function runEpisode(ep) {
       baseResultsByInstance[step.instance] = res;
     }
 
-    const pollutionAbsorbed = countAbsorbed(out.html, inst, isRework);
+    const pollutionAbsorbed = countAbsorbed(out.html, inst);
     const rec = {
       beat: step.beat, mode: step.mode, instance: step.instance,
       pass: res.pass, total: res.total, parsed: res.parsed, fnPresent: res.fnPresent,
@@ -187,13 +187,41 @@ export async function runEpisode(ep) {
 const ratio = (a, b) => (a && b ? 1 - b / a : null);
 
 /** Distractor values that made it into the artifact. Ground truth by design. */
-function countAbsorbed(html, inst, isRework) {
+/**
+ * Did the artifact take a distractor's value instead of the true one?
+ *
+ * The previous version counted a distractor as absorbed if ANY number from its
+ * sentence appeared in the page. Distractor sentences carry incidental numbers
+ * — dates, counts, years — that a correct page also contains, so it fired on
+ * correct pages and could report more absorbed than the agent ever saw. It was
+ * a false-positive detector, and it is why absorption sat flat at 2-3 in every
+ * cell.
+ *
+ * A distractor names the fact it contradicts via `flips`. The wrong value is
+ * whatever number it carries that the true fact does not. Absorbed means the
+ * page shows that wrong value and does not show the true one; a page showing
+ * both is ambiguous and is not counted.
+ */
+export function countAbsorbed(html, inst) {
   if (!html) return 0;
-  const text = html.replace(/\s+/g, ' ');
+  // Thousands separators are normalised away on both sides so "1,200" on the
+  // page matches "1200" in a fact, and vice versa.
+  const text = html.replace(/\s+/g, ' ').replace(/(\d),(?=\d{3}\b)/g, '$1');
+  const nums = (t) => [...String(t).replace(/(\d),(?=\d{3}\b)/g, '$1').matchAll(/\b(\d+(?:\.\d+)?)\b/g)].map((m) => m[1]);
+  // Bounded by digits only, not by punctuation: "2027" must not satisfy a
+  // distractor whose wrong value is 20, but "seats 850." at the end of a
+  // sentence must still count.
+  const shows = (v) => new RegExp(`(?<!\\d)${v.replace(/\./g, '\\.')}(?!\\d)`).test(text);
   let n = 0;
   for (const d of inst.distractors) {
-    const nums = [...d.text.matchAll(/\b(\d[\d,.]*)\b/g)].map((m) => m[1]);
-    if (nums.some((v) => text.includes(v))) n++;
+    const truth = inst.facts.find((f) => f.id === d.flips);
+    if (!truth) continue;                       // nothing to contradict: skip
+    const trueNums = new Set(nums(truth.text));
+    const wrong = nums(d.text).filter((v) => !trueNums.has(v));
+    if (!wrong.length) continue;                // no distinguishing value
+    const tookWrong = wrong.some(shows);
+    const hasTruth = [...trueNums].some(shows);
+    if (tookWrong && !hasTruth) n++;
   }
   return n;
 }

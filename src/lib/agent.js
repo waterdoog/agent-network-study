@@ -173,7 +173,11 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
       if (name === 'search_directory') {
         stats.searches++;
         const hits = searchCards(dir, arm, args.query);
-        log.event('tool.search', { q: String(args.query).slice(0, 80), n: hits.length, beat });
+        // Record whether relational metadata actually went into the model's
+        // context, not just whether the config said it should. A manipulation
+        // you cannot see in the log is a manipulation you cannot defend.
+        const withRel = hits.filter((h) => h.relationship).length;
+        log.event('tool.search', { q: String(args.query).slice(0, 80), n: hits.length, rel: withRel, beat });
         result = { cards: hits };
       } else if (name === 'ask_agent' || name === 'delegate_build') {
         const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact });

@@ -119,3 +119,26 @@ mapping, so the metric is dropped rather than repaired under time pressure.
 What replaces it: `attainable` is reported as a per-episode covariate so the ceiling is
 visible, and the primary contrast is read on the **E=0.3 stratum**, where the ceiling
 barely binds. E=0.7 is reported as a ceiling check, not as evidence about behaviour.
+
+## `pollutionAbsorbed` was a false-positive detector (found in the pilot, 2026-09-01)
+
+Absorption was counted if **any** number appearing in a distractor's sentence also
+appeared in the artifact. Distractor sentences carry incidental numbers — dates, counts,
+years — that a correct page contains too, so the metric fired on correct pages. Two
+symptoms should have been read as failure earlier: absorption sat flat at 2-3 in all
+four cells with no pattern, and a bounded arm reported absorbing 3 distractors in an
+episode where it had seen only 1.
+
+A second bug sat underneath: values were matched by substring, so a distractor whose
+wrong value was `20` fired on every page mentioning the year `2027`.
+
+Corrected definition: a distractor names the fact it contradicts via `flips`; the wrong
+value is the number it carries that the true fact does not; absorbed means the artifact
+shows that wrong value bounded by non-digits and does not show the true one. A page
+showing both is ambiguous and is not counted. Thousands separators are normalised on
+both sides.
+
+Recomputed offline from saved artifacts: 277 of 288 beats changed in the main run.
+Corrected absorption is near zero in every cell, which is itself the finding — with four
+distractors present and seen, agents almost never adopt the wrong value. The earlier
+"no pattern anywhere" was the bug, not the world.
