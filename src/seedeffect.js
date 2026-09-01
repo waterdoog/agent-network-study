@@ -132,6 +132,53 @@ for (const [label, get, scale] of METRICS) {
   say();
 }
 
+// ---------------------------------------------------------------------------
+// The interaction. A main effect of relational text answers "does changing the
+// prompt change the output", which is not in doubt and not worth an experiment.
+// The question with an answer nobody can guess is whether a relational claim
+// works when the structure does not back it.
+//
+//   arm A: open directory, per-contact namespace, counterpart has no memory.
+//          "a colleague of two years" is false by construction -- an UNBACKED claim.
+//   arm C: bounded roster, persistent namespace, counterpart remembers.
+//          the same sentence is BACKED.
+//
+//   interaction = (origin - stranger | C) - (origin - stranger | A)
+//
+//   ~0    relational text works whether or not anything backs it. An open
+//         network cannot resist an asserted relationship: claiming a tie buys
+//         the cooperation of holding one.
+//   large relational text only works where structure already backs it, and the
+//         claim on its own is inert.
+say('## backed against unbacked relational claims');
+say();
+say('  A = open, ephemeral, no counterpart memory   -> "colleague of two years" is unbacked');
+say('  C = bounded, persistent, counterpart remembers -> the same claim is backed');
+say();
+for (const [label, get, scale] of METRICS) {
+  if (scale !== 'prop') continue;
+  const cell = (prof, arm) => rows
+    .filter((r) => r.seedProfile === prof && r.arm === arm)
+    .map(get).filter((v) => v != null && Number.isFinite(v));
+  const oA = cell('origin', 'A'), sA = cell('stranger', 'A');
+  const oC = cell('origin', 'C'), sC = cell('stranger', 'C');
+  if (!oA.length || !sA.length || !oC.length || !sC.length) {
+    say(`  ${label.padEnd(28)} (incomplete: A ${oA.length}/${sA.length}, C ${oC.length}/${sC.length})`);
+    continue;
+  }
+  const dA = mean(oA) - mean(sA);
+  const dC = mean(oC) - mean(sC);
+  const inter = dC - dA;
+  const [i1, i2] = boot({ oA, sA, oC, sC }, (d) => (d.oC - d.sC) - (d.oA - d.sA));
+  const spans = i1 <= 0 && i2 >= 0;
+  say(`  ${label.padEnd(28)} unbacked(A)=${f3(dA)}  backed(C)=${f3(dC)}  interaction=${f3(inter)}  95% CI [${f3(i1)},${f3(i2)}]  ${spans ? 'spans 0' : 'excludes 0'}`);
+}
+say();
+say('  An interaction indistinguishable from zero, with a non-zero effect in A, is');
+say('  the result worth reporting: an asserted tie buys what holding one buys, and');
+say('  an open network has nothing with which to refuse it.');
+say();
+
 say('## headline');
 const anySig = biggest.filter((b) => !b.spans);
 const maxAbs = biggest.length ? Math.max(...biggest.map((b) => b.d)) : NaN;
