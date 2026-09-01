@@ -6,6 +6,7 @@
 //   T3 warm build   a second instance of the same scenario (new facts, overlapping specialists)
 //   T4 warm rework  a change to the T3 artifact
 import { execFile } from 'node:child_process';
+import { resolveSeed } from './seeds.js';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
@@ -67,7 +68,8 @@ function requirementF1(res) {
 }
 
 export async function runEpisode(ep) {
-  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1 } = ep;
+  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1, seedProfile = 'control' } = ep;
+  const relSeed = resolveSeed(seedProfile);
   const sc = SCENARIOS[scenarioId];
   const responders = new Map();
   // One store per episode. Persistent arms carry components across beats; the
@@ -125,7 +127,7 @@ export async function runEpisode(ep) {
     let out;
     try {
       out = await runRequester({
-        goal, spec: sc.spec, notes, dir, arm, coord, log,
+        goal, spec: sc.spec, notes, dir, arm, coord, log, seed: relSeed,
         beat: step.beat, priorArtifact, responders,
         store, plan: compPlan,
       });

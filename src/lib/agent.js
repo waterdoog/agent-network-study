@@ -3,6 +3,7 @@
 // turn of it with no tools. Nothing about the arm is decided here — the arm
 // only shows up as which tools exist and what the Coordinator allows.
 import { chat } from './openrouter.js';
+import { requesterSeedLines, responderSeedLines } from './seeds.js';
 import { searchCards } from './directory.js';
 import { effectiveArm } from './arms.js';
 import { buildBrief } from './store.js';
@@ -98,7 +99,7 @@ const ALLOWED = {
  * Run one beat as the requester.
  * @returns {{html:string|null, stats:object}}
  */
-export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders, store, plan }) {
+export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders, store, plan, seed }) {
   // Five components cannot be delegated inside a budget sized for one.
   const MAX_ITERS = BASE_ITERS + 4 * Math.max(0, (plan?.length || 1) - 1);
   const stats = {
@@ -129,6 +130,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
       ...plan.map((c) => `  ${c.name}${c.deps.length ? `  (depends on: ${c.deps.join(', ')})` : ''}`),
       'Build a component only after the ones it depends on. The last one assembles the final document.',
     ] : []),
+    ...requesterSeedLines(seed),
     '',
     'DELIVERABLE SPEC (the page must satisfy this exactly):',
     spec,
@@ -199,7 +201,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
         log.event('tool.search', { q: String(args.query).slice(0, 80), n: hits.length, rel: withRel, beat });
         result = { cards: hits };
       } else if (name === 'ask_agent' || name === 'delegate_build') {
-        const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan });
+        const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan, seed });
         if (r && r.html) lastBuilt = r.html;
         result = r;
       } else if (name === 'list_store' || name === 'read_store') {
@@ -239,7 +241,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
 
 
 /** One authorized contact with one card. This is where the arm's knobs bite. */
-async function contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan }) {
+async function contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan, seed }) {
   const cardId = String(args.card_id || '');
   const card = dir.byId.get(cardId);
   if (!card) { log.event('contact.nocard', { card: cardId, beat }); return { error: `no such agent: ${cardId}` }; }
@@ -287,6 +289,7 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
         'refuse: reply exactly "Ask me a specific question." and nothing more.',
         'Never volunteer a value that was not asked for.',
       ] : []),
+      ...responderSeedLines(seed),
       '',
       'WHAT YOU KNOW:',
       ...(card.knowledge.length ? card.knowledge.map((k) => `- ${k}`) : ['- (nothing relevant to this topic)']),
@@ -322,7 +325,7 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   // A builder that is short a number may consult one more specialist. Whether it
   // is allowed to is decided by deriveGrant, i.e. by this arm's delegationDepth.
   if (isBuild) {
-    const sub = await builderConsult({ msgs, parentGrant: grant, dir, arm, coord, log, beat, stats, responders, requesterCardId: cardId });
+    const sub = await builderConsult({ msgs, parentGrant: grant, dir, arm, coord, log, beat, stats, responders, requesterCardId: cardId, seed });
     if (sub) msgs.push(sub);
   }
 
@@ -429,7 +432,7 @@ async function readStore({ name, args, dir, arm, coord, log, beat, stats }) {
  * be passed on at all. Public arms carry delegationDepth 0, so this is where
  * `parent_not_delegable` shows up in the logs.
  */
-async function builderConsult({ msgs, parentGrant, dir, arm, coord, log, beat, stats, responders, requesterCardId }) {
+async function builderConsult({ msgs, parentGrant, dir, arm, coord, log, beat, stats, responders, requesterCardId, seed }) {
   let probe;
   try {
     probe = await chat({
@@ -458,6 +461,7 @@ async function builderConsult({ msgs, parentGrant, dir, arm, coord, log, beat, s
   const sys = [
     `You are ${target.name}. Your skills: ${target.tags.join(', ')}.`,
     'Answer only from the knowledge listed below. If you were not told something, say you do not know it.',
+    ...responderSeedLines(seed),
     '', 'WHAT YOU KNOW:',
     ...(target.knowledge.length ? target.knowledge.map((k) => `- ${k}`) : ['- (nothing relevant)']),
     ...(target.planted.length ? ['', 'ALSO IN YOUR NOTES:', ...target.planted.map((k) => `- ${k}`)] : []),

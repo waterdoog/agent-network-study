@@ -21,6 +21,7 @@ const E_LIST = (flag('E', '0.3,0.7')).split(',').map(Number);
 const SEEDS = Number(flag('seeds', 3));
 const PAR = Number(flag('par', 6));
 const PROFILE = flag('profile', 'bare');
+const SEED_PROFILES_ARG = String(flag('seed-profile', 'control')).split(',');
 const K_LIST = String(flag('k', '1')).split(',').map(Number);   // components the deliverable is split into
 setLogLevel(has('verbose') ? 'verbose' : flag('log', 'normal'));
 
@@ -31,12 +32,13 @@ for (const sc of smoke ? [SC_LIST[0]] : SC_LIST)
   for (const armId of smoke ? ['public', 'private'] : ARM_LIST)
     for (const E of smoke ? [E_LIST[0]] : E_LIST)
       for (const k of smoke ? [K_LIST[0]] : K_LIST)
-        for (let seed = 1; seed <= (smoke ? 1 : SEEDS); seed++)
-          episodes.push({ armId, scenarioId: sc, E, seed, k });
+        for (const sp of smoke ? [SEED_PROFILES_ARG[0]] : SEED_PROFILES_ARG)
+          for (let seed = 1; seed <= (smoke ? 1 : SEEDS); seed++)
+            episodes.push({ armId, scenarioId: sc, E, seed, k, seedProfile: sp });
 
 mkdirSync(ROOT, { recursive: true });
 note(`run ${RUN_ID}  model=${MODEL}  episodes=${episodes.length}  par=${PAR}`);
-note(`arms=${ARM_LIST.join('/')} scenarios=${SC_LIST.join('/')} E=${E_LIST.join('/')} seeds=${SEEDS} profile=${PROFILE}`);
+note(`arms=${ARM_LIST.join('/')} scenarios=${SC_LIST.join('/')} E=${E_LIST.join('/')} seeds=${SEEDS} profile=${PROFILE} seed-profiles=${SEED_PROFILES_ARG.join('/')}`);
 note('-'.repeat(96));
 
 const results = [];
@@ -47,7 +49,8 @@ const started = Date.now();
 async function worker(queue) {
   while (queue.length) {
     const spec = queue.shift();
-    const id = `${spec.armId}_${spec.scenarioId}_E${spec.E}_k${spec.k}_s${spec.seed}`;
+    const spTag = spec.seedProfile && spec.seedProfile !== 'control' ? `_${spec.seedProfile}` : '';
+    const id = `${spec.armId}_${spec.scenarioId}_E${spec.E}_k${spec.k}${spTag}_s${spec.seed}`;
     const outDir = join(ROOT, id);
     const summaryPath = join(outDir, 'summary.json');
     if (existsSync(summaryPath)) {
@@ -58,11 +61,11 @@ async function worker(queue) {
       continue;
     }
     mkdirSync(outDir, { recursive: true });
-    const meta = { id, arm: spec.armId, scenario: spec.scenarioId, E: spec.E, seed: spec.seed, model: MODEL, profile: PROFILE, k: spec.k };
+    const meta = { id, arm: spec.armId, scenario: spec.scenarioId, E: spec.E, seed: spec.seed, model: MODEL, profile: PROFILE, k: spec.k, seedProfile: spec.seedProfile };
     const log = new EpisodeLog(join(outDir, 'events.jsonl'), meta);
     try {
       const summary = await runEpisode({
-        id, arm: ARMS[spec.armId], scenarioId: spec.scenarioId, E: spec.E, seed: spec.seed, profile: PROFILE, k: spec.k,
+        id, arm: ARMS[spec.armId], scenarioId: spec.scenarioId, E: spec.E, seed: spec.seed, profile: PROFILE, k: spec.k, seedProfile: spec.seedProfile,
         outDir, log, meta,
       });
       writeFileSync(summaryPath, JSON.stringify(summary, null, 2));

@@ -1,0 +1,139 @@
+#!/usr/bin/env node
+// The textual axis.
+//
+// arms.js manipulates structure the kernel enforces. This reads the other half:
+// relational properties asserted as context — prior trust, attribution, and how
+// the tie itself is narrated — with the architectural configuration held fixed.
+//
+// The contrast that matters most is `origin` against `stranger`. Those two
+// differ in one sentence of narration and in nothing else: same directory, same
+// grants, same knowledge, same store. If the primary metrics move across that
+// pair, relational framing does real work on behaviour. If they do not, the
+// richer relational metadata deployed systems put on cards is unlikely to do
+// better, because it is the same channel carrying more words.
+//
+// Every contrast is reported against ARCH_REF, the discovery effect measured on
+// the 2x2. A textual effect is only interesting relative to the structural one.
+import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+
+const runId = process.argv[2] || readdirSync('runs').sort().pop();
+const ROOT = join('runs', runId);
+
+// all.json is written when the sweep finishes. Reading the per-episode
+// summaries instead means this runs against a sweep still in flight, which is
+// the only way to find a bug in the analysis before spending the whole run.
+const rows = existsSync(join(ROOT, 'all.json'))
+  ? JSON.parse(readFileSync(join(ROOT, 'all.json'), 'utf8'))
+  : readdirSync(ROOT)
+      .filter((d) => existsSync(join(ROOT, d, 'summary.json')))
+      .map((d) => JSON.parse(readFileSync(join(ROOT, d, 'summary.json'), 'utf8')));
+if (!rows.length) { console.error(`no episodes yet in ${ROOT}`); process.exit(1); }
+
+// Discovery effect on requirement F1 (T1), from runs/axis2x2/factorial.md.
+const ARCH_REF = { label: 'd_discovery (2x2, T1 F1)', value: 0.232 };
+
+const mean = (a) => (a.length ? a.reduce((x, y) => x + y, 0) / a.length : NaN);
+const f3 = (x) => (Number.isFinite(x) ? (x >= 0 ? ' ' : '') + x.toFixed(3) : '   -- ');
+const beatsOf = (r) => Object.fromEntries(r.beats.map((b) => [b.beat, b]));
+
+/** Percentile bootstrap over episodes, resampled within cell. */
+function boot(cells, fn, n = 4000, seed = 7) {
+  let s = seed;
+  const rnd = () => { s = (s * 1103515245 + 12345) & 0x7fffffff; return s / 0x7fffffff; };
+  const out = [];
+  for (let i = 0; i < n; i++) {
+    const draw = {};
+    for (const [k, vals] of Object.entries(cells)) {
+      if (!vals.length) { draw[k] = NaN; continue; }
+      let acc = 0;
+      for (let j = 0; j < vals.length; j++) acc += vals[Math.floor(rnd() * vals.length)];
+      draw[k] = acc / vals.length;
+    }
+    const v = fn(draw);
+    if (Number.isFinite(v)) out.push(v);
+  }
+  out.sort((a, b) => a - b);
+  return out.length ? [out[Math.floor(out.length * 0.025)], out[Math.floor(out.length * 0.975)]] : [NaN, NaN];
+}
+
+const METRICS = [
+  ['requirement F1 (T1)',       (r) => beatsOf(r).T1?.f1],
+  ['requirement F1 (T3 warm)',  (r) => beatsOf(r).T3?.f1],
+  ['assertions passed (T1)',    (r) => { const b = beatsOf(r).T1; return b && b.total ? b.pass / b.total : undefined; }],
+  ['pollution absorbed (T1)',   (r) => beatsOf(r).T1?.pollutionAbsorbed],
+  ['agents contacted (T1)',     (r) => beatsOf(r).T1?.contacted],
+  ['asks (T1)',                 (r) => beatsOf(r).T1?.asks],
+  // Verification proxy: consultations spent per counterpart that actually held
+  // something. If an assertion of prior trust enters the stopping rule at all,
+  // this is where it shows up.
+  ['asks per useful contact (T1)', (r) => { const b = beatsOf(r).T1; return b && b.useful ? b.asks / b.useful : undefined; }],
+];
+
+// (label, seeded, baseline)
+const CONTRASTS = [
+  ['origin - stranger  [narration only]', 'origin', 'stranger'],
+  ['trust - control',                      'trust', 'control'],
+  ['accountability - control',             'accountability', 'control'],
+  ['origin - control    [positive framing]', 'origin', 'control'],
+  ['stranger - control  [negative framing]', 'stranger', 'control'],
+];
+
+const lines = [];
+const say = (s = '') => { lines.push(s); console.log(s); };
+
+const profiles = [...new Set(rows.map((r) => r.seedProfile))].sort();
+const arms = [...new Set(rows.map((r) => r.arm))].sort();
+
+say(`# textual axis — ${runId}`);
+say(`episodes=${rows.length}  arms=${arms.join('/')}  profiles=${profiles.join('/')}`);
+say(`architectural reference: ${ARCH_REF.label} = ${ARCH_REF.value}`);
+say();
+
+const biggest = [];
+
+for (const [label, get] of METRICS) {
+  const vals = (prof, arm) => rows
+    .filter((r) => r.seedProfile === prof && (arm ? r.arm === arm : true))
+    .map(get).filter((v) => v != null && Number.isFinite(v));
+
+  say(`## ${label}`);
+  say('```');
+  say('  profile          ' + arms.map((a) => a.padStart(8)).join('') + '     pooled   n');
+  for (const p of profiles) {
+    const pooled = vals(p);
+    say(`  ${p.padEnd(16)}` + arms.map((a) => f3(mean(vals(p, a))).padStart(8)).join('')
+        + `  ${f3(mean(pooled))}  ${String(pooled.length).padStart(3)}`);
+  }
+  say('```');
+
+  for (const [clabel, hi, lo] of CONTRASTS) {
+    const H = vals(hi), L = vals(lo);
+    if (!H.length || !L.length) { say(`  ${clabel.padEnd(38)}  (missing cell)`); continue; }
+    const d = mean(H) - mean(L);
+    const [c1, c2] = boot({ H, L }, (x) => x.H - x.L);
+    const spans = c1 <= 0 && c2 >= 0;
+    const ratio = Math.abs(d) / ARCH_REF.value;
+    say(`  ${clabel.padEnd(38)} d=${f3(d)}  95% CI [${f3(c1)},${f3(c2)}]  ${spans ? 'spans 0 ' : 'excludes 0'}  |d|/arch=${ratio.toFixed(2)}`);
+    if (label.startsWith('requirement F1 (T1)')) biggest.push({ clabel, d: Math.abs(d), spans });
+  }
+  say();
+}
+
+say('## headline');
+const anySig = biggest.filter((b) => !b.spans);
+const maxAbs = biggest.length ? Math.max(...biggest.map((b) => b.d)) : NaN;
+say(`  largest |textual effect| on T1 F1: ${f3(maxAbs)}   (architectural reference ${ARCH_REF.value})`);
+say(`  ratio: ${(maxAbs / ARCH_REF.value).toFixed(2)}`);
+say(`  contrasts whose CI excludes 0: ${anySig.length ? anySig.map((b) => b.clabel.split('  ')[0]).join(', ') : 'none'}`);
+say();
+say('  A percentile bootstrap over three episodes per cell resamples three numbers.');
+say('  Treat "excludes 0" as meaningless below roughly n=10 per cell and read the');
+say('  cell means instead.');
+say();
+say('  Read with care: a null here bounds the weakest form of relational encoding —');
+say('  an assertion in context. It does not bound trust wired into routing, memory,');
+say('  retrieval, or permission policy, which is where deployed reputation lives.');
+
+writeFileSync(join(ROOT, 'seedeffect.md'), lines.join('\n') + '\n');
+console.log(`\nwrote ${join(ROOT, 'seedeffect.md')}`);
