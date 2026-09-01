@@ -3,7 +3,7 @@
 // loop kills one child instead of the sweep, and so a failing artifact can be
 // re-scored by hand:  node src/score.js art.html assertions.json fnName
 import { readFileSync } from 'node:fs';
-import { JSDOM } from 'jsdom';
+import { JSDOM, VirtualConsole } from 'jsdom';
 
 /**
  * @param {string} html  the artifact
@@ -14,7 +14,13 @@ export function scoreArtifact(html, assertions, fnName) {
   const out = { parsed: false, fnPresent: false, results: [], pass: 0, total: assertions.length, errors: [] };
   let dom, win, doc, text;
   try {
-    dom = new JSDOM(html, { runScripts: 'dangerously', pretendToBeVisual: false });
+    // The artifact's own scripts run here, and some of them log. Without a
+    // virtual console that output goes to this process's stdout, where the
+    // parent is reading the result as JSON — a page that printed a tick mark
+    // scored zero. Page output is discarded, not forwarded.
+    const virtualConsole = new VirtualConsole();
+    virtualConsole.on('jsdomError', () => {});
+    dom = new JSDOM(html, { runScripts: 'dangerously', pretendToBeVisual: false, virtualConsole });
     win = dom.window; doc = win.document;
     text = (doc.body?.textContent || '').replace(/\s+/g, ' ');
     out.parsed = true;
@@ -74,5 +80,7 @@ const brief = (v) => (v == null ? null : String(v).slice(0, 40));
 if (import.meta.url === `file://${process.argv[1]}`) {
   const [htmlPath, assertPath, fnName] = process.argv.slice(2);
   const res = scoreArtifact(readFileSync(htmlPath, 'utf8'), JSON.parse(readFileSync(assertPath, 'utf8')), fnName);
-  process.stdout.write(JSON.stringify(res));
+  // Sentinel-prefixed single line. Belt and braces: even if something still
+  // reaches stdout, the parent can find the result rather than choke on it.
+  process.stdout.write(`\n__SCORE__${JSON.stringify(res)}\n`);
 }

@@ -43,7 +43,9 @@ async function score(html, assertions, fnName, dir, tag) {
   writeFileSync(ap, JSON.stringify(assertions));
   try {
     const { stdout } = await execFileAsync(process.execPath, [SCORER, hp, ap, fnName], { timeout: 30_000, maxBuffer: 8 * 1024 * 1024 });
-    return JSON.parse(stdout);
+    const line = stdout.split('\n').find((l) => l.startsWith('__SCORE__'));
+    if (!line) throw new Error(`no result line; stdout began: ${stdout.slice(0, 60)}`);
+    return JSON.parse(line.slice('__SCORE__'.length));
   } catch (e) {
     return { parsed: false, fnPresent: false, pass: 0, total: assertions.length, results: [], errors: [`scorer: ${String(e.message).slice(0, 200)}`] };
   }
