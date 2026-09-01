@@ -4,10 +4,11 @@ Two sweeps on EC2, one model (`deepseek/deepseek-v4-flash`), the real
 `@aicoo/sharedos` kernel deciding every contact, and a scorer with no model in
 the loop.
 
-| run | design | episodes | beats | cost | wall |
-|---|---|---|---|---|---|
-| `main` | E ∈ {0.3, 0.7} — private reach is restricted | 54 | 216 | $1.29 | 122 min |
-| `matched-E0` | **E = 0 — public and private have identical reach** | 27 | 108 | $0.61 | 98 min |
+| run | design | model | episodes | beats | cost | wall |
+|---|---|---|---|---|---|---|
+| `main` | E ∈ {0.3, 0.7} — private reach is restricted | flash | 54 | 216 | $1.29 | 122 min |
+| `matched-E0` | **E = 0 — public and private have identical reach** | flash | 27 | 108 | $0.61 | 98 min |
+| `matched-E0-glm` | same design, second model | glm-4.6 | 18 | 72 | $2.34 | 47 min |
 
 Health: 215 of 216 beats in `main` produced an artifact; 209 parsed with a
 working calculator; zero API failures across 7,800 calls.
@@ -37,14 +38,24 @@ Read plainly:
    collapsed from +0.26 to +0.02 the moment both arms could see the same
    specialists. The difference was never about network form; it was about who
    was allowed in the roster. This is measured, not argued.
-2. **Where the private form pays off is rework, not building.** With reach equal,
-   private leads on both revision beats (T2 and T4) and trails on the fresh warm
-   build (T3). That is exactly where a persistent namespace should matter: the
-   builder still holds the version it produced, so a revision is an edit rather
-   than a reconstruction.
-3. **It pays for that in tokens.** Private's warm beats cost far more
-   (T3: 81.5k vs public 49.8k; warm speedup −0.71 vs +0.03). Continuity buys
-   revision quality here, not efficiency.
+2. **A rework advantage for the private form appeared — and did not replicate.**
+   On `deepseek-v4-flash` private led on both revision beats (T2 −0.09, T4 −0.17,
+   public winning zero of nine paired cells at T2). Re-running the identical
+   design on `glm-4.6` reversed it:
+
+   | beat | flash (n=9/arm) | glm-4.6 (n=6/arm) |
+   |---|---|---|
+   | T1 | +0.02 | −0.12 |
+   | T2 | **−0.09** | **+0.06** |
+   | T3 | +0.09 | −0.03 |
+   | T4 | **−0.17** | **+0.12** |
+
+   Both rework beats flip sign between models. At six to nine episodes per arm
+   this is noise, and the honest statement is that **the rework effect is not
+   established**. It is worth chasing at 8–10 seeds; it is not worth claiming.
+3. **Private pays more in tokens on the flash run** (T3: 81.5k vs public 49.8k;
+   warm speedup −0.71 vs +0.03) but not on glm (private +0.11 vs public −0.21).
+   That difference does not replicate either.
 
 ## What these runs cannot support
 
@@ -60,16 +71,23 @@ Read plainly:
 - **Warm speedup measures almost nothing.** The warm instance replaces every
   fact value, so memory can save the search step and not the asking. Negative
   values everywhere are the design, not a finding. See `docs/DESIGN-FLAWS.md`.
-- **n = 9 episodes per arm** in `matched-E0`. Treat the rework direction as a
-  pilot signal worth chasing, not an established effect. T4 public 0.46 is low
-  enough to suspect one bad episode is moving it.
+- **n = 9 and n = 6 episodes per arm.** Every per-beat difference in the matched
+  runs sits inside the noise those sample sizes allow, which the cross-model
+  disagreement demonstrates rather than merely warns about.
+- **Only one finding survives replication**, and it is the reach one — because it
+  is a between-run comparison on a single model with a large effect, not a
+  between-arm comparison inside one run.
 
 ## The one number worth keeping
 
-> The cold-phase public advantage falls from **+0.26 to +0.02** when the two
-> arms are given equal reach — so roughly **92% of what looked like a
-> public/private effect was an artifact of roster membership**, and the residue
-> reverses sign on rework.
+> The cold-phase public advantage falls from **+0.26 to +0.02** when the two arms
+> are given equal reach — roughly **92% of what looked like a public/private
+> effect was an artifact of roster membership**.
+
+Everything else measured tonight is inside the noise. That is the result: not
+"breadth beats depth", but **most of the apparent difference between these two
+network forms was never about the forms at all**, and once it is removed there is
+not enough signal left at this sample size to say what remains.
 
 ## Next, in order
 
