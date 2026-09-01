@@ -80,6 +80,11 @@ const CONTRASTS = [
   ['accountability - control',             'accountability', 'control'],
   ['origin - control    [positive framing]', 'origin', 'control'],
   ['stranger - control  [negative framing]', 'stranger', 'control'],
+  // The dilution check. If any added text costs the same as a relational
+  // assertion costs, the assertion is not what is being measured.
+  ['placebo - control   [added text only]', 'placebo', 'control'],
+  ['stranger - placebo  [relational, net of text]', 'stranger', 'placebo'],
+  ['origin - placebo    [relational, net of text]', 'origin', 'placebo'],
 ];
 
 const lines = [];
@@ -126,7 +131,7 @@ for (const [label, get, scale] of METRICS) {
     const [c1, c2] = boot(cells, (dr) => mean(paired.map((_, i) => dr[`H${i}`] - dr[`L${i}`])));
     const spans = c1 <= 0 && c2 >= 0;
     const ratio = scale === 'prop' ? `  |d|/arch=${(Math.abs(d) / ARCH_REF.value).toFixed(2)}` : '';
-    say(`  ${clabel.padEnd(40)} d=${f3(d)}  95% CI [${f3(c1)},${f3(c2)}]  ${spans ? 'spans 0 ' : 'excludes 0'}${ratio}  [${paired.length}/${strata.length} strata]`);
+    say(`  ${clabel.padEnd(40)} d=${f3(d)}  95% CI [${f3(c1)},${f3(c2)}]  ${spans ? 'spans 0 ' : 'excludes 0'}${ratio}  {${paired.map((x) => x.st).join(' ')}}`);
     if (label.startsWith('requirement F1 (T1)')) biggest.push({ clabel, d: Math.abs(d), spans });
   }
   say();
@@ -186,9 +191,11 @@ say(`  largest |textual effect| on T1 F1: ${f3(maxAbs)}   (architectural referen
 say(`  ratio: ${(maxAbs / ARCH_REF.value).toFixed(2)}`);
 say(`  contrasts whose CI excludes 0: ${anySig.length ? anySig.map((b) => b.clabel.split('  ')[0]).join(', ') : 'none'}`);
 say();
-say('  A percentile bootstrap over three episodes per cell resamples three numbers.');
-say('  Treat "excludes 0" as meaningless below roughly n=10 per cell and read the');
-say('  cell means instead.');
+const perCell = Math.min(...profiles.flatMap((p) => arms.map((a) =>
+  rows.filter((r) => r.seedProfile === p && r.arm === a).length)).filter((n) => n > 0));
+say(`  Smallest cell holds ${perCell} episodes. A percentile bootstrap over ${perCell} values`);
+say(`  resamples ${perCell} numbers; treat "excludes 0" as meaningless below about n=10`);
+say('  per cell and read the cell means instead.');
 say();
 say('  Read with care: a null here bounds the weakest form of relational encoding —');
 say('  an assertion in context. It does not bound trust wired into routing, memory,');

@@ -94,6 +94,24 @@ export const SEED_PROFILES = {
       'The agent contacting you is a stranger you have never worked with.',
     ],
   },
+
+  // ---- placebo: the same words, none of the relationship ---------------
+  // Every seeded profile adds lines control does not have, so a uniform penalty
+  // for added text would look exactly like a relational effect. This matches
+  // origin/stranger in line count, position and register while carrying no
+  // relational and no task information. It is what decides whether a small
+  // negative effect is about relationships or about prompt length.
+  placebo: {
+    id: 'placebo',
+    label: 'neutral text, matched length',
+    requester: [
+      'OPERATING CONTEXT: this directory was last reindexed on a Tuesday. Index',
+      'maintenance has no bearing on what any agent holds.',
+    ],
+    responder: [
+      'The directory you are listed in was last reindexed on a Tuesday.',
+    ],
+  },
 };
 
 export function resolveSeed(id) {
