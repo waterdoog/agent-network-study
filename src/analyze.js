@@ -94,6 +94,37 @@ for (const a of ARMS) {
 }
 say();
 
+say('## Paired comparison, public minus private');
+say('Cells are paired on (scenario, E, seed), so the difference is within-condition.');
+say('| beat | mean diff in F1 | private wins | public wins | ties |');
+say('|---|---|---|---|---|');
+{
+  const key = (r) => `${r.scenario}|${r.E}|${r.seed}`;
+  const pub = new Map(rows.filter((r) => r.arm === 'public').map((r) => [key(r), beatsOf(r)]));
+  const pri = new Map(rows.filter((r) => r.arm === 'private').map((r) => [key(r), beatsOf(r)]));
+  for (const b of BEATS) {
+    const diffs = [];
+    for (const [k, p] of pub) {
+      const q = pri.get(k);
+      if (!q || p[b]?.f1 == null || q[b]?.f1 == null) continue;
+      diffs.push(p[b].f1 - q[b].f1);
+    }
+    const privWin = diffs.filter((d) => d < -0.02).length;
+    const pubWin = diffs.filter((d) => d > 0.02).length;
+    say(`| ${b} | ${f2(mean(diffs))} | ${privWin} | ${pubWin} | ${diffs.length - privWin - pubWin} |`);
+  }
+}
+say();
+
+say('## Spread across seeds (T1 cold F1, min..max per arm)');
+say('| arm | min | mean | max | n |');
+say('|---|---|---|---|---|');
+for (const a of ARMS) {
+  const v = rows.filter((r) => r.arm === a).map((r) => beatsOf(r).T1?.f1).filter((x) => x != null);
+  say(`| ${a} | ${f2(Math.min(...v))} | ${f2(mean(v))} | ${f2(Math.max(...v))} | ${v.length} |`);
+}
+say();
+
 say('## Health');
 const allBeats = rows.flatMap((r) => r.beats);
 say(`- beats: ${allBeats.length}, artifacts parsed: ${allBeats.filter((b) => b.parsed).length}, calculator present: ${allBeats.filter((b) => b.fnPresent).length}`);
@@ -101,6 +132,17 @@ say(`- beats with no artifact: ${allBeats.filter((b) => !b.artifactLen).length}`
 const topFail = {};
 for (const b of allBeats) for (const f of b.failures || []) topFail[f] = (topFail[f] || 0) + 1;
 say(`- most-failed assertions: ${Object.entries(topFail).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([k, v]) => `${k}(${v})`).join(' ')}`);
+
+const depthEverUsed = rows.some((r) => (r.grants?.maxDepthSeen || 0) > 0);
+const consults = allBeats.reduce((n, b) => n + (b.subConsults || 0), 0);
+say();
+say('## What these numbers do and do not support');
+say(`- Sub-delegation fired ${consults} times across ${allBeats.length} beats; delegation depth was ${depthEverUsed ? 'exercised' : '**never exercised**'}.`);
+if (!depthEverUsed) say('  The delegation-depth knob is therefore UNTESTED in this run: builders reported no missing facts, so the kernel was never asked to pass a mandate on. Do not claim a delegation result.');
+const noArt = allBeats.filter((b) => !b.artifactLen).length;
+if (noArt) say(`- ${noArt} beats produced no artifact and score 0; check those episodes before reading any mean.`);
+say('- The cold-phase reach difference is fixed by the E allocation, so a T1 gap is a property of the design. T2/T3/T4 differences are not.');
+say('- Scores are exact-match against pre-verified keys, with no model in the scoring loop.');
 
 writeFileSync(join(ROOT, 'RESULTS.md'), out.join('\n') + '\n');
 console.log(`\nwritten: ${join(ROOT, 'RESULTS.md')}`);
