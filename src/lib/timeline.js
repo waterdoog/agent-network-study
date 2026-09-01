@@ -64,7 +64,7 @@ function requirementF1(res) {
 }
 
 export async function runEpisode(ep) {
-  const { arm, scenarioId, E, seed, outDir, log } = ep;
+  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare' } = ep;
   const sc = SCENARIOS[scenarioId];
   const responders = new Map();
   const coord = new Coordinator({ episodeId: ep.id, arm, log });
@@ -93,7 +93,7 @@ export async function runEpisode(ep) {
 
     // The directory is rebuilt with the current facts so a rework actually
     // changes what the holders say. Roster composition is stable across beats.
-    const dir = buildDirectory({ scenario: scenarioId, instance: step.instance, E, seed });
+    const dir = buildDirectory({ scenario: scenarioId, instance: step.instance, E, seed, profile });
     for (const c of dir.cards) {
       if (c.kind !== 'payload') continue;
       c.knowledge = facts.filter((f) => f.holder === c.holder).map((f) => f.text);
@@ -122,7 +122,7 @@ export async function runEpisode(ep) {
       });
     } catch (err) {
       log.fail('beat.crash', err, { beat: step.beat });
-      out = { html: null, notes, stats: { asks: 0, builds: 0, searches: 0, denies: 0, tokens: 0, contacted: new Set(), usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0, subConsults: 0 } };
+      out = { html: null, notes, stats: { asks: 0, builds: 0, searches: 0, denies: 0, tokens: 0, contacted: new Set(), usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0, subConsults: 0, lists: 0, reads: 0 } };
     }
     notes = out.notes || notes;
 
@@ -149,6 +149,7 @@ export async function runEpisode(ep) {
       f1: requirementF1(res), recall: res.total ? res.pass / res.total : 0,
       regression,
       asks: out.stats.asks, builds: out.stats.builds, searches: out.stats.searches,
+      lists: out.stats.lists || 0, reads: out.stats.reads || 0,
       denies: out.stats.denies, iters: out.stats.iters, subConsults: out.stats.subConsults || 0,
       contacted: out.stats.contacted.size,
       useful: out.stats.usefulContacts.size,

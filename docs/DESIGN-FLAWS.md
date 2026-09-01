@@ -79,3 +79,43 @@ sub-condition, so the builder has to ask.
   delegation refusal were both verified directly before the sweep.
 - The `main` run remains a valid measurement of **what a bounded roster costs**,
   which is a real result — it is just not a result about memory.
+
+## The store affordance was never offered (found mid-run, 2026-09-01)
+
+The requester's system prompt prescribed the workflow as "Search, ask, then hand a
+complete brief to a builder" in every arm. In the store-access cells the `list_store`
+and `read_store` tools existed and were never called — but that was obedience, not
+choice: the prompt named one route and the agent took it.
+
+As written, H4 ("agents do not use the affordances they are given") was untestable.
+Measuring it would have measured our prompt.
+
+Fixed by making the workflow sentence conditional on the access axis and naming both
+routes neutrally when both exist, with the same stated cost for each. The run was
+restarted; no episodes had completed.
+
+## `realization` cannot be computed post-hoc (found mid-run, 2026-09-01)
+
+`realization = recall / attainable` was meant to divide out the ceiling the fact
+allocation imposes, so that a bounded arm at E=0.7 is not penalised for holders it
+cannot reach by construction. It was the metric the design leaned on to keep the
+comparison honest.
+
+It does not work as computed. `attainable` was derived from the `beat.dir` event as
+`holdersInRoster / (holdersInRoster + holdersOutside)` — a fraction of **holders** —
+while `recall` is a fraction of **assertions**. A holder outside the roster may back
+only one assertion while an inside holder backs six, so recall can legitimately exceed
+the holder fraction. In the 44-episode snapshot 8/10 of cell C and 10/12 of cell D had
+raw values above 1.0 (max 3.33), and capping at 1.0 piled them at the ceiling. The
+resulting table — bounded arms realising ~97%, open arms ~78% — was an artifact of that
+cap, not a result. It has been retracted.
+
+An exact denominator needs an assertion -> fact -> holder mapping. The naming
+convention does not supply one: across the six scenario instances only 1-4 of 16-20
+assertions have an id matching a fact id; the rest are structural (`count`, `exists`)
+or renamed. Hand-authoring ~108 mappings after seeing results would be motivated
+mapping, so the metric is dropped rather than repaired under time pressure.
+
+What replaces it: `attainable` is reported as a per-episode covariate so the ceiling is
+visible, and the primary contrast is read on the **E=0.3 stratum**, where the ceiling
+barely binds. E=0.7 is reported as a ceiling check, not as evidence about behaviour.

@@ -63,21 +63,58 @@ function shuffle(arr, rand) {
  * Build the directory for one episode.
  * @param {{scenario:string, instance:string, E:number, seed:number}} opts
  */
-export function buildDirectory({ scenario, instance, E, seed }) {
+export function buildDirectory({ scenario, instance, E, seed, profile = 'bare' }) {
   const sc = SCENARIOS[scenario];
   const inst = sc.instances[instance];
   const rand = rng(seed * 7919 + scenario.length * 131 + instance.charCodeAt(0));
   const cards = [];
+  const vetted = profile === 'vetted' || profile === 'realistic';
+  const relational = profile === 'relational' || profile === 'realistic';
 
-  // Payload: one card per fact holder used by this scenario, carrying its facts
-  // and whatever distractors were planted on it.
   const holders = [...new Set(inst.facts.map((f) => f.holder))];
+
+  // The roster split is computed BEFORE the cards, because under `vetted` the
+  // distractors have to know which holders end up outside. In the `bare`
+  // profile distractors sit where the scenario put them, which spreads them
+  // evenly across the boundary — a roster no more reliable than the open world,
+  // which is not why anyone keeps a roster.
+  const holderIds = holders.map((h) => `hold-${h}`);
+  const orderH = shuffle(holderIds, rand);
+  const outsideCount = Math.round(E * holderIds.length);
+  const outside = new Set(orderH.slice(0, outsideCount));
+  const insideNeeded = orderH.slice(outsideCount);
+
+  // Where each distractor lives. Vetted puts most of them outside but not all:
+  // a vetted roster is cleaner, not clean, and an arm that cannot be polluted
+  // at all would make the pollution metric a switch rather than a measurement.
+  const plantedFor = new Map(holders.map((h) => [h, []]));
+  if (vetted && outside.size) {
+    const outHolders = [...outside].map((id) => id.replace(/^hold-/, ''));
+    const inHolders = insideNeeded.map((id) => id.replace(/^hold-/, ''));
+    inst.distractors.forEach((d, i) => {
+      const keepInside = i === 0 && inHolders.length;      // one stays inside
+      const h = keepInside ? inHolders[0] : outHolders[i % outHolders.length];
+      plantedFor.get(h).push(d.text);
+    });
+  } else {
+    for (const d of inst.distractors) if (plantedFor.has(d.holder)) plantedFor.get(d.holder).push(d.text);
+  }
+
   for (const h of holders) {
     const role = HOLDER_ROLE[h];
+    const inRoster = insideNeeded.includes(`hold-${h}`);
     cards.push({
       id: `hold-${h}`, name: role.name, tags: role.tags, kind: 'payload', holder: h,
       knowledge: inst.facts.filter((f) => f.holder === h).map((f) => f.text),
-      planted: inst.distractors.filter((d) => d.holder === h).map((d) => d.text),
+      planted: plantedFor.get(h) || [],
+      // Relational metadata. Only roster members carry it, because that is what
+      // a roster is: not a smaller list, but a list you know something about.
+      ...(relational && inRoster ? {
+        role: `${role.name} lead`,
+        relationship: 'teammate, 2 years',
+        history: 'worked with you on 3 prior deliverables; answers were accurate',
+        accountable: true,
+      } : {}),
     });
   }
   for (const b of BUILDERS) cards.push({ ...b, kind: 'builder', knowledge: [], planted: [] });
@@ -94,18 +131,11 @@ export function buildDirectory({ scenario, instance, E, seed }) {
     });
   }
 
-  // E is the fraction of the scenario's FACT HOLDERS that sit outside the roster.
-  // Builders are deliberately not part of that split: a roster with no builder in
-  // it cannot produce an artifact at all, which would make E a switch for
-  // "private arm scores zero" rather than a measure of reach.
-  const holderIds = holders.map((h) => `hold-${h}`);
+  // Builders are deliberately outside the E split: a roster with no builder in it
+  // cannot produce an artifact at all, which would make E a switch for "private
+  // arm scores zero" rather than a measure of reach.
   const alwaysInside = BUILDERS.map((b) => b.id);
   const needed = [...holderIds, ...alwaysInside];
-  const order = shuffle(holderIds, rand);
-  const outsideCount = Math.round(E * holderIds.length);
-  const outside = new Set(order.slice(0, outsideCount));
-  const insideNeeded = order.slice(outsideCount);
-
   const roster = [...alwaysInside, ...insideNeeded];
   const filler = shuffle(cards.filter((c) => !roster.includes(c.id) && !outside.has(c.id)).map((c) => c.id), rand);
   for (const id of filler) { if (roster.length >= 20) break; roster.push(id); }
@@ -113,7 +143,7 @@ export function buildDirectory({ scenario, instance, E, seed }) {
   return {
     cards, byId: new Map(cards.map((c) => [c.id, c])),
     roster: new Set(roster), needed, outside,
-    attainableInside: insideNeeded,
+    attainableInside: insideNeeded, profile,
   };
 }
 
@@ -133,5 +163,8 @@ export function searchCards(dir, arm, query, limit = 8) {
     return { c, s };
   });
   return scored.filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, limit)
-    .map(({ c }) => ({ id: c.id, name: c.name, skills: c.tags }));
+    .map(({ c }) => ({
+      id: c.id, name: c.name, skills: c.tags,
+      ...(c.relationship ? { role: c.role, relationship: c.relationship, history: c.history, accountable: c.accountable } : {}),
+    }));
 }
