@@ -1,0 +1,497 @@
+<title>Most of the Difference Was Never the Form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Noto+Serif+SC:wght@400;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+:root {
+  --ground:      #EFF2F0;
+  --paper:       #FAFBFA;
+  --ink:         #131A18;
+  --ink-soft:    #3D4B47;
+  --muted:       #6B7A75;
+  --rule:        #D2DAD6;
+  --rule-soft:   #E2E8E5;
+  --accent:      #12564E;
+  --accent-soft: #E0EDEA;
+  --warn:        #9C4221;
+  --warn-soft:   #F6E7DF;
+
+  --measure: 68ch;
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", "Noto Serif SC", Georgia, serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #101513;
+    --paper:       #161C1A;
+    --ink:         #E7ECE9;
+    --ink-soft:    #BDC8C4;
+    --muted:       #8A9A95;
+    --rule:        #2A3431;
+    --rule-soft:   #212A27;
+    --accent:      #63C3B2;
+    --accent-soft: #17322D;
+    --warn:        #E0885F;
+    --warn-soft:   #2E1D14;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:      #101513;
+  --paper:       #161C1A;
+  --ink:         #E7ECE9;
+  --ink-soft:    #BDC8C4;
+  --muted:       #8A9A95;
+  --rule:        #2A3431;
+  --rule-soft:   #212A27;
+  --accent:      #63C3B2;
+  --accent-soft: #17322D;
+  --warn:        #E0885F;
+  --warn-soft:   #2E1D14;
+}
+
+/* ── language switch: zh is the no-JS default ─────── */
+:root:not([data-lang="en"]) [lang="en"] { display: none !important; }
+:root[data-lang="en"] [lang="zh"] { display: none !important; }
+
+* { box-sizing: border-box; }
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 17px;
+  line-height: 1.68;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px 120px; }
+
+/* ── language toggle ──────────────────────────────── */
+
+.langbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 0 10px;
+  background: var(--ground);
+}
+.seg { display: flex; border: 1px solid var(--rule); background: var(--paper); }
+.seg button {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--paper); }
+.seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── masthead ─────────────────────────────────────── */
+
+.mast { border-bottom: 2px solid var(--ink); padding: 30px 0 22px; margin-bottom: 40px; }
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 18px;
+}
+h1 {
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5.6vw, 3.4rem);
+  line-height: 1.04;
+  letter-spacing: -.028em;
+  margin: 0 0 16px;
+  text-wrap: balance;
+}
+.dek { font-size: 1.1rem; color: var(--ink-soft); max-width: 62ch; margin: 0 0 24px; }
+.meta {
+  display: flex; flex-wrap: wrap; gap: 8px 26px;
+  font-family: var(--f-mono); font-size: 12px; color: var(--muted);
+}
+.meta b { color: var(--ink-soft); font-weight: 500; }
+
+/* ── structure ────────────────────────────────────── */
+
+.snum {
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 8px;
+}
+h2 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 1.58rem;
+  letter-spacing: -.018em;
+  line-height: 1.2;
+  margin: 62px 0 18px;
+  max-width: var(--measure);
+  text-wrap: balance;
+}
+h2 .snum { margin-bottom: 10px; }
+h3 {
+  font-family: var(--f-display);
+  font-weight: 600;
+  font-size: 1.06rem;
+  margin: 34px 0 10px;
+  max-width: var(--measure);
+}
+p { max-width: var(--measure); margin: 0 0 16px; }
+ul, ol { max-width: var(--measure); padding-left: 1.2em; margin: 0 0 18px; }
+li { margin-bottom: 8px; }
+strong { font-weight: 600; }
+a { color: var(--accent); }
+
+code {
+  font-family: var(--f-mono);
+  font-size: .84em;
+  background: var(--accent-soft);
+  color: var(--ink);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+.lede {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  border-left: 2px solid var(--accent);
+  padding-left: 20px;
+  max-width: 64ch;
+}
+
+/* ── tables ───────────────────────────────────────── */
+
+.scroll { overflow-x: auto; margin: 0 0 22px; }
+
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+th {
+  font-family: var(--f-mono);
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  text-align: left; color: var(--muted);
+  border-bottom: 1px solid var(--ink);
+  padding: 0 16px 9px 0; vertical-align: bottom;
+}
+td {
+  border-bottom: 1px solid var(--rule-soft);
+  padding: 11px 16px 11px 0;
+  vertical-align: top;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+td:first-child { color: var(--ink); font-weight: 600; white-space: nowrap; }
+td code { font-size: 12px; background: none; padding: 0; color: var(--accent); }
+.yes { color: var(--accent); font-weight: 700; }
+.no  { color: var(--warn); font-weight: 700; }
+.part-yes { color: var(--muted); font-weight: 700; }
+
+/* the inventory table gets an emphasized middle column */
+.inv td:nth-child(3), .inv th:nth-child(3) {
+  background: var(--accent-soft);
+  padding-left: 14px;
+}
+:root[data-theme="dark"] .inv td:nth-child(3),
+:root[data-theme="dark"] .inv th:nth-child(3) { background: var(--accent-soft); }
+
+/* ── code ─────────────────────────────────────────── */
+
+pre {
+  font-family: var(--f-mono);
+  font-size: 13px; line-height: 1.62;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-left: 2px solid var(--accent);
+  padding: 15px 18px; margin: 0;
+  min-width: min-content;
+  color: var(--ink-soft);
+}
+pre b { color: var(--ink); font-weight: 700; }
+pre .cm { color: var(--muted); }
+
+/* ── build list ───────────────────────────────────── */
+
+.build { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 26px 0; }
+@media (min-width: 780px) { .build { grid-template-columns: repeat(3, 1fr); } }
+.bcell { background: var(--paper); padding: 18px 18px 20px; }
+.blabel {
+  font-family: var(--f-mono); font-size: 10.5px;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 9px;
+}
+.bttl { font-family: var(--f-display); font-weight: 600; font-size: .99rem; margin-bottom: 8px; line-height: 1.3; }
+.bcell p { font-size: .89rem; color: var(--ink-soft); margin: 0; max-width: none; }
+
+/* ── callouts ─────────────────────────────────────── */
+
+.note, .keep {
+  padding: 17px 20px; margin: 24px 0; max-width: var(--measure);
+  font-size: .97rem;
+}
+.note { background: var(--warn-soft); border: 1px solid var(--warn); }
+.keep { background: var(--paper); border: 1px solid var(--rule); border-top: 2px solid var(--accent); }
+.note > :last-child, .keep > :last-child { margin-bottom: 0; }
+.nlabel {
+  font-family: var(--f-mono); font-size: 10.5px;
+  letter-spacing: .12em; text-transform: uppercase;
+  display: block; margin-bottom: 8px;
+}
+.note .nlabel { color: var(--warn); }
+.keep .nlabel { color: var(--accent); }
+
+/* ── arc figure ───────────────────────────────────── */
+
+.arc {
+  display: grid; gap: 14px; margin: 30px 0 28px;
+  border: 1px solid var(--rule); background: var(--paper); padding: 24px;
+}
+@media (min-width: 780px) { .arc { grid-template-columns: repeat(3, 1fr); align-items: start; } }
+.step { position: relative; padding-top: 26px; border-top: 2px solid var(--accent); }
+.step .sn {
+  position: absolute; top: -1px; left: 0;
+  font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em;
+  color: var(--paper); background: var(--accent); padding: 2px 8px;
+}
+.step h4 { font-family: var(--f-display); font-size: 1rem; font-weight: 600; margin: 0 0 7px; }
+.step p { font-size: .89rem; color: var(--ink-soft); margin: 0; max-width: none; }
+
+/* ── day plan ─────────────────────────────────────── */
+
+.days { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 26px 0; }
+@media (min-width: 780px) { .days { grid-template-columns: repeat(4, 1fr); } }
+.day { background: var(--paper); padding: 18px 18px 20px; }
+.dnum { font-family: var(--f-mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+.dttl { font-family: var(--f-display); font-weight: 600; font-size: .99rem; margin-bottom: 8px; line-height: 1.3; }
+.day p { font-size: .89rem; color: var(--ink-soft); margin: 0; max-width: none; }
+
+/* ── findings ─────────────────────────────────────── */
+
+.finding {
+  border-top: 1px solid var(--rule);
+  padding: 20px 0 6px;
+  display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 0 18px;
+}
+.finding:last-of-type { border-bottom: 1px solid var(--rule); padding-bottom: 22px; }
+.fid { font-family: var(--f-mono); font-size: 12px; font-weight: 700; color: var(--accent); padding-top: 4px; }
+.fhead { font-family: var(--f-display); font-weight: 600; font-size: 1.02rem; line-height: 1.35; margin: 0 0 9px; max-width: 58ch; }
+.fbody > :last-child { margin-bottom: 0; }
+
+footer {
+  margin-top: 80px; border-top: 2px solid var(--ink); padding-top: 22px;
+  font-family: var(--f-mono); font-size: 12px; color: var(--muted);
+  max-width: var(--measure); line-height: 1.75;
+}
+footer b { color: var(--ink-soft); font-weight: 500; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .wrap { padding: 0 18px 90px; }
+  .finding { grid-template-columns: 1fr; }
+  .fid { padding-top: 0; margin-bottom: 6px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+<div class="langbar">
+  <div class="seg" role="group" aria-label="Language / 语言">
+    <button type="button" id="btn-zh" aria-pressed="true">中文</button>
+    <button type="button" id="btn-en" aria-pressed="false">English</button>
+  </div>
+</div>
+
+<div lang="zh">
+<header class="mast">
+  <p class="eyebrow">overnight run · 2026-09-01 · 396 beats · $4.24</p>
+  <h1>大部分差异从来不是形态造成的</h1>
+  <p class="dek">公域/私域/混合三条臂跑在同一个 SharedOS 内核上，四拍时间线，零 judge 评分。冷启动阶段公域领先 0.26 F1——把触达拉平之后，这个差距塌到 0.02。</p>
+  <div class="meta">
+    <span><b>三次扫描：</b>main 54 · matched-E0 27 · glm 复现 18</span>
+    <span><b>产出率：</b>215/216 beats</span>
+    <span><b>API 失败：</b>0 / 7800 calls</span>
+  </div>
+</header>
+
+<p class="lede">唯一站得住的结论是一个否定式的：<strong>看起来像"公域打败私域"的东西，92% 是名册成员资格的产物，不是网络形态的产物。</strong>把它减掉之后，剩下的信号在这个样本量下不够说明任何事——而且换个模型就翻号。</p>
+
+<h2><span class="snum">§ 1</span>三次扫描</h2>
+<div class="scroll"><table>
+  <tr><th>run</th><th>设计</th><th>模型</th><th>episodes</th><th>beats</th><th>成本</th><th>墙钟</th></tr>
+  <tr><td>main</td><td>E ∈ {0.3, 0.7}，私域触达受限</td><td>flash</td><td>54</td><td>216</td><td>$1.29</td><td>122 min</td></tr>
+  <tr><td>matched-E0</td><td><strong>E = 0，公私触达完全相同</strong></td><td>flash</td><td>27</td><td>108</td><td>$0.61</td><td>98 min</td></tr>
+  <tr><td>matched-E0-glm</td><td>同一设计，换模型复现</td><td>glm-4.6</td><td>18</td><td>72</td><td>$2.34</td><td>47 min</td></tr>
+</table></div>
+
+<h2><span class="snum">§ 2</span>主结果：触达拉平，差距蒸发</h2>
+<p>公域减私域的需求 F1，按 (场景, seed) 配对：</p>
+<div class="scroll"><table class="inv">
+  <tr><th>beat</th><th>main（触达不等）</th><th>matched-E0（触达相等）</th><th>glm 复现</th></tr>
+  <tr><td>T1 冷建</td><td><strong>+0.26</strong></td><td><strong>+0.02</strong></td><td>−0.12</td></tr>
+  <tr><td>T2 返工</td><td>+0.14</td><td>−0.09</td><td>+0.06</td></tr>
+  <tr><td>T3 热建</td><td>+0.28</td><td>+0.09</td><td>−0.03</td></tr>
+  <tr><td>T4 热返工</td><td>+0.26</td><td>−0.17</td><td>+0.12</td></tr>
+  <tr><td>每臂 n</td><td>18</td><td>9</td><td>6</td></tr>
+</table></div>
+
+<div class="keep"><span class="nlabel">值得留下的那一个数</span>
+<p>冷启动的公域优势从 <strong>+0.26 掉到 +0.02</strong>——<strong>约 92% 的表观效应是名册成员资格的产物</strong>。这是同一模型上的跨 run 比较，效应量大，方向明确。</p></div>
+
+<h2><span class="snum">§ 3</span>没能站住的：私域的返工优势</h2>
+<p>在 flash 上，触达拉平后私域在两个返工拍都领先（T2 −0.09、T4 −0.17，T2 上公域<strong>九个配对格一个都没赢</strong>）。看起来正是理论预期的位置：命名空间持久，builder 手里还留着上一版，所以返工是"改"而不是"重造"。</p>
+<p><strong>换成 glm-4.6 跑同一套设计，两个返工拍全部翻号。</strong>在每臂 6–9 个 episode 的样本量下，这就是噪声。诚实的表述是<strong>返工效应尚未成立</strong>——值得用 8–10 seed 去追，不值得声称。</p>
+
+<h2><span class="snum">§ 4</span>这批数据不能支持的</h2>
+<div class="scroll"><table>
+  <tr><th>项</th><th>状态</th><th>为什么</th></tr>
+  <tr><td>委派深度</td><td><span class="no">未测</span></td><td>324 个 beat 里 builder 一次都没说缺东西，<code>deriveGrant</code> 从未被调用，<code>parent_not_delegable</code> 从未触发</td></tr>
+  <tr><td>内核拒绝</td><td><span class="no">零次</span></td><td>SharedOS 授权了每一次接触。机制是接上的（上跑前单独验过 <code>grant_exhausted</code>），但这批配置没让它拒绝过任何东西</td></tr>
+  <tr><td>warm speedup</td><td><span class="no">测不出</span></td><td>热实例把事实值全换了，记忆只能省掉搜索（1 次调用）省不掉问值（~11 次）。负值遍地是设计使然，不是发现</td></tr>
+  <tr><td>T1 的触达差</td><td><span class="part-yes">按设计</span></td><td>E 的分配固定了每条臂能够到多少，所以 main 里的 T1 差距是设计属性</td></tr>
+</table></div>
+
+<h2><span class="snum">§ 5</span>装置本身是可信的</h2>
+<ul>
+  <li><strong>216 个 beat 里 215 个产出了 HTML</strong>，209 个带可运行的计算器；7800 次 API 调用零失败。</li>
+  <li><strong>答案键先过参考实现校验</strong>——86 条 calc 断言，第一遍抓出 3 条我算错的，修完才允许开跑。</li>
+  <li><strong>评分链路没有模型</strong>：DOM 计数、属性值、文本存在、对 agent 自己写出的计算器跑单元测试。</li>
+  <li><strong>SharedOS 真在决策</strong>：每次接触都是一次 <code>CapabilityAuthorizer.authorize()</code>；上跑前单独验证过 <code>maxUses:1</code> 第二次返回 <code>grant_exhausted</code>、<code>delegationDepth:0</code> 返回 <code>parent_not_delegable</code>。</li>
+</ul>
+
+<h2><span class="snum">§ 6</span>下一步，按优先级</h2>
+<ol>
+  <li><strong>matched-E0 加到每臂 8–10 seed。</strong>上面所有方向性结论都压在 6–9 上。</li>
+  <li><strong>重做热实例，让它和冷实例共享约 40% 的事实<em>值</em></strong>，而不只是共享专家——这样记忆才能省下"问"而不只是"找"。</li>
+  <li><strong>故意从 brief 里抽掉一个必需事实</strong>，逼 builder 转包，委派深度这个旋钮才算被测过。</li>
+  <li><strong>加一个真正一次性的授权变体</strong>，让用掉的 grant 真的挡住二次接触，内核才会拒绝东西，<code>rework_reachable</code> 才可能因为真实原因等于 0。</li>
+</ol>
+
+<h2><span class="snum">§ 7</span>怎么复现</h2>
+<div class="scroll"><pre>git clone &lt;repo&gt; &amp;&amp; cd agent-network-study &amp;&amp; npm install
+node scripts/verify-keys.mjs        <span class="cm"># 答案键必须先对</span>
+node src/run.js --run x --E 0 --par 8 --seeds 3
+node src/analyze.js x               <span class="cm"># 写出 runs/x/RESULTS.md</span></pre></div>
+<p>每个 episode 一份 <code>events.jsonl</code>，每次 LLM 调用、每个内核决策、每次工具调用、每一拍都是一条事件。产物按提交原样存盘，所以任何一个分数都能用 <code>node src/score.js T1.html T1.assertions.json &lt;fn&gt;</code> 单独重跑。</p>
+
+<footer>
+  仓库 <b>~/Desktop/agent-network-study</b> · 跑在 EC2 <b>ip-172-31-0-200</b> tmux 内 · 协调层 <b>@aicoo/sharedos@0.1.0-alpha.2</b>（npm 发布版，非私有 checkout）<br>
+  三次扫描共 <b>396 beats / $4.24 / 4.5 小时</b> · 设计缺陷记录见 <b>docs/DESIGN-FLAWS.md</b>
+</footer>
+
+</div>
+
+<div lang="en">
+<header class="mast">
+  <p class="eyebrow">overnight run · 2026-09-01 · 396 beats · $4.24</p>
+  <h1>Most of the Difference Was Never the Form</h1>
+  <p class="dek">Public, private and hybrid on one SharedOS kernel, a four-beat timeline, and a scorer with no model in the loop. The public arm led the cold build by 0.26 F1 — equalise reach and that collapses to 0.02.</p>
+  <div class="meta">
+    <span><b>Three sweeps:</b> main 54 · matched-E0 27 · glm replication 18</span>
+    <span><b>Artifacts:</b> 215/216 beats</span>
+    <span><b>API failures:</b> 0 / 7,800 calls</span>
+  </div>
+</header>
+
+<p class="lede">The one finding that holds is a negative one: <strong>92% of what looked like "public beats private" was an artifact of roster membership, not of network form.</strong> Subtract it and what remains is too small to support a claim at this sample size — and it changes sign when the model changes.</p>
+
+<h2><span class="snum">§ 1</span>Three sweeps</h2>
+<div class="scroll"><table>
+  <tr><th>run</th><th>design</th><th>model</th><th>episodes</th><th>beats</th><th>cost</th><th>wall</th></tr>
+  <tr><td>main</td><td>E ∈ {0.3, 0.7}, private reach restricted</td><td>flash</td><td>54</td><td>216</td><td>$1.29</td><td>122 min</td></tr>
+  <tr><td>matched-E0</td><td><strong>E = 0, identical reach in both arms</strong></td><td>flash</td><td>27</td><td>108</td><td>$0.61</td><td>98 min</td></tr>
+  <tr><td>matched-E0-glm</td><td>same design, second model</td><td>glm-4.6</td><td>18</td><td>72</td><td>$2.34</td><td>47 min</td></tr>
+</table></div>
+
+<h2><span class="snum">§ 2</span>Main result: equalise reach, the gap evaporates</h2>
+<p>Public minus private, requirement F1, paired within (scenario, seed):</p>
+<div class="scroll"><table class="inv">
+  <tr><th>beat</th><th>main (unequal reach)</th><th>matched-E0 (equal reach)</th><th>glm replication</th></tr>
+  <tr><td>T1 cold build</td><td><strong>+0.26</strong></td><td><strong>+0.02</strong></td><td>−0.12</td></tr>
+  <tr><td>T2 rework</td><td>+0.14</td><td>−0.09</td><td>+0.06</td></tr>
+  <tr><td>T3 warm build</td><td>+0.28</td><td>+0.09</td><td>−0.03</td></tr>
+  <tr><td>T4 warm rework</td><td>+0.26</td><td>−0.17</td><td>+0.12</td></tr>
+  <tr><td>n per arm</td><td>18</td><td>9</td><td>6</td></tr>
+</table></div>
+
+<div class="keep"><span class="nlabel">The one number worth keeping</span>
+<p>The cold-phase public advantage falls from <strong>+0.26 to +0.02</strong> — roughly <strong>92% of the apparent effect was roster membership</strong>. This is a between-run comparison on one model, with a large effect and an unambiguous direction.</p></div>
+
+<h2><span class="snum">§ 3</span>What did not hold: the private rework advantage</h2>
+<p>On flash, with reach equalised, private led on both revision beats (T2 −0.09, T4 −0.17; at T2 the public arm won <strong>none of nine paired cells</strong>). That is exactly where theory puts it: the namespace persists, the builder still holds the version it produced, so a revision is an edit rather than a reconstruction.</p>
+<p><strong>Running the identical design on glm-4.6 flips the sign on both revision beats.</strong> At six to nine episodes per arm that is noise. The honest statement is that <strong>the rework effect is not established</strong> — worth chasing at 8–10 seeds, not worth claiming.</p>
+
+<h2><span class="snum">§ 4</span>What these runs cannot support</h2>
+<div class="scroll"><table>
+  <tr><th>item</th><th>status</th><th>why</th></tr>
+  <tr><td>Delegation depth</td><td><span class="no">untested</span></td><td>builders reported nothing missing in all 324 beats, so <code>deriveGrant</code> was never called and <code>parent_not_delegable</code> never fired</td></tr>
+  <tr><td>Kernel refusals</td><td><span class="no">zero</span></td><td>SharedOS authorised every contact. The mechanism is wired (<code>grant_exhausted</code> verified before the sweep) but no configuration here made it refuse anything</td></tr>
+  <tr><td>Warm speedup</td><td><span class="no">undetectable</span></td><td>the warm instance replaces every fact value, so memory saves the search (one call) and not the asking (~eleven). Negative values everywhere are the design, not a finding</td></tr>
+  <tr><td>The T1 reach gap</td><td><span class="part-yes">by design</span></td><td>the E allocation fixes how much each arm can reach, so a T1 gap in <code>main</code> is a property of the design</td></tr>
+</table></div>
+
+<h2><span class="snum">§ 5</span>The instrument itself is sound</h2>
+<ul>
+  <li><strong>215 of 216 beats produced an artifact</strong>, 209 with a working calculator; zero failures across 7,800 API calls.</li>
+  <li><strong>Answer keys were checked against reference implementations first</strong> — 86 calc assertions, of which that check caught three wrong on the first pass. Nothing ran until they were right.</li>
+  <li><strong>No model in the scoring loop</strong>: DOM counts, attribute values, text presence, and unit tests against the calculator each artifact must define.</li>
+  <li><strong>SharedOS decides</strong>: every contact is a <code>CapabilityAuthorizer.authorize()</code> call; <code>maxUses:1</code> returning <code>grant_exhausted</code> on second use and <code>delegationDepth:0</code> returning <code>parent_not_delegable</code> were both verified directly before the sweep.</li>
+</ul>
+
+<h2><span class="snum">§ 6</span>Next, in order</h2>
+<ol>
+  <li><strong>Raise matched-E0 to 8–10 seeds per arm.</strong> Every directional statement above rests on six to nine.</li>
+  <li><strong>Rebuild the warm instance to share ~40% of its fact <em>values</em></strong> with the cold one, not merely the same specialists, so memory can save asking rather than only searching.</li>
+  <li><strong>Withhold one required fact from the brief on purpose</strong> so sub-delegation is forced and the depth knob is actually tested.</li>
+  <li><strong>Add a genuinely single-use grant variant</strong> where a spent grant blocks re-contact, so the kernel refuses something and <code>rework_reachable</code> can be 0 for a real reason.</li>
+</ol>
+
+<h2><span class="snum">§ 7</span>Reproducing it</h2>
+<div class="scroll"><pre>git clone &lt;repo&gt; &amp;&amp; cd agent-network-study &amp;&amp; npm install
+node scripts/verify-keys.mjs        <span class="cm"># the keys must be right first</span>
+node src/run.js --run x --E 0 --par 8 --seeds 3
+node src/analyze.js x               <span class="cm"># writes runs/x/RESULTS.md</span></pre></div>
+<p>One <code>events.jsonl</code> per episode, with an event for every LLM call, kernel decision, tool call and beat. Artifacts are stored exactly as submitted, so any score can be re-derived with <code>node src/score.js T1.html T1.assertions.json &lt;fn&gt;</code>.</p>
+
+<footer>
+  Repo <b>~/Desktop/agent-network-study</b> · run on EC2 <b>ip-172-31-0-200</b> under tmux · coordination layer <b>@aicoo/sharedos@0.1.0-alpha.2</b> (the published package, not a private checkout)<br>
+  Three sweeps: <b>396 beats / $4.24 / 4.5 hours</b> · design flaws recorded in <b>docs/DESIGN-FLAWS.md</b>
+</footer>
+</div>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var zh = document.getElementById('btn-zh');
+  var en = document.getElementById('btn-en');
+  function apply(lang) {
+    root.setAttribute('data-lang', lang);
+    zh.setAttribute('aria-pressed', String(lang === 'zh'));
+    en.setAttribute('aria-pressed', String(lang === 'en'));
+    try { localStorage.setItem('ans-lang', lang); } catch (e) {}
+  }
+  var saved = 'zh';
+  try { saved = localStorage.getItem('ans-lang') || 'zh'; } catch (e) {}
+  apply(saved === 'en' ? 'en' : 'zh');
+  zh.addEventListener('click', function () { apply('zh'); });
+  en.addEventListener('click', function () { apply('en'); });
+})();
+</script>
