@@ -57,17 +57,20 @@ function boot(cells, fn, n = 4000, seed = 7) {
   return out.length ? [out[Math.floor(out.length * 0.025)], out[Math.floor(out.length * 0.975)]] : [NaN, NaN];
 }
 
+// `prop` marks a metric on the same 0-1 scale as ARCH_REF. Dividing a count of
+// agents by an F1 difference produces a number, and that number means nothing;
+// the ratio is printed only where the units agree.
 const METRICS = [
-  ['requirement F1 (T1)',       (r) => beatsOf(r).T1?.f1],
-  ['requirement F1 (T3 warm)',  (r) => beatsOf(r).T3?.f1],
-  ['assertions passed (T1)',    (r) => { const b = beatsOf(r).T1; return b && b.total ? b.pass / b.total : undefined; }],
-  ['pollution absorbed (T1)',   (r) => beatsOf(r).T1?.pollutionAbsorbed],
-  ['agents contacted (T1)',     (r) => beatsOf(r).T1?.contacted],
-  ['asks (T1)',                 (r) => beatsOf(r).T1?.asks],
+  ['requirement F1 (T1)',       (r) => beatsOf(r).T1?.f1, 'prop'],
+  ['requirement F1 (T3 warm)',  (r) => beatsOf(r).T3?.f1, 'prop'],
+  ['assertions passed (T1)',    (r) => { const b = beatsOf(r).T1; return b && b.total ? b.pass / b.total : undefined; }, 'prop'],
+  ['pollution absorbed (T1)',   (r) => beatsOf(r).T1?.pollutionAbsorbed, 'count'],
+  ['agents contacted (T1)',     (r) => beatsOf(r).T1?.contacted, 'count'],
+  ['asks (T1)',                 (r) => beatsOf(r).T1?.asks, 'count'],
   // Verification proxy: consultations spent per counterpart that actually held
   // something. If an assertion of prior trust enters the stopping rule at all,
   // this is where it shows up.
-  ['asks per useful contact (T1)', (r) => { const b = beatsOf(r).T1; return b && b.useful ? b.asks / b.useful : undefined; }],
+  ['asks per useful contact (T1)', (r) => { const b = beatsOf(r).T1; return b && b.useful ? b.asks / b.useful : undefined; }, 'count'],
 ];
 
 // (label, seeded, baseline)
@@ -92,9 +95,14 @@ say();
 
 const biggest = [];
 
-for (const [label, get] of METRICS) {
+const strata = [...new Set(rows.map((r) => `${r.arm}|${r.scenario}`))].sort();
+
+for (const [label, get, scale] of METRICS) {
   const vals = (prof, arm) => rows
     .filter((r) => r.seedProfile === prof && (arm ? r.arm === arm : true))
+    .map(get).filter((v) => v != null && Number.isFinite(v));
+  const inStratum = (prof, st) => rows
+    .filter((r) => r.seedProfile === prof && `${r.arm}|${r.scenario}` === st)
     .map(get).filter((v) => v != null && Number.isFinite(v));
 
   say(`## ${label}`);
@@ -108,13 +116,17 @@ for (const [label, get] of METRICS) {
   say('```');
 
   for (const [clabel, hi, lo] of CONTRASTS) {
-    const H = vals(hi), L = vals(lo);
-    if (!H.length || !L.length) { say(`  ${clabel.padEnd(38)}  (missing cell)`); continue; }
-    const d = mean(H) - mean(L);
-    const [c1, c2] = boot({ H, L }, (x) => x.H - x.L);
+    const paired = strata
+      .map((st) => ({ st, H: inStratum(hi, st), L: inStratum(lo, st) }))
+      .filter((x) => x.H.length && x.L.length);
+    if (!paired.length) { say(`  ${clabel.padEnd(40)}  (no stratum has both sides yet)`); continue; }
+    const d = mean(paired.map((x) => mean(x.H) - mean(x.L)));
+    const cells = {};
+    for (const [i, x] of paired.entries()) { cells[`H${i}`] = x.H; cells[`L${i}`] = x.L; }
+    const [c1, c2] = boot(cells, (dr) => mean(paired.map((_, i) => dr[`H${i}`] - dr[`L${i}`])));
     const spans = c1 <= 0 && c2 >= 0;
-    const ratio = Math.abs(d) / ARCH_REF.value;
-    say(`  ${clabel.padEnd(38)} d=${f3(d)}  95% CI [${f3(c1)},${f3(c2)}]  ${spans ? 'spans 0 ' : 'excludes 0'}  |d|/arch=${ratio.toFixed(2)}`);
+    const ratio = scale === 'prop' ? `  |d|/arch=${(Math.abs(d) / ARCH_REF.value).toFixed(2)}` : '';
+    say(`  ${clabel.padEnd(40)} d=${f3(d)}  95% CI [${f3(c1)},${f3(c2)}]  ${spans ? 'spans 0 ' : 'excludes 0'}${ratio}  [${paired.length}/${strata.length} strata]`);
     if (label.startsWith('requirement F1 (T1)')) biggest.push({ clabel, d: Math.abs(d), spans });
   }
   say();
