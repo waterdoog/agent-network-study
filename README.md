@@ -24,6 +24,10 @@ from another in named configuration values rather than in implementation.
 - **Scoring** — no LLM judge anywhere. Deliverables are HTML; assertions are DOM counts,
   attribute values, text presence, and unit tests against the calculator the page must define.
 
+**Paper:** [waterdoog/fast-paper](https://github.com/waterdoog/fast-paper) — *Who Can
+Connect, What Crosses, What Is Believed*, submitted to the Agentic Web workshop at
+NeurIPS 2026.
+
 ## The design
 
 Two axes are enforced by the kernel and crossed as a factorial:
