@@ -99,7 +99,7 @@ const ALLOWED = {
  * Run one beat as the requester.
  * @returns {{html:string|null, stats:object}}
  */
-export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders, store, plan, seed, edgeCost = 0, relayDepth = 0 }) {
+export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders, store, plan, seed, edgeCost = 0, relayDepth = 0, searchCap = 40 }) {
   // Five components cannot be delegated inside a budget sized for one.
   const MAX_ITERS = BASE_ITERS + 4 * Math.max(0, (plan?.length || 1) - 1);
   const stats = {
@@ -120,6 +120,12 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
       ? ['Two routes are open to you: ask an agent a specific question, or read an agent\'s store directly with list_store and read_store. Both cost you a turn. Use whichever you judge better, then hand a complete brief to a builder.']
       : ['Search, ask a specific question, then hand a complete brief to a builder.']),
     'Agents can be wrong. If two agents contradict each other, prefer the one whose stated role owns that subject.',
+    // Naming the field is the fair version of the test. Leaving it unexplained
+    // would measure whether a model notices an undocumented key, not whether a
+    // reputation signal changes routing.
+    ...(dir.cards.some((c) => c.reputation)
+      ? ['Search results carry a reputation line per agent, from how often its past answers held up.']
+      : []),
     'The builder cannot look anything up: every number it needs must be in your instructions.',
     'Work efficiently. Do not ask an agent something you already know.',
     `You get at most ${MAX_ITERS} turns for the whole task. Gather what you need, then delegate the build and submit.`,
@@ -194,7 +200,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
       }
       if (name === 'search_directory') {
         stats.searches++;
-        const hits = searchCards(dir, arm, args.query);
+        const hits = searchCards(dir, arm, args.query, searchCap);
         // Record whether relational metadata actually went into the model's
         // context, not just whether the config said it should. A manipulation
         // you cannot see in the log is a manipulation you cannot defend.

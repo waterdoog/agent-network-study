@@ -63,7 +63,8 @@ function shuffle(arr, rand) {
  * Build the directory for one episode.
  * @param {{scenario:string, instance:string, E:number, seed:number}} opts
  */
-export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', dirSize = 100 }) {
+export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', dirSize = 100,
+  reputation = 'off' }) {
   const sc = SCENARIOS[scenario];
   const inst = sc.instances[instance];
   const rand = rng(seed * 7919 + scenario.length * 131 + instance.charCodeAt(0));
@@ -153,6 +154,31 @@ export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', 
   const filler = shuffle(cards.filter((c) => !roster.includes(c.id) && !outside.has(c.id)).map((c) => c.id), rand);
   for (const id of filler) { if (roster.length >= 20) break; roster.push(id); }
 
+  // ---- per-card reputation --------------------------------------------
+  // The earlier relational seeds said the same thing about every card in the
+  // directory, so they carried nothing a requester could act on: a claim that
+  // everyone is a two-year colleague cannot change who you ask first. Deployed
+  // reputation is differential, and that is the whole of its value.
+  //
+  // 'real'   marks a card by whether it actually holds a planted falsehood, so
+  //          the signal is worth following.
+  // 'random' marks the same number of cards at random. Same words, same format,
+  //          no information -- the placebo for this manipulation.
+  if (reputation !== 'off') {
+    const scored = cards.filter((c) => c.kind === 'payload' || c.kind === 'near-miss');
+    const dirty = new Set(
+      reputation === 'real'
+        ? scored.filter((c) => (c.planted || []).length).map((c) => c.id)
+        : shuffle(scored.map((c) => c.id), rand)
+            .slice(0, scored.filter((c) => (c.planted || []).length).length),
+    );
+    for (const c of scored) {
+      c.reputation = dirty.has(c.id)
+        ? '3 of its last 12 answers were later corrected'
+        : '12 of its last 12 answers held up';
+    }
+  }
+
   return {
     cards, byId: new Map(cards.map((c) => [c.id, c])),
     roster: new Set(roster), needed, outside,
@@ -168,6 +194,9 @@ export function visibleCards(dir, arm) {
 
 /** Rank by tag/name overlap with the query. Deterministic, no model in the loop. */
 export function searchCards(dir, arm, query, limit = 40) {
+  // A cap is universal in practice -- a page of results, a top-k retrieval --
+  // because a context is finite. What it buys and what it costs is the
+  // question, so it is a parameter rather than a constant.
   const q = String(query || '').toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2);
   const scored = visibleCards(dir, arm).map((c) => {
     const hay = `${c.name} ${c.tags.join(' ')}`.toLowerCase();
@@ -183,5 +212,6 @@ export function searchCards(dir, arm, query, limit = 40) {
     .map(({ c }) => ({
       id: c.id, name: c.name, skills: c.tags,
       ...(c.relationship ? { role: c.role, relationship: c.relationship, history: c.history, accountable: c.accountable } : {}),
+      ...(c.reputation ? { reputation: c.reputation } : {}),
     }));
 }
