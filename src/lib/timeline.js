@@ -171,6 +171,12 @@ export async function runEpisode(ep) {
       asks: out.stats.asks, builds: out.stats.builds, searches: out.stats.searches,
       lists: out.stats.lists || 0, reads: out.stats.reads || 0,
       denies: out.stats.denies, iters: out.stats.iters, subConsults: out.stats.subConsults || 0,
+      // The two knobs added for the scaling question. Both fired correctly but
+      // neither reached the beat record, so an analysis reading summaries saw
+      // zero and an analysis reading events saw hundreds.
+      handshakes: out.stats.handshakes || 0,
+      relays: out.stats.relays || 0,
+      relayReach: out.stats.relayTargets ? out.stats.relayTargets.size : 0,
       contacted: out.stats.contacted.size,
       useful: out.stats.usefulContacts.size,
       searchPrecision: out.stats.contacted.size ? out.stats.usefulContacts.size / out.stats.contacted.size : 0,
