@@ -57,8 +57,8 @@ const TOOLS = ({ phase, arm, plan }) => {
       type: 'function',
       function: {
         name: 'submit',
-        description: 'Submit the finished HTML document as the deliverable. Call this exactly once, last.',
-        parameters: { type: 'object', properties: { html: { type: 'string' } }, required: ['html'] },
+        description: 'Submit the deliverable. If the components live in a store you do not need to paste anything: call submit with an empty html and the assembled component is taken from the store.',
+        parameters: { type: 'object', properties: { html: { type: 'string', description: 'the full document, or empty when a store holds the components' } }, required: [] },
       },
     },
   ];
@@ -219,6 +219,13 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
           continue;
         }
         html = String(args.html || '');
+        if (!html && store) {
+          const finalName = plan && plan.length > 1
+            ? (plan.find((c) => c.assembles)?.name || plan[plan.length - 1].name)
+            : (plan?.[0]?.name || 'page');
+          const it = store.read(finalName);
+          if (it) { html = it.html; log.event('submit.fromstore', { comp: finalName, len: html.length, beat }); }
+        }
         log.event('tool.submit', { len: html.length, beat });
         result = { ok: true, received: html.length };
       } else {
@@ -229,6 +236,13 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
     }
   }
 
+  if (html == null && store) {
+    const finalName = plan && plan.length > 1
+      ? (plan.find((c) => c.assembles)?.name || plan[plan.length - 1].name)
+      : (plan?.[0]?.name || 'page');
+    const it = store.read(finalName);
+    if (it) { html = it.html; log.event('req.fallback', { why: 'from-store', comp: finalName, len: html.length, beat }); }
+  }
   if (html == null && lastBuilt) {
     html = lastBuilt;
     log.event('req.fallback', { why: 'built-but-never-submitted', len: html.length, beat });
