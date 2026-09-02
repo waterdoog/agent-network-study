@@ -20,14 +20,13 @@ import { join } from 'node:path';
 const runId = process.argv[2] || readdirSync('runs').sort().pop();
 const ROOT = join('runs', runId);
 
-// all.json is written when the sweep finishes. Reading the per-episode
-// summaries instead means this runs against a sweep still in flight, which is
-// the only way to find a bug in the analysis before spending the whole run.
-const rows = existsSync(join(ROOT, 'all.json'))
-  ? JSON.parse(readFileSync(join(ROOT, 'all.json'), 'utf8'))
-  : readdirSync(ROOT)
-      .filter((d) => existsSync(join(ROOT, d, 'summary.json')))
-      .map((d) => JSON.parse(readFileSync(join(ROOT, d, 'summary.json'), 'utf8')));
+// Always scan the episode directories; never read all.json. A second sweep
+// into the same run id rewrites all.json with only its own episodes, and the
+// analysis then silently reports on a fraction of the data it appears to be
+// reporting on. The per-episode summaries are the durable record.
+const rows = readdirSync(ROOT)
+  .filter((d) => existsSync(join(ROOT, d, 'summary.json')))
+  .map((d) => JSON.parse(readFileSync(join(ROOT, d, 'summary.json'), 'utf8')));
 if (!rows.length) { console.error(`no episodes yet in ${ROOT}`); process.exit(1); }
 
 // Discovery effect on requirement F1 (T1), from runs/axis2x2/factorial.md.
@@ -196,6 +195,12 @@ const perCell = Math.min(...profiles.flatMap((p) => arms.map((a) =>
 say(`  Smallest cell holds ${perCell} episodes. A percentile bootstrap over ${perCell} values`);
 say(`  resamples ${perCell} numbers; treat "excludes 0" as meaningless below about n=10`);
 say('  per cell and read the cell means instead.');
+say();
+const nTests = CONTRASTS.length * METRICS.length;
+say(`  Multiple comparisons: ${CONTRASTS.length} contrasts x ${METRICS.length} metrics = ${nTests} tests per beat.`);
+say(`  At alpha=0.05, chance alone produces about ${(nTests * 0.05).toFixed(1)} of them per beat. Count the`);
+say('  survivors against that floor before calling any of them a result, and check');
+say('  whether a contrast that clears in one beat clears with the same sign in another.');
 say();
 say('  Read with care: a null here bounds the weakest form of relational encoding —');
 say('  an assertion in context. It does not bound trust wired into routing, memory,');
