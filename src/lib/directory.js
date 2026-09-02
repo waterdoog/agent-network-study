@@ -63,7 +63,7 @@ function shuffle(arr, rand) {
  * Build the directory for one episode.
  * @param {{scenario:string, instance:string, E:number, seed:number}} opts
  */
-export function buildDirectory({ scenario, instance, E, seed, profile = 'bare' }) {
+export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', dirSize = 100 }) {
   const sc = SCENARIOS[scenario];
   const inst = sc.instances[instance];
   const rand = rng(seed * 7919 + scenario.length * 131 + instance.charCodeAt(0));
@@ -121,13 +121,26 @@ export function buildDirectory({ scenario, instance, E, seed, profile = 'bare' }
   for (const [id, name, tags] of NEAR_MISS)
     cards.push({ id, name, tags, kind: 'near-miss', knowledge: [], planted: [] });
 
+  // Filler scales with the board, and a fixed share of it is plausible rather
+  // than obviously irrelevant. With filler drawn only from NOISE_TAGS, a query
+  // about registration pricing never touches a single generated card, so a
+  // directory of ten thousand costs exactly what a directory of fifty costs --
+  // which is why the first version of this study could not have found a
+  // discovery cost even if one existed. On a real open board most of what a
+  // relevant query returns is people who merely sound relevant, and their
+  // number grows with the board.
+  const scenarioVocab = [...new Set(cards.filter((c) => c.kind === 'payload').flatMap((c) => c.tags))];
   let n = 0;
-  while (cards.length < 100) {
-    const t = shuffle(NOISE_TAGS, rand).slice(0, 3);
+  while (cards.length < dirSize) {
+    n++;
+    const plausible = rand() < 0.35 && scenarioVocab.length;
+    const t = plausible
+      ? [...shuffle(scenarioVocab, rand).slice(0, 2), shuffle(NOISE_TAGS, rand)[0]]
+      : shuffle(NOISE_TAGS, rand).slice(0, 3);
     cards.push({
-      id: `gen-${String(++n).padStart(2, '0')}`,
+      id: `gen-${String(n).padStart(3, '0')}`,
       name: `${t[0][0].toUpperCase() + t[0].slice(1)} Desk ${n}`,
-      tags: t, kind: 'noise', knowledge: [], planted: [],
+      tags: t, kind: plausible ? 'near-miss' : 'noise', knowledge: [], planted: [],
     });
   }
 
@@ -154,7 +167,7 @@ export function visibleCards(dir, arm) {
 }
 
 /** Rank by tag/name overlap with the query. Deterministic, no model in the loop. */
-export function searchCards(dir, arm, query, limit = 8) {
+export function searchCards(dir, arm, query, limit = 40) {
   const q = String(query || '').toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 2);
   const scored = visibleCards(dir, arm).map((c) => {
     const hay = `${c.name} ${c.tags.join(' ')}`.toLowerCase();
@@ -162,6 +175,10 @@ export function searchCards(dir, arm, query, limit = 8) {
     for (const w of q) { if (hay.includes(w)) s += 2; for (const t of c.tags) if (t.startsWith(w.slice(0, 4))) s += 1; }
     return { c, s };
   });
+  // Every card the query touches comes back, capped only by what a context can
+  // hold. Two things then scale with the directory: the tokens spent reading the
+  // result, and the chance the right specialist is buried under noise cards that
+  // happen to share a tag.
   return scored.filter((x) => x.s > 0).sort((a, b) => b.s - a.s).slice(0, limit)
     .map(({ c }) => ({
       id: c.id, name: c.name, skills: c.tags,

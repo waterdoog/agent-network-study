@@ -6,6 +6,7 @@
 //   T3 warm build   a second instance of the same scenario (new facts, overlapping specialists)
 //   T4 warm rework  a change to the T3 artifact
 import { execFile } from 'node:child_process';
+import { resolveSeed } from './seeds.js';
 import { writeFileSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
@@ -67,7 +68,9 @@ function requirementF1(res) {
 }
 
 export async function runEpisode(ep) {
-  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1 } = ep;
+  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1, seedProfile = 'control',
+          edgeCost = 0, repeats = 1, relayDepth = 0, dirSize = 100 } = ep;
+  const relSeed = resolveSeed(seedProfile);
   const sc = SCENARIOS[scenarioId];
   const responders = new Map();
   // One store per episode. Persistent arms carry components across beats; the
@@ -80,12 +83,20 @@ export async function runEpisode(ep) {
   let notes = '';
   const beats = [];
 
-  const plan = [
-    { beat: 'T1', instance: 'A', mode: 'build' },
-    { beat: 'T2', instance: 'A', mode: 'rework' },
-    { beat: 'T3', instance: 'B', mode: 'build' },
-    { beat: 'T4', instance: 'B', mode: 'rework' },
-  ];
+  // Default is the four-beat timeline. With repeats > 1 the reworks give way to
+  // that many warm builds: one warm point yields a difference, three yield a
+  // slope, and the compounding claim is about the slope.
+  const plan = repeats > 1
+    ? [{ beat: 'T1', instance: 'A', mode: 'build' },
+       ...Array.from({ length: repeats }, (_, i) => ({
+         beat: `W${i + 1}`, instance: String.fromCharCode(66 + i), mode: 'build',
+       }))]
+    : [
+      { beat: 'T1', instance: 'A', mode: 'build' },
+      { beat: 'T2', instance: 'A', mode: 'rework' },
+      { beat: 'T3', instance: 'B', mode: 'build' },
+      { beat: 'T4', instance: 'B', mode: 'rework' },
+    ];
 
   let priorArtifact = null;
   let baseResultsByInstance = {};
@@ -100,7 +111,7 @@ export async function runEpisode(ep) {
 
     // The directory is rebuilt with the current facts so a rework actually
     // changes what the holders say. Roster composition is stable across beats.
-    const dir = buildDirectory({ scenario: scenarioId, instance: step.instance, E, seed, profile });
+    const dir = buildDirectory({ scenario: scenarioId, instance: step.instance, E, seed, profile, dirSize });
     for (const c of dir.cards) {
       if (c.kind !== 'payload') continue;
       c.knowledge = facts.filter((f) => f.holder === c.holder).map((f) => f.text);
@@ -125,9 +136,9 @@ export async function runEpisode(ep) {
     let out;
     try {
       out = await runRequester({
-        goal, spec: sc.spec, notes, dir, arm, coord, log,
+        goal, spec: sc.spec, notes, dir, arm, coord, log, seed: relSeed,
         beat: step.beat, priorArtifact, responders,
-        store, plan: compPlan,
+        store, plan: compPlan, edgeCost, relayDepth,
       });
     } catch (err) {
       log.fail('beat.crash', err, { beat: step.beat });
@@ -160,6 +171,12 @@ export async function runEpisode(ep) {
       asks: out.stats.asks, builds: out.stats.builds, searches: out.stats.searches,
       lists: out.stats.lists || 0, reads: out.stats.reads || 0,
       denies: out.stats.denies, iters: out.stats.iters, subConsults: out.stats.subConsults || 0,
+      // The two knobs added for the scaling question. Both fired correctly but
+      // neither reached the beat record, so an analysis reading summaries saw
+      // zero and an analysis reading events saw hundreds.
+      handshakes: out.stats.handshakes || 0,
+      relays: out.stats.relays || 0,
+      relayReach: out.stats.relayTargets ? out.stats.relayTargets.size : 0,
       contacted: out.stats.contacted.size,
       useful: out.stats.usefulContacts.size,
       searchPrecision: out.stats.contacted.size ? out.stats.usefulContacts.size / out.stats.contacted.size : 0,

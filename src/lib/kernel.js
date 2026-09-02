@@ -93,6 +93,35 @@ export class Coordinator {
    * delegationDepth 0, so the kernel refuses with `parent_not_delegable` and the
    * refusal is the measurement.
    */
+  /**
+   * A relay hop, minted under the relaying agent's own authority.
+   *
+   * Deriving it from the requester's grant is what the kernel refused, and the
+   * refusal was correct: the requester never held execution authority over a
+   * third agent, so it cannot pass one on. A contact reaching its own contact
+   * is not delegating the requester's authority -- it is exercising its own.
+   * That is also what the relationship is: the roster member's reach is theirs,
+   * not a subset of yours.
+   *
+   * The bound is hops, enforced by the caller, not capability containment.
+   */
+  mintRelay({ fromCardId, toCardId, depth, beat }) {
+    const target = addr(toCardId);
+    const grant = {
+      id: `r${this.grants.size + 1}:${fromCardId}->${toCardId}`,
+      namespaceId: this.namespaceFor(fromCardId, toCardId, beat),
+      subject: target,
+      issuer: addr(fromCardId),
+      capabilities: [agentExecutionCapability(target)],
+      constraints: { expiresAt: new Date(Date.now() + 240 * 60_000).toISOString() },
+      issuedAt: new Date().toISOString(),
+    };
+    this.grants.set(grant.id, grant);
+    this.stats.maxDepthSeen = Math.max(this.stats.maxDepthSeen, depth);
+    this.log.event('relay.mint', { from: fromCardId, to: toCardId, g: grant.id, depth, beat });
+    return { ok: true, grant };
+  }
+
   subDelegate({ parentGrant, toCardId, depth, beat }) {
     const target = addr(toCardId);
     const res = deriveGrant(parentGrant, {
