@@ -99,12 +99,13 @@ const ALLOWED = {
  * Run one beat as the requester.
  * @returns {{html:string|null, stats:object}}
  */
-export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders, store, plan, seed }) {
+export async function runRequester({ goal, spec, notes, dir, arm, coord, log, beat, priorArtifact, responders, store, plan, seed, edgeCost = 0, relayDepth = 0 }) {
   // Five components cannot be delegated inside a budget sized for one.
   const MAX_ITERS = BASE_ITERS + 4 * Math.max(0, (plan?.length || 1) - 1);
   const stats = {
     asks: 0, builds: 0, searches: 0, denies: 0, tokens: 0, contacted: new Set(),
     usefulContacts: new Set(), pollutionSeen: new Set(), iters: 0, depth: 0, subConsults: 0,
+    formedEdges: new Map(), handshakes: 0, relays: 0, relayTargets: new Set(),
   };
   let html = null;
   let lastBuilt = null;
@@ -201,7 +202,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
         log.event('tool.search', { q: String(args.query).slice(0, 80), n: hits.length, rel: withRel, beat });
         result = { cards: hits };
       } else if (name === 'ask_agent' || name === 'delegate_build') {
-        const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan, seed });
+        const r = await contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan, seed, edgeCost, relayDepth });
         if (r && r.html) lastBuilt = r.html;
         result = r;
       } else if (name === 'list_store' || name === 'read_store') {
@@ -241,7 +242,7 @@ export async function runRequester({ goal, spec, notes, dir, arm, coord, log, be
 
 
 /** One authorized contact with one card. This is where the arm's knobs bite. */
-async function contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan, seed }) {
+async function contact({ name, args, dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan, seed, edgeCost = 0, relayDepth = 0, hops = 0, forceReachable = false }) {
   const cardId = String(args.card_id || '');
   const card = dir.byId.get(cardId);
   if (!card) { log.event('contact.nocard', { card: cardId, beat }); return { error: `no such agent: ${cardId}` }; }
@@ -250,7 +251,7 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   const eff = effectiveArm(arm, inRoster);
 
   // Roster-only arms cannot address a card they cannot see.
-  if (eff.directoryScope === 'roster' && !inRoster) {
+  if (eff.directoryScope === 'roster' && !inRoster && !forceReachable) {
     stats.denies++;
     log.event('contact.outofscope', { card: cardId, beat });
     const reachable = dir.cards.filter((c) => dir.roster.has(c.id)).map((c) => c.id).join(', ');
@@ -265,12 +266,47 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
     return { error: `contact refused by the coordination layer: ${decision.reasonCode}` };
   }
 
+  // ---- edge formation cost -------------------------------------------
+  // Addressing a stranger is free in the default configuration, which removes
+  // the economic reason relationships exist: a hundred addressable holders at
+  // zero acquisition cost is closer to an oracle than to a network. With
+  // EDGE_COST > 0, the first contact to an edge that does not already exist
+  // returns a handshake instead of an answer -- what onboarding actually is --
+  // and costs a turn without delivering content.
+  //
+  // A roster edge is already formed when the episode starts. That is what
+  // "pre-existing relationship" means, and it is the asymmetry under test, not
+  // a thumb on the scale.
+  if (edgeCost > 0 && !inRoster) {
+    const formed = stats.formedEdges.get(cardId) || 0;
+    if (formed < edgeCost) {
+      stats.formedEdges.set(cardId, formed + 1);
+      stats.handshakes++;
+      log.event('contact.handshake', { card: cardId, beat, step: formed + 1, of: edgeCost });
+      return {
+        from: cardId,
+        answer: `${card.name} here. I work on ${card.tags.slice(0, 3).join(', ')}. `
+              + 'Before I can answer anything specific I need to know what you are building '
+              + 'and which of those areas you need. Ask again with that context.',
+        handshake: true,
+      };
+    }
+  }
+
   stats.contacted.add(cardId);
   const state = responders.get(cardId) || { history: [], lastArtifact: null };
   const carry = eff.responderMemory === true;
 
   const isBuild = name === 'delegate_build';
   const canRead = eff.access === 'store';
+
+  // Who this responder can forward to: everyone the requester could not reach
+  // directly. Relay depth is the arm's delegation ceiling, and hop 2 is the
+  // only one we allow here.
+  const relayPool = (!isBuild && relayDepth > 0 && (hops || 0) < relayDepth
+                     && eff.directoryScope === 'roster')
+    ? dir.cards.filter((c) => c.id !== cardId && !dir.roster.has(c.id))
+    : [];
   const sys = isBuild
     ? [
       'You are a builder agent. You produce one complete, self-contained HTML document and nothing else.',
@@ -288,6 +324,20 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
         'everything you know, or asked an open question with no specific subject,',
         'refuse: reply exactly "Ask me a specific question." and nothing more.',
         'Never volunteer a value that was not asked for.',
+      ] : []),
+      // A bounded roster is not a wall. A contact you already have is also a
+      // route to contacts you do not: information reaches a closed network
+      // through the people in it, one hop further out, slower and lossier. With
+      // relay off, "bounded" means the holders outside the roster are
+      // unreachable for ever, which is a truncated directory rather than a
+      // private network.
+      ...(relayPool.length ? [
+        '',
+        'If you do not hold what you were asked for, you may forward the question to',
+        'one person you know. To do that, reply with exactly one line:',
+        '  FORWARD <agent-id>',
+        'and nothing else. People you can reach:',
+        ...relayPool.slice(0, 24).map((c) => `  ${c.id} - ${c.tags.slice(0, 4).join(', ')}`),
       ] : []),
       ...responderSeedLines(seed),
       '',
@@ -339,7 +389,43 @@ async function contact({ name, args, dir, arm, coord, log, beat, stats, responde
   }
   stats.tokens += res.tokensIn + res.tokensOut;
 
-  const reply = String(res.message?.content || '');
+  let reply = String(res.message?.content || '');
+
+  // ---- relay: the second hop --------------------------------------------
+  // The answer arrives through a person rather than directly, which is what
+  // reach looks like in a bounded network. It costs another model call, and it
+  // passes through another paraphrase -- the loss is the mechanism, not noise
+  // we inject.
+  const fwd = reply.trim().match(/^FORWARD\s+([A-Za-z0-9_-]+)\s*$/m);
+  if (!isBuild && fwd && relayPool.length) {
+    const via = fwd[1];
+    const target = dir.byId.get(via);
+    const reachable = target && !dir.roster.has(via) && via !== cardId;
+    if (!reachable) {
+      log.event('relay.badtarget', { from: cardId, to: via, beat });
+      reply = `I do not hold that, and ${via} is not someone I can reach.`;
+    } else {
+      const d = coord.mintRelay({ fromCardId: cardId, toCardId: via, depth: (hops || 0) + 1, beat });
+      if (!d.ok) {
+        stats.denies++;
+        log.event('relay.refused', { from: cardId, to: via, beat, why: d.reasonCode });
+        reply = `I do not hold that and cannot reach anyone who does.`;
+      } else {
+        stats.relays++;
+        stats.relayTargets.add(via);
+        const hop = await contact({
+          name: 'ask_agent', args: { card_id: via, question: args.question },
+          dir, arm, coord, log, beat, stats, responders, priorArtifact, store, plan, seed,
+          edgeCost: 0, relayDepth, hops: (hops || 0) + 1, forceReachable: true,
+        });
+        log.event('tool.relay', { from: cardId, to: via, beat, ok: !hop.error, hop: (hops || 0) + 1 });
+        reply = hop.error
+          ? `I asked ${via} and got nothing back.`
+          : `Relayed from ${via}: ${hop.answer || ''}`;
+      }
+    }
+  }
+
   if (isBuild) {
     stats.builds++;
     state.lastArtifact = stripFence(reply);
@@ -391,7 +477,7 @@ async function readStore({ name, args, dir, arm, coord, log, beat, stats }) {
     log.event('store.denied', { card: cardId, why: 'sandboxed', beat });
     return { error: `${cardId} exposes an interface, not a store. Use ask_agent with a specific question.` };
   }
-  if (eff.directoryScope === 'roster' && !inRoster) {
+  if (eff.directoryScope === 'roster' && !inRoster && !forceReachable) {
     stats.denies++;
     log.event('contact.outofscope', { card: cardId, beat, via: name });
     return { error: `${cardId} is not in your roster and cannot be read.` };

@@ -68,7 +68,8 @@ function requirementF1(res) {
 }
 
 export async function runEpisode(ep) {
-  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1, seedProfile = 'control' } = ep;
+  const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1, seedProfile = 'control',
+          edgeCost = 0, repeats = 1, relayDepth = 0 } = ep;
   const relSeed = resolveSeed(seedProfile);
   const sc = SCENARIOS[scenarioId];
   const responders = new Map();
@@ -82,12 +83,20 @@ export async function runEpisode(ep) {
   let notes = '';
   const beats = [];
 
-  const plan = [
-    { beat: 'T1', instance: 'A', mode: 'build' },
-    { beat: 'T2', instance: 'A', mode: 'rework' },
-    { beat: 'T3', instance: 'B', mode: 'build' },
-    { beat: 'T4', instance: 'B', mode: 'rework' },
-  ];
+  // Default is the four-beat timeline. With repeats > 1 the reworks give way to
+  // that many warm builds: one warm point yields a difference, three yield a
+  // slope, and the compounding claim is about the slope.
+  const plan = repeats > 1
+    ? [{ beat: 'T1', instance: 'A', mode: 'build' },
+       ...Array.from({ length: repeats }, (_, i) => ({
+         beat: `W${i + 1}`, instance: String.fromCharCode(66 + i), mode: 'build',
+       }))]
+    : [
+      { beat: 'T1', instance: 'A', mode: 'build' },
+      { beat: 'T2', instance: 'A', mode: 'rework' },
+      { beat: 'T3', instance: 'B', mode: 'build' },
+      { beat: 'T4', instance: 'B', mode: 'rework' },
+    ];
 
   let priorArtifact = null;
   let baseResultsByInstance = {};
@@ -129,7 +138,7 @@ export async function runEpisode(ep) {
       out = await runRequester({
         goal, spec: sc.spec, notes, dir, arm, coord, log, seed: relSeed,
         beat: step.beat, priorArtifact, responders,
-        store, plan: compPlan,
+        store, plan: compPlan, edgeCost, relayDepth,
       });
     } catch (err) {
       log.fail('beat.crash', err, { beat: step.beat });
