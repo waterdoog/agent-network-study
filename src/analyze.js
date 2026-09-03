@@ -3,6 +3,7 @@
 // here on purpose: the numbers should be readable in a terminal at 3am.
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { deliveryReport, formatDelivery } from './lib/delivery.js';
 
 const runId = process.argv[2] || readdirSync('runs').sort().pop();
 const ROOT = join('runs', runId);
@@ -23,6 +24,13 @@ say(`model=${usage.model || '?'}  episodes=${rows.length}  calls=${usage.calls |
 say();
 
 const beatsOf = (r) => Object.fromEntries(r.beats.map((b) => [b.beat, b]));
+
+// Delivery first. A lost beat is a missing observation, not a zero; if delivery
+// is uneven across cells, every mean below is comparing different populations.
+const delivery = deliveryReport(rows, [...new Set(['arm', ...(rows.some((r) => r.dirSize) ? ['dirSize'] : []), ...(rows.some((r) => r.E != null) ? ['E'] : [])])]);
+say(formatDelivery(delivery));
+if (delivery.verdict === 'UNSAFE') console.error(`\n!! ${runId}: delivery spread ${(delivery.spread * 100).toFixed(0)}pt — contrasts below are not interpretable. See docs/NSCAN-RETRACTION.md\n`);
+
 
 say('## Requirement F1 by arm and beat');
 say('| arm | T1 cold | T2 rework | T3 warm | T4 warm-rework |');
