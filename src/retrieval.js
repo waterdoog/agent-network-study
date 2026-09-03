@@ -79,3 +79,51 @@ for (const regime of ['separable', 'opaque']) {
   }
   console.log();
 }
+
+// ---------------------------------------------------------------------------
+// Ranking informativeness.
+//
+// The two regimes above are not a bracket on reality, they are its endpoints,
+// and the endpoint labelled "opaque" is not the honest case -- it is the case
+// with no ranking signal at all. Web search does not behave that way over
+// 10^11 documents, and the reason is not a better sorting algorithm: it ranks
+// documents by content that is in the index, with decades of behavioural signal
+// on top. An agent card is fifty words of self-description, and whether its
+// author holds a particular number is a property of private state that is not
+// in the index and cannot be put there by ranking harder.
+//
+// What can put it there is outcome feedback -- a record of who answered
+// correctly -- which is what PageRank is and what a reputation system would be.
+// So the axis is how well the ranking correlates with actually holding the
+// answer, and P(survive) interpolates between the endpoints:
+//
+//   rho = 0   no signal:      the holder sits uniformly in the match set, P = k/m
+//   rho = 1   perfect signal: holders sort to the top, P = 1
+//
+// A holder's expected rank is m/2 with no signal and (holders+1)/2 with a
+// perfect one; rho slides between them, and P is the chance that rank beats k.
+function survivesRho(k, m, holders, rho) {
+  const meanRankNoSignal = (m + 1) / 2;
+  const meanRankPerfect = (holders + 1) / 2;
+  const meanRank = meanRankNoSignal - rho * (meanRankNoSignal - meanRankPerfect);
+  // Rank is spread around its mean; treat it as uniform on [1, 2*meanRank-1].
+  const span = 2 * meanRank - 1;
+  return Math.min(1, k / Math.max(1, span));
+}
+
+console.log('P(a needed holder survives), by how well ranking tracks who actually holds it\n');
+const RHOS = [0, 0.5, 0.9, 0.99, 0.999];
+console.log(['N'.padStart(10), ...RHOS.map((r) => `rho=${r}`.padStart(9))].join(' ') + '   cap=20');
+for (const N of [800, 12800, 204800, 1e6, 1e7, 1e8]) {
+  const m = Math.max(HOLDERS_PER_QUERY, slope * N + intercept);
+  console.log([
+    String(N).padStart(10),
+    ...RHOS.map((r) => survivesRho(20, m, HOLDERS_PER_QUERY, r).toFixed(3).padStart(9)),
+  ].join(' '));
+}
+console.log();
+console.log('  A search engine over 10^11 documents returning something useful in ten');
+console.log('  results is operating at rho very close to 1. The question for an agent');
+console.log('  directory is not whether that rho is reachable -- it is whether anything');
+console.log('  in a self-described capability card can supply it before the network has');
+console.log('  outcome feedback to learn from.');
