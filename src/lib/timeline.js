@@ -69,7 +69,7 @@ function requirementF1(res) {
 
 export async function runEpisode(ep) {
   const { arm, scenarioId, E, seed, outDir, log, profile = 'bare', k = 1, seedProfile = 'control',
-          edgeCost = 0, repeats = 1, relayDepth = 0, dirSize = 100 } = ep;
+          edgeCost = 0, repeats = 1, relayDepth = 0, dirSize = 100, reputation = 'off', searchCap = 40 } = ep;
   const relSeed = resolveSeed(seedProfile);
   const sc = SCENARIOS[scenarioId];
   const responders = new Map();
@@ -111,7 +111,7 @@ export async function runEpisode(ep) {
 
     // The directory is rebuilt with the current facts so a rework actually
     // changes what the holders say. Roster composition is stable across beats.
-    const dir = buildDirectory({ scenario: scenarioId, instance: step.instance, E, seed, profile, dirSize });
+    const dir = buildDirectory({ scenario: scenarioId, instance: step.instance, E, seed, profile, dirSize, reputation });
     for (const c of dir.cards) {
       if (c.kind !== 'payload') continue;
       c.knowledge = facts.filter((f) => f.holder === c.holder).map((f) => f.text);
@@ -138,7 +138,7 @@ export async function runEpisode(ep) {
       out = await runRequester({
         goal, spec: sc.spec, notes, dir, arm, coord, log, seed: relSeed,
         beat: step.beat, priorArtifact, responders,
-        store, plan: compPlan, edgeCost, relayDepth,
+        store, plan: compPlan, edgeCost, relayDepth, searchCap,
       });
     } catch (err) {
       log.fail('beat.crash', err, { beat: step.beat });

@@ -35,7 +35,14 @@ const RELAY_LIST = String(flag('relay', '0')).split(',').map(Number);
 // Cards on the board. The bounded roster stays at 20 whatever this is, so the
 // sweep asks what an open directory costs as it grows: more to read per search,
 // and a smaller share of what comes back worth reading.
-const DIR_LIST = String(flag('dir-size', '100')).split(',').map(Number);   // components the deliverable is split into
+const DIR_LIST = String(flag('dir-size', '100')).split(',').map(Number);
+// Per-card reputation. 'real' marks the cards that actually hold a planted
+// falsehood; 'random' marks as many cards at random -- same words, no
+// information, the placebo for this manipulation.
+const REP_LIST = String(flag('reputation', 'off')).split(',');
+// How many results a search returns. Every real directory truncates; what the
+// truncation buys and costs is the question.
+const CAP_LIST = String(flag('search-cap', '40')).split(',').map(Number);   // components the deliverable is split into
 setLogLevel(has('verbose') ? 'verbose' : flag('log', 'normal'));
 
 const smoke = has('smoke');
@@ -49,12 +56,14 @@ for (const sc of smoke ? [SC_LIST[0]] : SC_LIST)
           for (const ec of smoke ? [EDGE_COST_LIST[0]] : EDGE_COST_LIST)
             for (const rd of smoke ? [RELAY_LIST[0]] : RELAY_LIST)
               for (const ds of smoke ? [DIR_LIST[0]] : DIR_LIST)
-                for (let seed = 1; seed <= (smoke ? 1 : SEEDS); seed++)
-                  episodes.push({ armId, scenarioId: sc, E, seed, k, seedProfile: sp, edgeCost: ec, relayDepth: rd, dirSize: ds });
+                for (const rp of smoke ? [REP_LIST[0]] : REP_LIST)
+                  for (const cp of smoke ? [CAP_LIST[0]] : CAP_LIST)
+                    for (let seed = 1; seed <= (smoke ? 1 : SEEDS); seed++)
+                      episodes.push({ armId, scenarioId: sc, E, seed, k, seedProfile: sp, edgeCost: ec, relayDepth: rd, dirSize: ds, reputation: rp, searchCap: cp });
 
 mkdirSync(ROOT, { recursive: true });
 note(`run ${RUN_ID}  model=${MODEL}  episodes=${episodes.length}  par=${PAR}`);
-note(`arms=${ARM_LIST.join('/')} scenarios=${SC_LIST.join('/')} E=${E_LIST.join('/')} seeds=${SEEDS} profile=${PROFILE} seed-profiles=${SEED_PROFILES_ARG.join('/')} edge-cost=${EDGE_COST_LIST.join('/')} relay=${RELAY_LIST.join('/')} dir=${DIR_LIST.join('/')} repeats=${REPEATS}`);
+note(`arms=${ARM_LIST.join('/')} scenarios=${SC_LIST.join('/')} E=${E_LIST.join('/')} seeds=${SEEDS} profile=${PROFILE} seed-profiles=${SEED_PROFILES_ARG.join('/')} edge-cost=${EDGE_COST_LIST.join('/')} relay=${RELAY_LIST.join('/')} dir=${DIR_LIST.join('/')} rep=${REP_LIST.join('/')} cap=${CAP_LIST.join('/')} repeats=${REPEATS}`);
 note('-'.repeat(96));
 
 const results = [];
@@ -66,7 +75,7 @@ async function worker(queue) {
   while (queue.length) {
     const spec = queue.shift();
     const spTag = spec.seedProfile && spec.seedProfile !== 'control' ? `_${spec.seedProfile}` : '';
-    const id = `${spec.armId}_${spec.scenarioId}_E${spec.E}_k${spec.k}${spTag}_s${spec.seed}` + (spec.edgeCost ? `_ec${spec.edgeCost}` : '') + (REPEATS > 1 ? `_r${REPEATS}` : '') + (spec.relayDepth ? `_rl${spec.relayDepth}` : '') + (spec.dirSize !== 100 ? `_n${spec.dirSize}` : '');
+    const id = `${spec.armId}_${spec.scenarioId}_E${spec.E}_k${spec.k}${spTag}_s${spec.seed}` + (spec.edgeCost ? `_ec${spec.edgeCost}` : '') + (REPEATS > 1 ? `_r${REPEATS}` : '') + (spec.relayDepth ? `_rl${spec.relayDepth}` : '') + (spec.dirSize !== 100 ? `_n${spec.dirSize}` : '') + (spec.reputation !== 'off' ? `_rep${spec.reputation}` : '') + (spec.searchCap !== 40 ? `_cap${spec.searchCap}` : '');
     const outDir = join(ROOT, id);
     const summaryPath = join(outDir, 'summary.json');
     if (existsSync(summaryPath)) {
@@ -77,12 +86,12 @@ async function worker(queue) {
       continue;
     }
     mkdirSync(outDir, { recursive: true });
-    const meta = { id, arm: spec.armId, scenario: spec.scenarioId, E: spec.E, seed: spec.seed, model: MODEL, profile: PROFILE, k: spec.k, seedProfile: spec.seedProfile, edgeCost: spec.edgeCost, repeats: REPEATS, relayDepth: spec.relayDepth, dirSize: spec.dirSize };
+    const meta = { id, arm: spec.armId, scenario: spec.scenarioId, E: spec.E, seed: spec.seed, model: MODEL, profile: PROFILE, k: spec.k, seedProfile: spec.seedProfile, edgeCost: spec.edgeCost, repeats: REPEATS, relayDepth: spec.relayDepth, dirSize: spec.dirSize, reputation: spec.reputation, searchCap: spec.searchCap };
     const log = new EpisodeLog(join(outDir, 'events.jsonl'), meta);
     try {
       const summary = await runEpisode({
         id, arm: ARMS[spec.armId], scenarioId: spec.scenarioId, E: spec.E, seed: spec.seed, profile: PROFILE, k: spec.k, seedProfile: spec.seedProfile,
-        edgeCost: spec.edgeCost, repeats: REPEATS, relayDepth: spec.relayDepth, dirSize: spec.dirSize,
+        edgeCost: spec.edgeCost, repeats: REPEATS, relayDepth: spec.relayDepth, dirSize: spec.dirSize, reputation: spec.reputation, searchCap: spec.searchCap,
         outDir, log, meta,
       });
       writeFileSync(summaryPath, JSON.stringify(summary, null, 2));
