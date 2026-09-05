@@ -3,6 +3,7 @@
 // loop kills one child instead of the sweep, and so a failing artifact can be
 // re-scored by hand:  node src/score.js art.html assertions.json fnName
 import { readFileSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
 import { JSDOM, VirtualConsole } from 'jsdom';
 
 /**
@@ -77,7 +78,10 @@ export function scoreArtifact(html, assertions, fnName) {
 const normNum = (v) => { const n = Number(v); return Number.isFinite(n) ? n : String(v).trim(); };
 const brief = (v) => (v == null ? null : String(v).slice(0, 40));
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Compare as URLs, not by string-prefixing `file://`: on Windows argv[1] is
+// `C:\...\score.js`, which never equals `file:///C:/.../score.js`, so the
+// scorer silently never ran and every beat scored 0 with "no result line".
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const [htmlPath, assertPath, fnName] = process.argv.slice(2);
   const res = scoreArtifact(readFileSync(htmlPath, 'utf8'), JSON.parse(readFileSync(assertPath, 'utf8')), fnName);
   // Sentinel-prefixed single line. Belt and braces: even if something still
