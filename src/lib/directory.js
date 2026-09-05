@@ -4,8 +4,16 @@
 import conference from '../scenarios/conference.js';
 import lab from '../scenarios/lab-dashboard.js';
 import trip from '../scenarios/trip-planner.js';
+import makePayables from '../scenarios/payables.js';
 
-export const SCENARIOS = { conference, 'lab-dashboard': lab, 'trip-planner': trip };
+// The payables cells are one generated scenario at three integration levels
+// and two conflict conditions; their ids are all nine characters so the
+// directory stream below is the same in every cell of a seed.
+const PAYABLES = Object.fromEntries(
+  [1, 2, 4].flatMap((L) => [0, 1].map((M) => { const sc = makePayables({ L, M }); return [sc.id, sc]; })),
+);
+
+export const SCENARIOS = { conference, 'lab-dashboard': lab, 'trip-planner': trip, ...PAYABLES };
 
 // Role vocabulary. Near-miss and noise cards draw from the same terms on
 // purpose: a directory whose distractors are obviously irrelevant tests nothing.
@@ -61,18 +69,28 @@ function shuffle(arr, rand) {
 
 /**
  * Build the directory for one episode.
- * @param {{scenario:string, instance:string, E:number, seed:number}} opts
+ * @param {{scenario:string, instance:string, E:number, seed:number, inst?:object}} opts
+ *   `inst` is the instance object itself, for scenarios that generate one per
+ *   seed instead of shipping a static `instances` map.
  */
 export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', dirSize = 100,
-  reputation = 'off' }) {
+  reputation = 'off', inst: instGiven = null }) {
   const sc = SCENARIOS[scenario];
-  const inst = sc.instances[instance];
+  const inst = instGiven || sc.instances[instance];
   const rand = rng(seed * 7919 + scenario.length * 131 + instance.charCodeAt(0));
   const cards = [];
   const vetted = profile === 'vetted' || profile === 'realistic';
   const relational = profile === 'relational' || profile === 'realistic';
 
-  const holders = [...new Set(inst.facts.map((f) => f.holder))];
+  // A generated instance lists its holders in sorted order rather than in the
+  // order the facts happen to mention them: that order depends on L, and every
+  // draw below consumes the same RNG stream, so first-seen order would give
+  // each cell of a seed different filler names and a different card order.
+  // The hand-written scenarios keep first-seen order so their directories do
+  // not move.
+  const holders = inst.holderRoles
+    ? Object.keys(inst.holderRoles).sort()
+    : [...new Set(inst.facts.map((f) => f.holder))];
 
   // The roster split is computed BEFORE the cards, because under `vetted` the
   // distractors have to know which holders end up outside. In the `bare`
@@ -102,7 +120,9 @@ export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', 
   }
 
   for (const h of holders) {
-    const role = HOLDER_ROLE[h];
+    // A generated instance names its own holders (records desks whose tags
+    // say which orders they keep); the hand-written scenarios use the table.
+    const role = inst.holderRoles?.[h] || HOLDER_ROLE[h];
     const inRoster = insideNeeded.includes(`hold-${h}`);
     cards.push({
       id: `hold-${h}`, name: role.name, tags: role.tags, kind: 'payload', holder: h,
@@ -130,7 +150,11 @@ export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', 
   // discovery cost even if one existed. On a real open board most of what a
   // relevant query returns is people who merely sound relevant, and their
   // number grows with the board.
-  const scenarioVocab = [...new Set(cards.filter((c) => c.kind === 'payload').flatMap((c) => c.tags))];
+  // Sorted for generated scenarios for the same reason as the holder list: the
+  // vocabulary is shuffled against the shared stream, so its input order must
+  // not depend on which desk a fact happens to sit on.
+  const vocabSeen = [...new Set(cards.filter((c) => c.kind === 'payload').flatMap((c) => c.tags))];
+  const scenarioVocab = inst.holderRoles ? vocabSeen.sort() : vocabSeen;
   let n = 0;
   while (cards.length < dirSize) {
     n++;

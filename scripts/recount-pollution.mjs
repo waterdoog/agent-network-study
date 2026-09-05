@@ -17,9 +17,18 @@ const BEAT_INST = { T1: 'A', T2: 'A', T3: 'B', T4: 'B' };
 const reworked = (facts, rw) => facts.map((f) => (rw?.factOverrides?.[f.id] ? { ...f, ...rw.factOverrides[f.id] } : f));
 
 let changed = 0, same = 0, invTotal = 0;
+const skipped = new Set();
 for (const ep of readdirSync(ROOT).filter((d) => existsSync(join(ROOT, d, 'summary.json')))) {
   const sp = join(ROOT, ep, 'summary.json');
   const sum = JSON.parse(readFileSync(sp, 'utf8'));
+  // A generated scenario derives its instance from the seed and plants no
+  // distractors, so there is no static instance to rebuild the directory from
+  // and nothing to recount. Noted once per scenario, not once per episode.
+  const sc = SCENARIOS[sum.scenario];
+  if (!sc || sc.generated || !sc.instances) {
+    if (!skipped.has(sum.scenario)) { skipped.add(sum.scenario); console.log(`  skip ${sum.scenario}: generated scenario, no static instances to recount against`); }
+    continue;
+  }
   const events = readFileSync(join(ROOT, ep, 'events.jsonl'), 'utf8')
     .split('\n').filter(Boolean).map((l) => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean);
 
@@ -28,7 +37,7 @@ for (const ep of readdirSync(ROOT).filter((d) => existsSync(join(ROOT, d, 'summa
     const hp = join(ROOT, ep, `${b.beat}.html`);
     if (!existsSync(hp)) continue;
     const instKey = BEAT_INST[b.beat];
-    const base = SCENARIOS[sum.scenario].instances[instKey];
+    const base = sc.instances[instKey];
     const isRework = b.mode === 'rework';
     const inst = isRework ? { ...base, facts: reworked(base.facts, base.rework) } : base;
 
