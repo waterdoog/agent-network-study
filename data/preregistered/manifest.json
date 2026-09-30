@@ -1,0 +1,159 @@
+{
+ "format_version": 1,
+ "snapshot_date": "2026-10-01",
+ "description": "Records of the pre-registered Studies 5-7 of the AAMAS 2027 manuscript (harness commits d090a5c and 3408758).",
+ "archives": [
+  {
+   "archive": "data/preregistered/az-narrow.tar.gz",
+   "run_directories": [
+    "runs/az-narrow",
+    "runs/az-narrow.log"
+   ],
+   "role": "Study 5: A-D, Cr, Dr at E = 0, conditions (2,4) and (3,8)",
+   "file_count": 901,
+   "uncompressed_bytes": 9495498,
+   "archive_bytes": 1643985,
+   "sha256": "6cf60654fbc4a590ae7da700565f61c620734ed444a3b2d4615dd71ffcf8a599",
+   "episode_summaries": 180,
+   "models": [
+    "azure:DeepSeek-V4-Flash"
+   ],
+   "configurations": [
+    "A",
+    "B",
+    "C",
+    "Cr",
+    "D",
+    "Dr"
+   ],
+   "scenarios": [
+    "conf-D2-I4",
+    "conf-D3-I8",
+    "lab-D2-I4",
+    "lab-D3-I8",
+    "trip-D2-I4",
+    "trip-D3-I8"
+   ],
+   "seeds": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "external_fraction": [
+    0
+   ],
+   "llm_calls_by_serving_deployment": {
+    "azure:DeepSeek-V4-Flash": 5938
+   }
+  },
+  {
+   "archive": "data/preregistered/az-reach.tar.gz",
+   "run_directories": [
+    "runs/az-reach",
+    "runs/az-reach.log"
+   ],
+   "role": "Study 6: A-D at E in {0.3, 0.7}, condition (2,4); E = 0 is az-narrow",
+   "file_count": 593,
+   "uncompressed_bytes": 6074018,
+   "archive_bytes": 1059995,
+   "sha256": "77aeb2b00e50bdccedce47b69d045af00b2e49987402ea8f45d63cbf796d6569",
+   "episode_summaries": 120,
+   "models": [
+    "azure:DeepSeek-V4-Flash"
+   ],
+   "configurations": [
+    "A",
+    "B",
+    "C",
+    "D"
+   ],
+   "scenarios": [
+    "conf-D2-I4",
+    "lab-D2-I4",
+    "trip-D2-I4"
+   ],
+   "seeds": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "external_fraction": [
+    0.3,
+    0.7
+   ],
+   "llm_calls_by_serving_deployment": {
+    "azure:DeepSeek-V4-Flash": 3846
+   }
+  },
+  {
+   "archive": "data/preregistered/az-access.tar.gz",
+   "run_directories": [
+    "runs/az-access",
+    "runs/az-access.log"
+   ],
+   "role": "Study 7: Ab, Cb at E = 0, conditions (2,4) and (3,8); A-D are az-narrow",
+   "file_count": 302,
+   "uncompressed_bytes": 3558240,
+   "archive_bytes": 611701,
+   "sha256": "8dcb247baef9ec0335907e2aad3d58f6d91431d3986d9caa4f486c83b26e7654",
+   "episode_summaries": 60,
+   "models": [
+    "azure:DeepSeek-V4-Flash"
+   ],
+   "configurations": [
+    "Ab",
+    "Cb"
+   ],
+   "scenarios": [
+    "conf-D2-I4",
+    "conf-D3-I8",
+    "lab-D2-I4",
+    "lab-D3-I8",
+    "trip-D2-I4",
+    "trip-D3-I8"
+   ],
+   "seeds": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "external_fraction": [
+    0
+   ],
+   "llm_calls_by_serving_deployment": {
+    "azure:DeepSeek-V4-Flash": 2307
+   }
+  },
+  {
+   "archive": "data/preregistered/set-aside.tar.gz",
+   "run_directories": [
+    "runs/az-smoke",
+    "runs/az-access-smoke",
+    "runs/az-narrow-interrupted",
+    "runs/az-reach-interrupted",
+    "runs/az-narrow-technical-fail",
+    "runs/az-reach-technical-fail"
+   ],
+   "role": "Smoke tests, episodes cut off by a session restart, and technical failures rerun once under the pre-registered rule; not analysed",
+   "file_count": 55,
+   "uncompressed_bytes": 502499,
+   "archive_bytes": 75678,
+   "sha256": "404306ef1cb2cc0e420b536f96e46ec1058c45e0de8142475f716cb5c9d47fac",
+   "episode_summaries": 7,
+   "models": [],
+   "configurations": [],
+   "scenarios": [],
+   "seeds": [],
+   "external_fraction": [],
+   "llm_calls_by_serving_deployment": {
+    "azure:DeepSeek-V4-Flash": 544
+   }
+  }
+ ]
+}

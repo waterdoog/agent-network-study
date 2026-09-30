@@ -1,0 +1,93 @@
+{
+  "format_version": 1,
+  "snapshot_date": "2026-09-06",
+  "source_revision": "72c3e6d6fd97fc8753ae936fbfe89ff53a27002b",
+  "pull_request": "https://github.com/waterdoog/agent-network-study/pull/2",
+  "total_files": 3341,
+  "total_uncompressed_bytes": 31997465,
+  "total_archive_bytes": 5374806,
+  "completed_run_episodes": 668,
+  "superseded_failure_records": 1,
+  "archives": [
+    {
+      "archive": "data/raw/knobs-main.tar.gz",
+      "run_directory": "runs/knobs-main",
+      "role": "completed_run",
+      "file_count": 2682,
+      "uncompressed_bytes": 24079094,
+      "archive_bytes": 4064052,
+      "sha256": "e3e4769f14ab4bd93406d07aaca1306800bc4c30db766f3b8ecdc28286581cf5",
+      "planned_episodes": 540,
+      "episode_summaries": 540,
+      "t1_html_artifacts": 528,
+      "models": [
+        "deepseek/deepseek-v4-flash"
+      ],
+      "console_log": "runs/knobs-main.log"
+    },
+    {
+      "archive": "data/raw/knobs-pilot.tar.gz",
+      "run_directory": "runs/knobs-pilot",
+      "role": "completed_run",
+      "file_count": 245,
+      "uncompressed_bytes": 2410511,
+      "archive_bytes": 408194,
+      "sha256": "29f05420d2e0d401e5429a0807c63675a2a3405aa9b4ca54ac62f02d9dcd0960",
+      "planned_episodes": 48,
+      "episode_summaries": 48,
+      "t1_html_artifacts": 48,
+      "models": [
+        "deepseek/deepseek-v4-flash"
+      ],
+      "console_log": "runs/knobs-pilot.log"
+    },
+    {
+      "archive": "data/raw/pay-pilot.tar.gz",
+      "run_directory": "runs/pay-pilot",
+      "role": "completed_run",
+      "file_count": 206,
+      "uncompressed_bytes": 2773935,
+      "archive_bytes": 452171,
+      "sha256": "c4ea54ca9e8708c6d8eb2e0257963ec5b96e5d9b1770ad9ec4aba28e75979734",
+      "planned_episodes": 40,
+      "episode_summaries": 40,
+      "t1_html_artifacts": 40,
+      "models": [
+        "deepseek/deepseek-v4-flash"
+      ],
+      "console_log": "runs/pay-pilot.log"
+    },
+    {
+      "archive": "data/raw/pay-pilot-m1.tar.gz",
+      "run_directory": "runs/pay-pilot-m1",
+      "role": "completed_run",
+      "file_count": 205,
+      "uncompressed_bytes": 2710587,
+      "archive_bytes": 445769,
+      "sha256": "bbfa7472fec97df668671b52963a680268bc603e63ecf49575a57d0cfd12acd5",
+      "planned_episodes": 40,
+      "episode_summaries": 40,
+      "t1_html_artifacts": 40,
+      "models": [
+        "deepseek/deepseek-v4-flash"
+      ],
+      "console_log": "runs/pay-pilot-m1.log"
+    },
+    {
+      "archive": "data/raw/knobs-main-technical-fail-B_lab-D2-I8_s6.tar.gz",
+      "run_directory": "runs/knobs-main-technical-fail-B_lab-D2-I8_s6",
+      "role": "superseded_technical_failure",
+      "file_count": 3,
+      "uncompressed_bytes": 23338,
+      "archive_bytes": 4620,
+      "sha256": "5911bab247ea4b354e41db1745d1b6c585d5fb496230bd1b94b50c0bcb3c8266",
+      "planned_episodes": null,
+      "episode_summaries": 1,
+      "t1_html_artifacts": 0,
+      "models": [
+        "deepseek/deepseek-v4-flash"
+      ],
+      "console_log": null
+    }
+  ]
+}

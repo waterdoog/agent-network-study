@@ -39,10 +39,51 @@ export const ARMS = {
     grant: { ttlMinutes: 240 }, maxDepth: 5, requesterMemory: true,
   },
 
+  // ---- formation narrowed to directory scope ------------------------------
+  // C and D move six settings at once. Within a single beat only two of them
+  // act: which cards are visible, and whether a responder remembers the
+  // requester's earlier questions. sharedWorkspace is declared but read nowhere,
+  // namespace persistence only matters between beats, no grant was ever refused
+  // and no responder ever delegated. Cr and Dr keep the roster and set every
+  // other formation setting to its open value, so A-Cr and B-Dr isolate
+  // directory scope, and C-Cr and D-Dr isolate responder memory.
+  Cr: {
+    id: 'Cr', label: 'roster only + sandbox',
+    directoryScope: 'roster', rosterSize: 20, access: 'sandbox',
+    namespace: 'per-contact', responderMemory: false, sharedWorkspace: false,
+    grant: { maxUses: 1, ttlMinutes: 240 }, maxDepth: 0, requesterMemory: true,
+  },
+  Dr: {
+    id: 'Dr', label: 'roster only + store',
+    directoryScope: 'roster', rosterSize: 20, access: 'store',
+    namespace: 'per-contact', responderMemory: false, sharedWorkspace: false,
+    grant: { maxUses: 1, ttlMinutes: 240 }, maxDepth: 0, requesterMemory: true,
+  },
+
+  // ---- access taken apart -------------------------------------------------
+  // B and D differ from A and C in two ways at once: the requester can list
+  // and read a store verbatim, and responders are no longer held to the
+  // sandbox rule ("answer the specific question and nothing else"). Ab and Cb
+  // keep A's and C's formation settings and drop only the sandbox rule: no
+  // store tools, but a responder may hand over everything relevant in one
+  // answer. Ab-A and Cb-C measure the rule; B-Ab and D-Cb measure reading.
+  Ab: {
+    id: 'Ab', label: 'open + unrestricted answers',
+    directoryScope: 'all', rosterSize: null, access: 'answer',
+    namespace: 'per-contact', responderMemory: false, sharedWorkspace: false,
+    grant: { maxUses: 1, ttlMinutes: 240 }, maxDepth: 0, requesterMemory: true,
+  },
+  Cb: {
+    id: 'Cb', label: 'bounded + unrestricted answers',
+    directoryScope: 'roster', rosterSize: 20, access: 'answer',
+    namespace: 'persistent', responderMemory: true, sharedWorkspace: true,
+    grant: { ttlMinutes: 240 }, maxDepth: 5, requesterMemory: true,
+  },
+
   // ---- legacy aliases ------------------------------------------------------
   public: {
     id: 'public',
-    access: 'store',                // what the earlier runs actually did
+    access: 'store',                // loads old result directories; the earliest runs (matched-E0) had no list or read tools
     directoryScope: 'all',          // sees all 100 cards
     rosterSize: null,
     namespace: 'per-contact',       // discarded at session close

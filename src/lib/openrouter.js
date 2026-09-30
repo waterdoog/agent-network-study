@@ -67,6 +67,10 @@ export async function chat(req) {
         ms: Date.now() - started,
         fin: choice.finish_reason,
         tc: choice.message?.tool_calls?.length || 0,
+        // Through a gateway, the deployment that actually answered and what it
+        // charged; null when the endpoint sends no such headers (OpenRouter).
+        served: res.headers.get('x-rmg-served-by'),
+        cost_microusd: Number(res.headers.get('x-rmg-cost-microusd')) || null,
       });
 
       return {
