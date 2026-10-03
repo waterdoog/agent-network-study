@@ -4,27 +4,30 @@
 import conference from '../scenarios/conference.js';
 import lab from '../scenarios/lab-dashboard.js';
 import trip from '../scenarios/trip-planner.js';
+import makePayables from '../scenarios/payables.js';
+import makeKnobs, { KNOB_BASES, KNOB_DS, KNOB_IS } from '../scenarios/knobs.js';
+// Role vocabulary for the hand-written holders. It lives in its own module so
+// the knob generator can read it without importing this file back.
+import { HOLDER_ROLE } from './roles.js';
 
-export const SCENARIOS = { conference, 'lab-dashboard': lab, 'trip-planner': trip };
+// The payables cells are one generated scenario at three integration levels
+// and two conflict conditions; their ids are all nine characters so the
+// directory stream below is the same in every cell of a seed.
+const PAYABLES = Object.fromEntries(
+  [1, 2, 4].flatMap((L) => [0, 1].map((M) => { const sc = makePayables({ L, M }); return [sc.id, sc]; })),
+);
 
-// Role vocabulary. Near-miss and noise cards draw from the same terms on
-// purpose: a directory whose distractors are obviously irrelevant tests nothing.
-const HOLDER_ROLE = {
-  venue:   { name: 'Venue Operations',      tags: ['venue', 'capacity', 'facilities', 'events'] },
-  program: { name: 'Programme Committee',   tags: ['programme', 'tracks', 'schedule', 'events'] },
-  finance: { name: 'Registration Finance',  tags: ['pricing', 'fees', 'finance', 'billing'] },
-  sales:   { name: 'Group Sales',           tags: ['pricing', 'discounts', 'groups', 'sales'] },
-  access:  { name: 'Accessibility Lead',    tags: ['accessibility', 'captioning', 'inclusion'] },
-  visa:    { name: 'Travel and Visa Desk',  tags: ['visa', 'travel', 'letters', 'logistics'] },
-  ops:     { name: 'Run Operations',        tags: ['runs', 'operations', 'experiments'] },
-  data:    { name: 'Measurement Data',      tags: ['data', 'measurements', 'datasets'] },
-  metrics: { name: 'Metric Definitions',    tags: ['metrics', 'definitions', 'evaluation'] },
-  thresh:  { name: 'Threshold Policy',      tags: ['thresholds', 'cutoffs', 'policy', 'metrics'] },
-  destin:  { name: 'Destination Research',  tags: ['destination', 'itinerary', 'travel'] },
-  transit: { name: 'Transit Pricing',       tags: ['transit', 'pricing', 'passes', 'travel'] },
-  tickets: { name: 'Ticketing and Rates',   tags: ['tickets', 'pricing', 'discounts', 'family'] },
-  hours:   { name: 'Opening Hours Desk',    tags: ['hours', 'closures', 'seasonal', 'venues'] },
-};
+// The dispersion x interference cells: each hidden-profile base at three
+// dispersions and three interference levels, 27 in all. Ids of one base share
+// a length for the same reason the payables ids do.
+const KNOBS = Object.fromEntries(
+  Object.keys(KNOB_BASES).flatMap((base) => KNOB_DS.flatMap((d) => KNOB_IS.map((i) => {
+    const sc = makeKnobs({ base, d, i });
+    return [sc.id, sc];
+  }))),
+);
+
+export const SCENARIOS = { conference, 'lab-dashboard': lab, 'trip-planner': trip, ...PAYABLES, ...KNOBS };
 
 const BUILDERS = [
   { id: 'build-html',  name: 'HTML Structure Builder', tags: ['html', 'markup', 'structure', 'frontend'] },
@@ -61,18 +64,28 @@ function shuffle(arr, rand) {
 
 /**
  * Build the directory for one episode.
- * @param {{scenario:string, instance:string, E:number, seed:number}} opts
+ * @param {{scenario:string, instance:string, E:number, seed:number, inst?:object}} opts
+ *   `inst` is the instance object itself, for scenarios that generate one per
+ *   seed instead of shipping a static `instances` map.
  */
 export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', dirSize = 100,
-  reputation = 'off' }) {
+  reputation = 'off', inst: instGiven = null }) {
   const sc = SCENARIOS[scenario];
-  const inst = sc.instances[instance];
+  const inst = instGiven || sc.instances[instance];
   const rand = rng(seed * 7919 + scenario.length * 131 + instance.charCodeAt(0));
   const cards = [];
   const vetted = profile === 'vetted' || profile === 'realistic';
   const relational = profile === 'relational' || profile === 'realistic';
 
-  const holders = [...new Set(inst.facts.map((f) => f.holder))];
+  // A generated instance lists its holders in sorted order rather than in the
+  // order the facts happen to mention them: that order depends on L, and every
+  // draw below consumes the same RNG stream, so first-seen order would give
+  // each cell of a seed different filler names and a different card order.
+  // The hand-written scenarios keep first-seen order so their directories do
+  // not move.
+  const holders = inst.holderRoles
+    ? Object.keys(inst.holderRoles).sort()
+    : [...new Set(inst.facts.map((f) => f.holder))];
 
   // The roster split is computed BEFORE the cards, because under `vetted` the
   // distractors have to know which holders end up outside. In the `bare`
@@ -102,7 +115,9 @@ export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', 
   }
 
   for (const h of holders) {
-    const role = HOLDER_ROLE[h];
+    // A generated instance names its own holders (records desks whose tags
+    // say which orders they keep); the hand-written scenarios use the table.
+    const role = inst.holderRoles?.[h] || HOLDER_ROLE[h];
     const inRoster = insideNeeded.includes(`hold-${h}`);
     cards.push({
       id: `hold-${h}`, name: role.name, tags: role.tags, kind: 'payload', holder: h,
@@ -130,7 +145,11 @@ export function buildDirectory({ scenario, instance, E, seed, profile = 'bare', 
   // discovery cost even if one existed. On a real open board most of what a
   // relevant query returns is people who merely sound relevant, and their
   // number grows with the board.
-  const scenarioVocab = [...new Set(cards.filter((c) => c.kind === 'payload').flatMap((c) => c.tags))];
+  // Sorted for generated scenarios for the same reason as the holder list: the
+  // vocabulary is shuffled against the shared stream, so its input order must
+  // not depend on which desk a fact happens to sit on.
+  const vocabSeen = [...new Set(cards.filter((c) => c.kind === 'payload').flatMap((c) => c.tags))];
+  const scenarioVocab = inst.holderRoles ? vocabSeen.sort() : vocabSeen;
   let n = 0;
   while (cards.length < dirSize) {
     n++;

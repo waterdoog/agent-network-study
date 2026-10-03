@@ -57,6 +57,13 @@ facts, which is what lets scoring be exact match rather than judgement.
 
 Each episode runs four beats on one timeline: cold build → rework → warm build → warm rework.
 
+## Raw records for the follow-up experiments
+
+The completed Knobs sweep and pilot, both Payables pilots, and the preserved
+technical failure are available in [data/raw](data/raw/README.md), with
+SHA-256 checksums, extraction instructions, and commands to reproduce the
+analysis from recorded episodes without making model API calls.
+
 ## Reproduce
 
 ```bash
