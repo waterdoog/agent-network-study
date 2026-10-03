@@ -18,7 +18,7 @@
 //               card tells you whether its author actually knows.
 //
 // Reality sits between them. Reporting both is the point.
-import { buildDirectory, searchCards } from './lib/directory.js';
+import { buildDirectory, searchCards, SCENARIOS } from './lib/directory.js';
 
 const QUERIES = {
   conference: ['registration pricing group discount', 'venue capacity accessibility',
@@ -54,6 +54,13 @@ const survives = (regime, k, m, holdersInMatch) =>
                          : Math.min(1, k / m);
 
 const scenario = process.argv[2] || 'conference';
+// A generated scenario has no static instance to build a directory from, and
+// its desks are found by order number rather than by the vocabulary this
+// script probes; the retrieval question is not the one it asks.
+if (!SCENARIOS[scenario] || SCENARIOS[scenario].generated || !SCENARIOS[scenario].instances) {
+  console.log(`# retrieval at scale — ${scenario}: skipped, generated scenario with no static instances`);
+  process.exit(0);
+}
 const CAPS = [5, 10, 20, 40, 80];
 const SIZES = [50, 100, 200, 400, 800, 1600, 3200, 12800, 51200, 204800, 1e6, 1e7];
 
