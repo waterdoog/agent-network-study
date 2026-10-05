@@ -1,0 +1,45 @@
+{
+  "run": "m2-smoke",
+  "preregistration": "c420bf94fbd384421f7117076297c6fe07aea590",
+  "harness": "3408758ecace59dab0b384a0eb81b2adb4fd18df",
+  "command": [
+    "node",
+    "src/run.js",
+    "--run",
+    "m2-smoke",
+    "--arms",
+    "A,D",
+    "--scenarios",
+    "conf-D2-I4",
+    "--E",
+    "0",
+    "--seeds",
+    "2",
+    "--seed-start",
+    "1",
+    "--beats",
+    "1",
+    "--order-seed",
+    "2",
+    "--par",
+    "2"
+  ],
+  "started_at": "2026-10-05T16:00:41.473340+00:00",
+  "expected": 4,
+  "pid": 33896,
+  "finished_at": "2026-10-05T16:02:46.520624+00:00",
+  "returncode": 0,
+  "operational_status": {
+    "run": "m2-smoke",
+    "summaries": 4,
+    "technical": 0,
+    "crashed": 0,
+    "llm_calls": 76,
+    "missing_served": 0,
+    "wrong_served": 0,
+    "http_statuses": {},
+    "served": {
+      "azure:gpt-4.1-mini": 76
+    }
+  }
+}

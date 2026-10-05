@@ -1,0 +1,45 @@
+{
+  "run": "m2-e7",
+  "stage": "technical-retry",
+  "preregistration": "c420bf94fbd384421f7117076297c6fe07aea590",
+  "harness": "3408758ecace59dab0b384a0eb81b2adb4fd18df",
+  "command": [
+    "node",
+    "src/run.js",
+    "--run",
+    "m2-e7",
+    "--arms",
+    "A,B,C,D",
+    "--scenarios",
+    "conf-D2-I4,lab-D2-I4,trip-D2-I4",
+    "--E",
+    "0.7",
+    "--seeds",
+    "5",
+    "--seed-start",
+    "4",
+    "--beats",
+    "1",
+    "--order-seed",
+    "2",
+    "--par",
+    "2"
+  ],
+  "started_at": "2026-10-05T20:24:48.877304+00:00",
+  "pid": 38027,
+  "finished_at": "2026-10-05T20:29:09.242858+00:00",
+  "returncode": 0,
+  "operational_status": {
+    "run": "m2-e7",
+    "summaries": 60,
+    "technical": 0,
+    "crashed": 0,
+    "llm_calls": 1633,
+    "missing_served": 0,
+    "wrong_served": 0,
+    "http_statuses": {},
+    "served": {
+      "azure:gpt-4.1-mini": 1633
+    }
+  }
+}

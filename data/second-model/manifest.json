@@ -1,0 +1,263 @@
+{
+  "format_version": 1,
+  "snapshot_date": "2026-10-05",
+  "harness_commit": "3408758ecace59dab0b384a0eb81b2adb4fd18df",
+  "preregistration_commit": "c420bf94fbd384421f7117076297c6fe07aea590",
+  "model": "azure:gpt-4.1-mini",
+  "gateway": "https://agentport.world/v1",
+  "description": "Second-model preregistered replication: 270 planned episodes, plus separate smoke and technical attempts.",
+  "archives": [
+    {
+      "archive": "data/second-model/m2-e0.tar.gz",
+      "run_directories": [
+        "runs/m2-e0",
+        "runs/m2-e0.log"
+      ],
+      "role": "confirmatory",
+      "file_count": 867,
+      "uncompressed_bytes": 5530323,
+      "archive_bytes": 776315,
+      "sha256": "eb43e1dff3a803afeadef83d947b93483c1783c44f0f89c9582efa646e0cec92",
+      "episode_summaries": 180,
+      "models": [
+        "azure:gpt-4.1-mini"
+      ],
+      "configurations": [
+        "A",
+        "Ab",
+        "B",
+        "C",
+        "Cb",
+        "D"
+      ],
+      "scenarios": [
+        "conf-D2-I4",
+        "conf-D3-I8",
+        "lab-D2-I4",
+        "lab-D3-I8",
+        "trip-D2-I4",
+        "trip-D3-I8"
+      ],
+      "seeds": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "external_fraction": [
+        0
+      ],
+      "technical_failures": 22,
+      "model_failures": 0,
+      "llm_calls_by_serving_deployment": {
+        "azure:gpt-4.1-mini": 4210
+      },
+      "response_header_cost_microusd": 1659909,
+      "calls_without_cost_header": 0,
+      "technical_retry_episodes": 92
+    },
+    {
+      "archive": "data/second-model/m2-dir.tar.gz",
+      "run_directories": [
+        "runs/m2-dir",
+        "runs/m2-dir.log"
+      ],
+      "role": "confirmatory",
+      "file_count": 154,
+      "uncompressed_bytes": 900910,
+      "archive_bytes": 120508,
+      "sha256": "538b41705737d31cc39c9a93b45a0b79fd1275a46fba7fc462d7425d746661b9",
+      "episode_summaries": 30,
+      "models": [
+        "azure:gpt-4.1-mini"
+      ],
+      "configurations": [
+        "Cr",
+        "Dr"
+      ],
+      "scenarios": [
+        "conf-D2-I4",
+        "lab-D2-I4",
+        "trip-D2-I4"
+      ],
+      "seeds": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "external_fraction": [
+        0
+      ],
+      "technical_failures": 0,
+      "model_failures": 0,
+      "llm_calls_by_serving_deployment": {
+        "azure:gpt-4.1-mini": 727
+      },
+      "response_header_cost_microusd": 304914,
+      "calls_without_cost_header": 0,
+      "technical_retry_episodes": 0
+    },
+    {
+      "archive": "data/second-model/m2-e7.tar.gz",
+      "run_directories": [
+        "runs/m2-e7",
+        "runs/m2-e7.log"
+      ],
+      "role": "confirmatory",
+      "file_count": 305,
+      "uncompressed_bytes": 1906103,
+      "archive_bytes": 264823,
+      "sha256": "fcc010cc65ac4e7c07d62a282f35d680dc5cb5473303950b5ef9da0648b6d8e3",
+      "episode_summaries": 60,
+      "models": [
+        "azure:gpt-4.1-mini"
+      ],
+      "configurations": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "scenarios": [
+        "conf-D2-I4",
+        "lab-D2-I4",
+        "trip-D2-I4"
+      ],
+      "seeds": [
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "external_fraction": [
+        0.7
+      ],
+      "technical_failures": 0,
+      "model_failures": 0,
+      "llm_calls_by_serving_deployment": {
+        "azure:gpt-4.1-mini": 1633
+      },
+      "response_header_cost_microusd": 613705,
+      "calls_without_cost_header": 0,
+      "technical_retry_episodes": 5
+    },
+    {
+      "archive": "data/second-model/set-aside.tar.gz",
+      "run_directories": [
+        "runs/m2-smoke",
+        "runs/m2-smoke.log",
+        "runs/m2-e0-technical-fail",
+        "runs/m2-e7-technical-fail"
+      ],
+      "role": "smoke-and-technical-first-attempts",
+      "file_count": 323,
+      "uncompressed_bytes": 761368,
+      "archive_bytes": 77447,
+      "sha256": "4cfa6eee470c0b701dea972c8b7c38255cb8ee09772b66a1a058394b0e422e59",
+      "episode_summaries": 101,
+      "models": [
+        "azure:gpt-4.1-mini"
+      ],
+      "configurations": [
+        "A",
+        "Ab",
+        "B",
+        "C",
+        "Cb",
+        "D"
+      ],
+      "scenarios": [
+        "conf-D2-I4",
+        "conf-D3-I8",
+        "lab-D2-I4",
+        "lab-D3-I8",
+        "trip-D2-I4",
+        "trip-D3-I8"
+      ],
+      "seeds": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "external_fraction": [
+        0,
+        0.7
+      ],
+      "technical_failures": 97,
+      "model_failures": 0,
+      "llm_calls_by_serving_deployment": {
+        "azure:gpt-4.1-mini": 378
+      },
+      "response_header_cost_microusd": 118487,
+      "calls_without_cost_header": 0
+    }
+  ],
+  "ledger_reconciliation": {
+    "status": "pending",
+    "ledger_url": "https://agentport.world/calls",
+    "response_header_cost_microusd": 2697015,
+    "note": "Response-header charges are retained for reconciliation. usage.json contains a legacy price estimate and is not the actual bill.",
+    "response_header_cost_usd": "2.697015",
+    "includes": "All successful llm events in final records, smoke and archived first technical attempts",
+    "limitation": "Failed or timed-out requests may have incurred ledger charges without a successful response header; this is not a reconciled total bill."
+  },
+  "experimental_code_modified": false,
+  "experiment_and_episode_request_headers": false,
+  "execution_summary": {
+    "m2-e0": {
+      "planned_episodes": 180,
+      "summary_records": 180,
+      "initial_technical_failures": 92,
+      "episodes_rerun_once": 92,
+      "final_technical_failures": 22,
+      "final_technical_episode_ids": [
+        "A_lab-D2-I4_E0_k1_s7_b1",
+        "A_trip-D2-I4_E0_k1_s8_b1",
+        "Ab_conf-D2-I4_E0_k1_s5_b1",
+        "Ab_conf-D3-I8_E0_k1_s6_b1",
+        "Ab_conf-D3-I8_E0_k1_s7_b1",
+        "Ab_lab-D2-I4_E0_k1_s5_b1",
+        "Ab_lab-D2-I4_E0_k1_s6_b1",
+        "B_conf-D2-I4_E0_k1_s6_b1",
+        "B_lab-D2-I4_E0_k1_s5_b1",
+        "B_lab-D2-I4_E0_k1_s7_b1",
+        "B_trip-D2-I4_E0_k1_s6_b1",
+        "C_lab-D2-I4_E0_k1_s5_b1",
+        "C_trip-D2-I4_E0_k1_s4_b1",
+        "C_trip-D2-I4_E0_k1_s7_b1",
+        "C_trip-D3-I8_E0_k1_s5_b1",
+        "Cb_conf-D2-I4_E0_k1_s5_b1",
+        "Cb_conf-D2-I4_E0_k1_s6_b1",
+        "Cb_trip-D3-I8_E0_k1_s5_b1",
+        "D_conf-D2-I4_E0_k1_s4_b1",
+        "D_lab-D3-I8_E0_k1_s6_b1",
+        "D_trip-D2-I4_E0_k1_s7_b1",
+        "D_trip-D3-I8_E0_k1_s7_b1"
+      ]
+    },
+    "m2-dir": {
+      "planned_episodes": 30,
+      "summary_records": 30,
+      "initial_technical_failures": 0,
+      "episodes_rerun_once": 0,
+      "final_technical_failures": 0,
+      "final_technical_episode_ids": []
+    },
+    "m2-e7": {
+      "planned_episodes": 60,
+      "summary_records": 60,
+      "initial_technical_failures": 5,
+      "episodes_rerun_once": 5,
+      "final_technical_failures": 0,
+      "final_technical_episode_ids": []
+    }
+  }
+}

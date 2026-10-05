@@ -1,0 +1,54 @@
+{
+  "started_at": "2026-10-05T16:06:12.259552+00:00",
+  "finished_at": "2026-10-05T20:29:09.266530+00:00",
+  "all_270_summaries": true,
+  "runs": [
+    {
+      "expected": 180,
+      "technical_retry_episodes": 92,
+      "run": "m2-e0",
+      "summaries": 180,
+      "technical": 22,
+      "crashed": 0,
+      "llm_calls": 4210,
+      "missing_served": 0,
+      "wrong_served": 0,
+      "http_statuses": {
+        "non-http": 24
+      },
+      "served": {
+        "azure:gpt-4.1-mini": 4210
+      }
+    },
+    {
+      "expected": 30,
+      "technical_retry_episodes": 0,
+      "run": "m2-dir",
+      "summaries": 30,
+      "technical": 0,
+      "crashed": 0,
+      "llm_calls": 727,
+      "missing_served": 0,
+      "wrong_served": 0,
+      "http_statuses": {},
+      "served": {
+        "azure:gpt-4.1-mini": 727
+      }
+    },
+    {
+      "expected": 60,
+      "technical_retry_episodes": 5,
+      "run": "m2-e7",
+      "summaries": 60,
+      "technical": 0,
+      "crashed": 0,
+      "llm_calls": 1633,
+      "missing_served": 0,
+      "wrong_served": 0,
+      "http_statuses": {},
+      "served": {
+        "azure:gpt-4.1-mini": 1633
+      }
+    }
+  ]
+}

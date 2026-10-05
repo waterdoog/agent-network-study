@@ -1,0 +1,8 @@
+{
+  "paused_at": "2026-10-05T17:23:16.898588+00:00",
+  "pid": 35252,
+  "signal": "SIGSTOP",
+  "reason": "Widespread first-pass technical failures; investigate before consuming remaining single retries",
+  "resumed_at": "2026-10-05T17:32:20.828269+00:00",
+  "resume_basis": "Python and default Node fetch both returned HTTP 200 for gateway models endpoint; same process and settings retained"
+}

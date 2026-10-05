@@ -1,0 +1,42 @@
+{
+  "timezone": "UTC",
+  "windows": [
+    {
+      "run": "m2-smoke",
+      "stage": "smoke",
+      "started_at": "2026-10-05T16:00:41.473340+00:00",
+      "finished_at": "2026-10-05T16:02:46.520624+00:00"
+    },
+    {
+      "run": "m2-e0",
+      "stage": "initial",
+      "started_at": "2026-10-05T16:06:12.259598+00:00",
+      "finished_at": "2026-10-05T16:48:47.540356+00:00"
+    },
+    {
+      "run": "m2-e0",
+      "stage": "technical-retry",
+      "started_at": "2026-10-05T16:48:47.576767+00:00",
+      "finished_at": "2026-10-05T19:46:36.661723+00:00"
+    },
+    {
+      "run": "m2-dir",
+      "stage": "initial",
+      "started_at": "2026-10-05T19:46:36.726492+00:00",
+      "finished_at": "2026-10-05T19:52:16.883075+00:00"
+    },
+    {
+      "run": "m2-e7",
+      "stage": "initial",
+      "started_at": "2026-10-05T19:52:16.894897+00:00",
+      "finished_at": "2026-10-05T20:24:48.862941+00:00"
+    },
+    {
+      "run": "m2-e7",
+      "stage": "technical-retry",
+      "started_at": "2026-10-05T20:24:48.877304+00:00",
+      "finished_at": "2026-10-05T20:29:09.242858+00:00"
+    }
+  ],
+  "reconciliation": "Filter the supplied API key and these windows in the gateway ledger; experiment and episode headers were not sent."
+}

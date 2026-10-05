@@ -1,0 +1,32 @@
+{
+  "run": "m2-e7",
+  "selected_at": "2026-10-05T20:24:48.876531+00:00",
+  "episodes": [
+    {
+      "id": "C_conf-D2-I4_E0.7_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D2-I4_E0.7_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D2-I4_E0.7_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_lab-D2-I4_E0.7_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D2-I4_E0.7_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    }
+  ],
+  "archive_completed": true
+}

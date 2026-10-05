@@ -1,0 +1,467 @@
+{
+  "run": "m2-e0",
+  "selected_at": "2026-10-05T16:48:47.570392+00:00",
+  "episodes": [
+    {
+      "id": "A_lab-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_lab-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_lab-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_lab-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_lab-D3-I8_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_trip-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_conf-D3-I8_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_conf-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_lab-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_trip-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_conf-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_trip-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_trip-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_trip-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_trip-D2-I4_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_trip-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_conf-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_lab-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_conf-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_trip-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_lab-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_trip-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D3-I8_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_conf-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_lab-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_lab-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_lab-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_lab-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_conf-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_conf-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_conf-D2-I4_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_trip-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_trip-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_lab-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_conf-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_trip-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_lab-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_trip-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_lab-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_conf-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_trip-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_conf-D3-I8_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_conf-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_trip-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_lab-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_conf-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_lab-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_conf-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_conf-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_lab-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_conf-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_trip-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D2-I4_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_lab-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_trip-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_lab-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_trip-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D3-I8_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_trip-D2-I4_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_lab-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_conf-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_lab-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_conf-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D2-I4_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_lab-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_trip-D3-I8_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_lab-D2-I4_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_trip-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_conf-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D3-I8_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_lab-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_trip-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_lab-D2-I4_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_lab-D3-I8_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "D_conf-D2-I4_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_lab-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_trip-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_trip-D2-I4_E0_k1_s5_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_conf-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "A_trip-D3-I8_E0_k1_s8_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "B_conf-D3-I8_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Ab_lab-D2-I4_E0_k1_s4_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "Cb_lab-D2-I4_E0_k1_s7_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    },
+    {
+      "id": "C_lab-D3-I8_E0_k1_s6_b1",
+      "reason": "technical_failure",
+      "had_directory": true
+    }
+  ],
+  "archive_completed": true
+}

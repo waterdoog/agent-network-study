@@ -1,0 +1,6 @@
+{
+  "pid": 37352,
+  "started_at": "2026-10-05T20:05:31.187348+00:00",
+  "state": "watching",
+  "rule": "Pause current process after failures in 3 distinct episodes observed within 90 seconds; never retry episodes itself"
+}

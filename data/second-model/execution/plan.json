@@ -1,0 +1,102 @@
+{
+  "preregistration": "c420bf94fbd384421f7117076297c6fe07aea590",
+  "harness": "3408758ecace59dab0b384a0eb81b2adb4fd18df",
+  "model": "azure:gpt-4.1-mini",
+  "gateway": "https://agentport.world/v1",
+  "smoke": {
+    "run": "m2-smoke",
+    "arms": [
+      "A",
+      "D"
+    ],
+    "scenario": "conf-D2-I4",
+    "seeds": [
+      1,
+      2
+    ],
+    "expected": 4
+  },
+  "runs": [
+    {
+      "run": "m2-e0",
+      "expected": 180,
+      "command": [
+        "node",
+        "src/run.js",
+        "--run",
+        "m2-e0",
+        "--arms",
+        "A,B,C,D,Ab,Cb",
+        "--scenarios",
+        "conf-D2-I4,lab-D2-I4,trip-D2-I4,conf-D3-I8,lab-D3-I8,trip-D3-I8",
+        "--E",
+        "0",
+        "--seeds",
+        "5",
+        "--seed-start",
+        "4",
+        "--beats",
+        "1",
+        "--order-seed",
+        "2",
+        "--par",
+        "10"
+      ]
+    },
+    {
+      "run": "m2-dir",
+      "expected": 30,
+      "command": [
+        "node",
+        "src/run.js",
+        "--run",
+        "m2-dir",
+        "--arms",
+        "Cr,Dr",
+        "--scenarios",
+        "conf-D2-I4,lab-D2-I4,trip-D2-I4",
+        "--E",
+        "0",
+        "--seeds",
+        "5",
+        "--seed-start",
+        "4",
+        "--beats",
+        "1",
+        "--order-seed",
+        "2",
+        "--par",
+        "10"
+      ]
+    },
+    {
+      "run": "m2-e7",
+      "expected": 60,
+      "command": [
+        "node",
+        "src/run.js",
+        "--run",
+        "m2-e7",
+        "--arms",
+        "A,B,C,D",
+        "--scenarios",
+        "conf-D2-I4,lab-D2-I4,trip-D2-I4",
+        "--E",
+        "0.7",
+        "--seeds",
+        "5",
+        "--seed-start",
+        "4",
+        "--beats",
+        "1",
+        "--order-seed",
+        "2",
+        "--par",
+        "10"
+      ]
+    }
+  ],
+  "technical_retry_limit": 1,
+  "technical_retry_parallelism": 2,
+  "analysis_locked_until_summaries": 270
+}

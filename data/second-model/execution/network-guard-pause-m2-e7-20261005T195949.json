@@ -1,0 +1,27 @@
+{
+  "paused_at": "2026-10-05T19:59:49.062511+00:00",
+  "pid": 37150,
+  "run": "m2-e7",
+  "signal": "SIGSTOP",
+  "reason": "Network/model-call failures in at least 3 distinct episodes within 90 seconds",
+  "affected_episode_count": 4,
+  "requires_operational_review": false,
+  "operational_status_before_resume": {
+    "run": "m2-e7",
+    "summaries": 10,
+    "technical": 3,
+    "crashed": 0,
+    "llm_calls": 317,
+    "missing_served": 0,
+    "wrong_served": 0,
+    "http_statuses": {
+      "non-http": 4
+    },
+    "served": {
+      "azure:gpt-4.1-mini": 317
+    }
+  },
+  "resume_basis": "Default Node fetch and IPv4-first Node fetch both returned HTTP 200 for read-only gateway models endpoint; model calls still require confirmation after resuming",
+  "resumed_at": "2026-10-05T20:05:31.235122+00:00",
+  "guard_pid": 37352
+}

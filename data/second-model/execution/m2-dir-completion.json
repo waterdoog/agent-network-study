@@ -1,0 +1,15 @@
+{
+  "expected": 30,
+  "technical_retry_episodes": 0,
+  "run": "m2-dir",
+  "summaries": 30,
+  "technical": 0,
+  "crashed": 0,
+  "llm_calls": 727,
+  "missing_served": 0,
+  "wrong_served": 0,
+  "http_statuses": {},
+  "served": {
+    "azure:gpt-4.1-mini": 727
+  }
+}
