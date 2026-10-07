@@ -1,0 +1,14 @@
+import {subscriptionChat} from '../../src/lib/subscription.js';
+const usage={calls:0,promptTokens:0,completionTokens:0,retries:0,failures:0};
+const events=[];
+const log={meta:{id:'transport-preflight'},event:(evt,data)=>events.push({evt,...data}),fail:(evt,e)=>events.push({evt,error:e.message})};
+const messages=[{role:'system',content:'Use only the tools supplied in the request. For this connectivity check, call echo with text "ping". Once a tool result is available, reply exactly with that result.'},{role:'user',content:'Perform the connectivity check.'}];
+const tools=[{type:'function',function:{name:'echo',description:'Return the given text.',parameters:{type:'object',properties:{text:{type:'string'}},required:['text']}}}];
+const first=await subscriptionChat({messages,tools,maxTokens:600,tag:'preflight.tool',log},{model:'gpt-6-astra',usage});
+if(first.message.tool_calls?.length!==1 || first.message.tool_calls[0].function.name!=='echo')throw new Error('Preflight did not produce the requested tool call');
+const call=first.message.tool_calls[0];
+JSON.parse(call.function.arguments);
+messages.push(first.message,{role:'tool',tool_call_id:call.id,content:'pong'});
+const second=await subscriptionChat({messages,tools,maxTokens:600,tag:'preflight.result',log},{model:'gpt-6-astra',usage});
+if(second.message.content?.trim()!=='pong')throw new Error('Preflight did not preserve the tool result');
+console.log(JSON.stringify({ok:true,calls:usage.calls,served:[...new Set(events.filter(x=>x.evt==='llm').map(x=>x.served))]}));
