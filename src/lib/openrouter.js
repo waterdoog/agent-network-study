@@ -1,6 +1,8 @@
 // One model, one client, every agent in every arm. Chat Completions over
 // OpenRouter. Retries only on transient failures; a 4xx that is not 429 is a
 // bug in our request and must surface immediately rather than be retried away.
+import { subscriptionChat } from './subscription.js';
+const SUBSCRIPTION = process.env.STUDY_TRANSPORT === 'codex-subscription';
 const BASE = process.env.OPENAI_BASE_URL || 'https://openrouter.ai/api/v1';
 const KEY = process.env.OPENAI_API_KEY;
 export const MODEL = process.env.STUDY_MODEL || 'deepseek/deepseek-v4-flash';
@@ -15,6 +17,7 @@ export const usage = { calls: 0, promptTokens: 0, completionTokens: 0, retries: 
  *          maxTokens?:number, log?:object, tag?:string}} req
  */
 export async function chat(req) {
+  if (SUBSCRIPTION) return subscriptionChat(req, { model: MODEL, usage });
   if (!KEY) throw new Error('OPENAI_API_KEY is not set');
   const model = req.model || MODEL;
   const body = {
@@ -102,6 +105,9 @@ const PRICE = {
   'z-ai/glm-4.6': { in: 0.43e-6, out: 1.75e-6 },
 };
 export function estimateCost(model = MODEL) {
+  // Subscription responses do not expose a monetary ledger. JSON writes null;
+  // the run driver labels this unknown instead of applying DeepSeek prices.
+  if (SUBSCRIPTION) return NaN;
   const p = PRICE[model] || PRICE['deepseek/deepseek-v4-flash'];
   return usage.promptTokens * p.in + usage.completionTokens * p.out;
 }

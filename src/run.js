@@ -129,6 +129,7 @@ const results = [];
 let done = 0;
 setProgress(0, episodes.length);
 const started = Date.now();
+const costLabel = () => Number.isFinite(estimateCost()) ? `$${estimateCost().toFixed(3)}` : 'cost=unknown (subscription)';
 
 async function worker(queue) {
   while (queue.length) {
@@ -161,7 +162,7 @@ async function worker(queue) {
     done++;
     if (done % 3 === 0) {
       const el = (Date.now() - started) / 1000;
-      note(`   ... ${done}/${episodes.length} episodes  ${Math.round(el)}s  $${estimateCost().toFixed(3)}  calls=${usage.calls} retries=${usage.retries} fails=${usage.failures}`);
+      note(`   ... ${done}/${episodes.length} episodes  ${Math.round(el)}s  ${costLabel()}  calls=${usage.calls} retries=${usage.retries} fails=${usage.failures}`);
     }
   }
 }
@@ -172,5 +173,5 @@ await Promise.all(Array.from({ length: Math.min(PAR, queue.length) }, () => work
 writeFileSync(join(ROOT, 'all.json'), JSON.stringify(results, null, 2));
 writeFileSync(join(ROOT, 'usage.json'), JSON.stringify({ ...usage, costUSD: estimateCost(), model: MODEL, elapsedSec: (Date.now() - started) / 1000 }, null, 2));
 note('-'.repeat(96));
-note(`done: ${results.length}/${episodes.length} episodes in ${Math.round((Date.now() - started) / 60000)} min, $${estimateCost().toFixed(3)}`);
+note(`done: ${results.length}/${episodes.length} episodes in ${Math.round((Date.now() - started) / 60000)} min, ${costLabel()}`);
 note(`results: ${ROOT}`);

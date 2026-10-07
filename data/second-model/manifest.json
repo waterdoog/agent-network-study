@@ -1,0 +1,311 @@
+{
+  "format_version": 1,
+  "created_at": "2026-10-07T05:55:25.684377+00:00",
+  "packaging_revision": "3c27c38bc9af6f80bb2734b5c762c6bd614c2f82",
+  "environment": {
+    "recorded_at": "2026-10-07T04:27:23.566020+00:00",
+    "harness_base": "3408758",
+    "checkout_base": "08e492ee49b6193029fe24be019f272ffb20b48f",
+    "runtime_source_commit": "f9dfba952e6eaffc37794b50337b361c6e1e9d12",
+    "preregistration_commit": "8d05ae53378e528ad06bf2dbb9e97ad3522f9ea4",
+    "model": "gpt-6-astra",
+    "transport": "codex-subscription",
+    "node": "v25.8.1",
+    "source_changes_after_start": "Documentation and packaging only; experiment src unchanged",
+    "transport_preflight": "Passed function call and tool result round trip",
+    "smoke_technical_retries": 1,
+    "smoke_retry_cause": "401 token_revoked; normal Codex login refreshed",
+    "src_revision": "a27de537785c5f551905c39e3d1ee0c853fd9fff",
+    "src_sha256": {
+      "src/analyze.js": "2dc6bf3d932489a8c97131143d32f0c09d7919abfbd72a4858aa81bb61f574e4",
+      "src/compare.js": "9d064c70eb4b6bd8d51d02b857d7fe50d16153a461b6ec243c0816e9bc7f1097",
+      "src/factorial.js": "fc45fad948de025c5b34943c36233ea9eeba8756aa3c1ad2b5336b69fae8aaad",
+      "src/knobs.js": "10b314f4a5e97b246ac4060cc5c8f23f74dbc7cfe603f6555b598bddaccc925b",
+      "src/kscan.js": "562f356271dd7953cc8f692f32ad52c613387bcf6b68ab1937b2d0faa1d29821",
+      "src/lib/agent.js": "c1e7c0e20469d30bd642b213196c2088ff8ee335567f84b0911c36f45f73dfac",
+      "src/lib/arms.js": "e32166ddc856993401faa989276801abc49c15e982614e6d5438a37ef0bf4401",
+      "src/lib/delivery.js": "6ece53811041ba0f8ec21e9b8ae2692c7e17cec7a47818a2301e023c874715ee",
+      "src/lib/directory.js": "149c5094a5b0d51c220139ecb5fa1dca9c40953f6c43fce5ad0f0da4dc44ce1a",
+      "src/lib/kernel.js": "9e111f292e508fb4d1c0590495d42f7105bee7b37c28961f59990430eca1ad84",
+      "src/lib/log.js": "3b61bd49ea92df0837739ae42f7961648287bbb9f807c95c2f74a8d4945d751b",
+      "src/lib/openrouter.js": "413fdc3e6985937a5618a21b4016c7b1bff628dd5df57d5965b4f8b98f25c332",
+      "src/lib/roles.js": "b7b529f5d3f1e8102218678bd4425b879dc2fe7499a98a7f01472151386dcaa0",
+      "src/lib/seeds.js": "856738d029c7a33be108dab12d0b8b366406c5c63f8810325f5265470925d11a",
+      "src/lib/store.js": "71c42c7ec6adf8c5feeb2f496167101e4626471a939d881f1d50522f52921599",
+      "src/lib/subscription.js": "8afd15d41e973c7100ed6040c51af476027cc7ab41f9762a79018dfbd1b0fa7c",
+      "src/lib/timeline.js": "df34d0e5c2e519d52ef7f247c6b3e22e089eb953465191f146e58d8fa0a2b0d8",
+      "src/payables.js": "aa07397896d730d95fe679a1da70bbb9ff3b225aee5c46078474ac60fb226ac1",
+      "src/retrieval.js": "4aaf8a523b8927226327ebc8c81f309e4d0af1b0cb89b81da8f61a45057f580e",
+      "src/run.js": "bb3b49ed63c8f72d7b271ef69d514428418b2ce04019dd25f03a2247fceb0a6b",
+      "src/scenarios/conference.js": "3c5dbebbdb2cdee0d5ba2787e6a9a2eff4aebcb398b46f8fa20abe351c0b9779",
+      "src/scenarios/knobs.js": "ae111f8a6b3ce4aef91f8b959109422db5ff45b77cc5610e43ae5f63c27b4eb0",
+      "src/scenarios/lab-dashboard.js": "50ab8461aee1e75358056f3916cda894eb2c055b9d4ca66418b04c59ef4f79a1",
+      "src/scenarios/payables.js": "9707a1aeb6240c623aea71f8b9075231abebb1656d7d1ea8718e577f42f65854",
+      "src/scenarios/trip-planner.js": "a342fb7bd0bb31f782728123c3504fe606a154883b6ec66572c0fbffc05f14d6",
+      "src/score.js": "cee51749e2b7510fca23d34fd21ebfdd9b3046b751c1f151b669b0f9ba16e09d",
+      "src/seedeffect.js": "c9f90ded60fb98799a284f1c3e8d9c8a1d843ae32aaa6136b58e2de973556cce"
+    }
+  },
+  "harness_base": "3408758",
+  "checkout_base": "08e492ee49b6193029fe24be019f272ffb20b48f",
+  "preregistration_repository": "LeoYiLi/agentic-web-paper",
+  "preregistration_commit": "8d05ae53378e528ad06bf2dbb9e97ad3522f9ea4",
+  "model": "gpt-6-astra",
+  "transport": "ChatGPT subscription via Codex OAuth Responses",
+  "started_at": "2026-10-07T04:24:41.950664+00:00",
+  "finished_at": "2026-10-07T05:54:56.719962+00:00",
+  "node_version": "v25.8.1",
+  "parameters": {
+    "reasoning_effort": "medium",
+    "temperature": "omitted; service default",
+    "max_output_tokens": "original per-call harness limit; includes reasoning tokens",
+    "store": false,
+    "seed_start": 4,
+    "seeds": 5,
+    "beats": 1,
+    "order_seed": 2,
+    "initial_parallelism": 10,
+    "technical_retry_parallelism": 3
+  },
+  "planned_episodes": 270,
+  "episode_summaries": 270,
+  "archives": [
+    {
+      "archive": "data/second-model/m2-e0.tar.gz",
+      "sha256": "5b8d6b3a8b7d0e35952d359b1f0338975ff080971407cf7d6066fee2d771da2a",
+      "archive_bytes": 2267724,
+      "file_count": 912,
+      "uncompressed_bytes": 12388955,
+      "run_directories": [
+        "runs/m2-e0",
+        "runs/m2-e0.log"
+      ],
+      "run": "m2-e0",
+      "planned": 180,
+      "completed": 180,
+      "technical": 0,
+      "missing": 0,
+      "calls": 2580,
+      "served": {
+        "gpt-6-astra": 2580
+      },
+      "serving_exclusions": [],
+      "technical_reruns": 5,
+      "ledger": {
+        "attempts": 2666,
+        "response_records": 2658,
+        "attempt_errors": 8,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 2658
+        },
+        "input_tokens": 2915449,
+        "output_tokens": 989890,
+        "reasoning_tokens": 34705,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      }
+    },
+    {
+      "archive": "data/second-model/m2-dir.tar.gz",
+      "sha256": "0d9440692337c7db2bd14149124ff1faeaede8e07c6eb4b1b33ebf90956b0e61",
+      "archive_bytes": 349130,
+      "file_count": 158,
+      "uncompressed_bytes": 1849179,
+      "run_directories": [
+        "runs/m2-dir",
+        "runs/m2-dir.log"
+      ],
+      "run": "m2-dir",
+      "planned": 30,
+      "completed": 30,
+      "technical": 0,
+      "missing": 0,
+      "calls": 403,
+      "served": {
+        "gpt-6-astra": 403
+      },
+      "serving_exclusions": [],
+      "technical_reruns": 0,
+      "ledger": {
+        "attempts": 404,
+        "response_records": 403,
+        "attempt_errors": 1,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 403
+        },
+        "input_tokens": 402249,
+        "output_tokens": 159427,
+        "reasoning_tokens": 6299,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      }
+    },
+    {
+      "archive": "data/second-model/m2-e7.tar.gz",
+      "sha256": "47a1265d73c24b653c175bddf6d3f37bce91a9ec52209a89d786f3403040683b",
+      "archive_bytes": 849127,
+      "file_count": 308,
+      "uncompressed_bytes": 4635360,
+      "run_directories": [
+        "runs/m2-e7",
+        "runs/m2-e7.log"
+      ],
+      "run": "m2-e7",
+      "planned": 60,
+      "completed": 60,
+      "technical": 0,
+      "missing": 0,
+      "calls": 1121,
+      "served": {
+        "gpt-6-astra": 1121
+      },
+      "serving_exclusions": [],
+      "technical_reruns": 0,
+      "ledger": {
+        "attempts": 1121,
+        "response_records": 1121,
+        "attempt_errors": 0,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 1121
+        },
+        "input_tokens": 1439089,
+        "output_tokens": 321180,
+        "reasoning_tokens": 13208,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      }
+    },
+    {
+      "archive": "data/second-model/set-aside.tar.gz",
+      "sha256": "acb86e7324155d1af3871f4148cfc0d247bde80cbf285cc3195043960cfbff7d",
+      "archive_bytes": 93573,
+      "file_count": 53,
+      "uncompressed_bytes": 401492,
+      "run_directories": [
+        "runs/m2-smoke",
+        "runs/m2-smoke.log",
+        "runs/m2-smoke-technical-fail",
+        "runs/transport-preflight",
+        "runs/second-model-state.json",
+        "runs/environment.json",
+        "runs/second-model-controller.log",
+        "runs/m2-e0-technical-fail",
+        "runs/m2-dir-technical-fail",
+        "runs/m2-e7-technical-fail"
+      ],
+      "role": "Smoke, transport preflight, orchestration record and superseded technical failures; never pool with confirmatory episodes"
+    }
+  ],
+  "accounting": {
+    "cost_usd": null,
+    "cost_status": "not_reported_by_subscription",
+    "description": "The ledger preserves initial and technical rerun attempts. Token totals cover received terminal usage only; failed streams may consume unreported tokens. No per-call money is returned. API-price estimates and a claim of zero spend would be unsupported.",
+    "ledgers": {
+      "runs/m2-dir/ledger.jsonl": {
+        "attempts": 404,
+        "response_records": 403,
+        "attempt_errors": 1,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 403
+        },
+        "input_tokens": 402249,
+        "output_tokens": 159427,
+        "reasoning_tokens": 6299,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      },
+      "runs/transport-preflight/ledger.jsonl": {
+        "attempts": 4,
+        "response_records": 4,
+        "attempt_errors": 0,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 4
+        },
+        "input_tokens": 388,
+        "output_tokens": 44,
+        "reasoning_tokens": 0,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      },
+      "runs/m2-e0/ledger.jsonl": {
+        "attempts": 2666,
+        "response_records": 2658,
+        "attempt_errors": 8,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 2658
+        },
+        "input_tokens": 2915449,
+        "output_tokens": 989890,
+        "reasoning_tokens": 34705,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      },
+      "runs/m2-e7/ledger.jsonl": {
+        "attempts": 1121,
+        "response_records": 1121,
+        "attempt_errors": 0,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 1121
+        },
+        "input_tokens": 1439089,
+        "output_tokens": 321180,
+        "reasoning_tokens": 13208,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      },
+      "runs/m2-smoke/ledger.jsonl": {
+        "attempts": 46,
+        "response_records": 45,
+        "attempt_errors": 1,
+        "calls_by_serving_model": {
+          "gpt-6-astra": 45
+        },
+        "input_tokens": 47997,
+        "output_tokens": 14405,
+        "reasoning_tokens": 481,
+        "cost_usd": null,
+        "cost_status": "not_reported_by_subscription"
+      }
+    },
+    "connectivity_probe": {
+      "parameter_probe": {
+        "temperature": 0.1,
+        "status": 400,
+        "detail": "Unsupported parameter: temperature"
+      },
+      "responses": [
+        {
+          "kind": "response",
+          "tag": "initial-connectivity",
+          "served": "gpt-6-astra",
+          "served_source": "upstream_terminal_response.model",
+          "response_id": "resp_0f6bdee19d017bf7016ac5c6f25e3487d0ba19b0e5edfd541b",
+          "usage": {
+            "input_tokens": 21,
+            "output_tokens": 5,
+            "total_tokens": 26,
+            "input_tokens_details": {
+              "cache_write_tokens": 0,
+              "cached_tokens": 0
+            },
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            }
+          },
+          "cost_microusd": null,
+          "cost_status": "not_reported_by_subscription",
+          "response_status": "completed",
+          "experimental_episode": false
+        }
+      ]
+    }
+  },
+  "analysis_performed": false,
+  "limitations": [
+    "Prospective Astra registration follows a separate prior Azure registration; prior Azure attempt status is unknown.",
+    "Service default sampling replaces unsupported temperature.",
+    "The output limit includes reasoning tokens.",
+    "Subscription response exposes no USD or consumed-credit charge.",
+    "Failed streams may consume tokens without returning terminal usage; recorded token totals are not a complete billing total."
+  ]
+}
