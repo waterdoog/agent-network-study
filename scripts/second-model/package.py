@@ -77,7 +77,7 @@ def main():
     for name in EXPECTED:
         record,files=archive(name,[f'runs/{name}',f'runs/{name}.log'])
         record.update(checks[name]); archives.append(record); all_files+=files
-    aside=['runs/m2-smoke','runs/m2-smoke.log','runs/m2-smoke-technical-fail','runs/transport-preflight','runs/second-model-state.json','runs/environment.json']
+    aside=['runs/m2-smoke','runs/m2-smoke.log','runs/m2-smoke-technical-fail','runs/transport-preflight','runs/second-model-state.json','runs/environment.json','runs/second-model-controller.log']
     aside += [f'runs/{x}-technical-fail' for x in EXPECTED if (RUNS/f'{x}-technical-fail').exists()]
     record,files=archive('set-aside',aside)
     record['role']='Smoke, transport preflight, orchestration record and superseded technical failures; never pool with confirmatory episodes'
@@ -95,14 +95,15 @@ def main():
             seed_start=4,seeds=5,beats=1,order_seed=2,initial_parallelism=10,technical_retry_parallelism=3),
         planned_episodes=270,episode_summaries=270,archives=archives,
         accounting=dict(cost_usd=None,cost_status='not_reported_by_subscription',
-            description='Upstream usage ledger includes initial and technical rerun attempts. No per-call money is returned. API-price estimates and a claim of zero spend would be unsupported.',
+            description='The ledger preserves initial and technical rerun attempts. Token totals cover received terminal usage only; failed streams may consume unreported tokens. No per-call money is returned. API-price estimates and a claim of zero spend would be unsupported.',
             ledgers={str(p.relative_to(ROOT)):ledger_info(p) for p in RUNS.glob('*/ledger.jsonl')},
             connectivity_probe=json.loads((RUNS/'transport-preflight/connectivity.json').read_text())),
         analysis_performed=False,
         limitations=['Prospective Astra registration follows a separate prior Azure registration; prior Azure attempt status is unknown.',
             'Service default sampling replaces unsupported temperature.',
             'The output limit includes reasoning tokens.',
-            'Subscription response exposes no USD or consumed-credit charge.'])
+            'Subscription response exposes no USD or consumed-credit charge.',
+            'Failed streams may consume tokens without returning terminal usage; recorded token totals are not a complete billing total.'])
     (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     (OUT/'SHA256SUMS').write_text(''.join(f"{a['sha256']}  {a['archive']}\n" for a in archives))
     (OUT/'FILES.sha256').write_text(''.join(f'{sha(p.read_bytes())}  {p.relative_to(ROOT).as_posix()}\n' for p in sorted(set(all_files))))
