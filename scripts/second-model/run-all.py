@@ -67,6 +67,13 @@ def main():
     state=json.loads(STATE.read_text()) if STATE.exists() else dict(started_at=now(),attempts=[],runs={})
     try:
         smoke=inspect(RUNS/'m2-smoke')
+        if '--wait-for-smoke' in sys.argv:
+            state.update(status='waiting-for-smoke',active_run='m2-smoke')
+            save(state)
+            deadline=time.monotonic()+900
+            while smoke['completed']<2 and time.monotonic()<deadline:
+                time.sleep(10)
+                smoke=inspect(RUNS/'m2-smoke')
         if smoke['completed']!=2 or smoke['technical'] or not smoke['calls'] or smoke['served']!={'gpt-6-astra':smoke['calls']} or smoke['serving_exclusions']:
             raise RuntimeError('Smoke gate failed; full experiment not started')
         for config in CONFIGS:
