@@ -77,13 +77,14 @@ def main():
     for name in EXPECTED:
         record,files=archive(name,[f'runs/{name}',f'runs/{name}.log'])
         record.update(checks[name]); archives.append(record); all_files+=files
-    aside=['runs/m2-smoke','runs/m2-smoke.log','runs/m2-smoke-technical-fail','runs/transport-preflight','runs/second-model-state.json']
+    aside=['runs/m2-smoke','runs/m2-smoke.log','runs/m2-smoke-technical-fail','runs/transport-preflight','runs/second-model-state.json','runs/environment.json']
     aside += [f'runs/{x}-technical-fail' for x in EXPECTED if (RUNS/f'{x}-technical-fail').exists()]
     record,files=archive('set-aside',aside)
     record['role']='Smoke, transport preflight, orchestration record and superseded technical failures; never pool with confirmatory episodes'
     archives.append(record); all_files+=files
     manifest=dict(format_version=1,created_at=datetime.datetime.now(datetime.timezone.utc).isoformat(),
-        source_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        packaging_revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+        environment=json.loads((RUNS/'environment.json').read_text()),
         harness_base='3408758',checkout_base='08e492ee49b6193029fe24be019f272ffb20b48f',
         preregistration_repository='LeoYiLi/agentic-web-paper',preregistration_commit=PREREG,
         model='gpt-6-astra',transport='ChatGPT subscription via Codex OAuth Responses',
