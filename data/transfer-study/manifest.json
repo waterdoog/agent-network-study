@@ -1,0 +1,143 @@
+{
+  "schema": 1,
+  "created_utc": "2026-10-08T08:48:10.331184+00:00",
+  "registration_commit": "f34dc4606b11e8d711430ad2da65c6e05e69a8ff",
+  "source_commit": "cec9631550af39e7c0f8435bb6908c4eff41c1d2",
+  "protocol_sha256": "056cab1ff1b74685ed557e14902db1000d2129ae0513009c78681f0eb8df7ee0",
+  "model": "gpt-6-astra",
+  "cost_usd": null,
+  "archive_files": {
+    "smoke.tar.gz": {
+      "files": 37,
+      "uncompressed_bytes": 131443,
+      "sha256": "b03690aa570eb5fc0d3b27a56af801a7f229d79366cf405f88e86a1e61ef434d"
+    },
+    "formal.tar.gz": {
+      "files": 649,
+      "uncompressed_bytes": 2799874,
+      "sha256": "2ad9395ba85181e26065d693feedacc0c3a00e2dde54db3443f35371f2957ffc"
+    },
+    "frozen-source.tar.gz": {
+      "files": 14,
+      "uncompressed_bytes": 113916,
+      "sha256": "58e25ef3585a74e84f86341fa3dc4f7dbcfb514f24669a530425311fedd374d5"
+    }
+  },
+  "restored_files_verified": 700,
+  "raw_bytes_modified": false,
+  "quality_analysis_performed": false,
+  "resource_audit": {
+    "smoke": {
+      "mode": "smoke",
+      "counts": {
+        "episode_attempts": 6,
+        "episode_reruns": 0,
+        "episodes": 6,
+        "saved_model_replies": 22,
+        "saved_model_requests": 22,
+        "technical_episode_attempts": 0,
+        "technical_exhausted_episodes": 0,
+        "transport_attempt_starts": 22,
+        "upstream_response_records": 22
+      },
+      "logical_caller_requests": 22,
+      "unique_upstream_responses": 22,
+      "started_attempts_without_terminal_response_record": 0,
+      "upstream_served_models": {
+        "gpt-6-astra": 22
+      },
+      "verified_event_served_models": {
+        "gpt-6-astra": 22
+      },
+      "known_ledger_usage_all_attempts": {
+        "input_tokens": 8433,
+        "output_tokens": 2466,
+        "reasoning_known_responses": 22,
+        "reasoning_tokens": 767,
+        "responses_with_usage": 22,
+        "total_tokens": 10899
+      },
+      "verified_llm_event_usage_all_attempts": {
+        "calls": 22,
+        "input_tokens": 8433,
+        "output_tokens": 2466,
+        "reasoning_known_calls": 22,
+        "reasoning_tokens": 767,
+        "total_tokens": 10899
+      },
+      "raw_jsonl_parse_issues": [],
+      "cost_usd": null,
+      "accounting_note": "Ledger totals sum unique upstream responses with reported usage across all episode/call attempts, including technical attempts. Missing terminal responses can have unknown consumption. Reasoning is part of output, not added again. No monetary cost is inferred."
+    },
+    "formal": {
+      "mode": "formal",
+      "counts": {
+        "episode_attempts": 108,
+        "episode_reruns": 0,
+        "episodes": 108,
+        "saved_model_replies": 492,
+        "saved_model_requests": 492,
+        "technical_episode_attempts": 0,
+        "technical_exhausted_episodes": 0,
+        "transport_attempt_starts": 492,
+        "upstream_response_records": 492
+      },
+      "logical_caller_requests": 492,
+      "unique_upstream_responses": 492,
+      "started_attempts_without_terminal_response_record": 0,
+      "upstream_served_models": {
+        "gpt-6-astra": 492
+      },
+      "verified_event_served_models": {
+        "gpt-6-astra": 492
+      },
+      "known_ledger_usage_all_attempts": {
+        "input_tokens": 181331,
+        "output_tokens": 54670,
+        "reasoning_known_responses": 492,
+        "reasoning_tokens": 14396,
+        "responses_with_usage": 492,
+        "total_tokens": 236001
+      },
+      "verified_llm_event_usage_all_attempts": {
+        "calls": 492,
+        "input_tokens": 181331,
+        "output_tokens": 54670,
+        "reasoning_known_calls": 492,
+        "reasoning_tokens": 14396,
+        "total_tokens": 236001
+      },
+      "raw_jsonl_parse_issues": [],
+      "cost_usd": null,
+      "accounting_note": "Ledger totals sum unique upstream responses with reported usage across all episode/call attempts, including technical attempts. Missing terminal responses can have unknown consumption. Reasoning is part of output, not added again. No monetary cost is inferred."
+    }
+  },
+  "reviewed_operational_inclusions": [],
+  "excluded_files": [
+    {
+      "file": "controller-state.json",
+      "reason": "Receipt/lock excluded; other run-root operational files were not explicitly safe-reviewed"
+    },
+    {
+      "file": "controller-launch.log",
+      "reason": "Receipt/lock excluded; other run-root operational files were not explicitly safe-reviewed"
+    },
+    {
+      "file": "smoke-controller.log",
+      "reason": "Receipt/lock excluded; other run-root operational files were not explicitly safe-reviewed"
+    },
+    {
+      "file": "controller.lock",
+      "reason": "Receipt/lock excluded; other run-root operational files were not explicitly safe-reviewed"
+    },
+    {
+      "file": "formal-controller.log",
+      "reason": "Receipt/lock excluded; other run-root operational files were not explicitly safe-reviewed"
+    },
+    {
+      "file": "registration-receipt.json",
+      "reason": "Receipt/lock excluded; other run-root operational files were not explicitly safe-reviewed"
+    }
+  ],
+  "packaging_helper_sha256": "999615eb4f83f688b39297e727900fc81b6c9a6dcbfb923548b3e39d186a6ff3"
+}

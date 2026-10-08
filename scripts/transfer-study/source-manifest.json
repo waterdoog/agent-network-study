@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "files": {
+    "control.py": "e721b5d439cb575578f63f40f10680a3e4fa7a3c3401713d22667df09744475d",
+    "config.json": "21e19971ec6bf4e27dab5b1ea04fc7bb5df12b63b868aad3e034606246c14ec8",
+    "task.mjs": "be0aeed1b8eec47a7a0b5ddab46798dfb96f7020a663ab378dcb36358dafd379",
+    "engine.mjs": "b6cebea9fcd13431f3d9e7b919d922c6c8abc815c79148c3a111c22bc725dbbe",
+    "run.mjs": "e27da421808247349604ecb5f45813be8d1ba651efaab75e99636a5df2751ed7",
+    "worker.mjs": "1e516abcd620e62de48d54bc368829f555088d8d3b901b8a1a427c220340ca0b",
+    "score.mjs": "e89bbff335bcdad3dc0dc76c227326e536466bed0d5428d9e84b3361881b8090",
+    "manifest.mjs": "f341ce5966cf6179257695bec0eaf92a3f9b47811c097608a98419f92b8a22d6",
+    "../../src/lib/subscription.js": "8afd15d41e973c7100ed6040c51af476027cc7ab41f9762a79018dfbd1b0fa7c"
+  }
+}

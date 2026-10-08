@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "study": "portfolio-transfer-v1",
+  "model": "gpt-6-astra",
+  "transport": "codex-subscription",
+  "reasoning_effort": "medium",
+  "formal_seeds": {
+    "first": 1001,
+    "last": 1048
+  },
+  "full_information_stride": 4,
+  "smoke_seeds": [
+    1,
+    2
+  ],
+  "requester_iterations": 8,
+  "max_asks": 6,
+  "requester_max_output_tokens": 3000,
+  "holder_max_output_tokens": 900,
+  "technical_episode_reruns": 1,
+  "bootstrap_draws": 10000,
+  "sign_flip_draws": 100000,
+  "analysis_seed": 20261008,
+  "practical_effect": 0.1,
+  "order_seed": 20261008,
+  "sign_flip_seed": 20261009,
+  "initial_concurrency": 6,
+  "rerun_concurrency": 2
+}
