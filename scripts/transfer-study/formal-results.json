@@ -1,0 +1,4813 @@
+{
+  "schema": 1,
+  "study": "portfolio-transfer-v1",
+  "mode": "formal",
+  "primary": {
+    "contrast": "permissive minus strict normalized feasible utility",
+    "planned_pairs": 48,
+    "technical_incomplete_pairs": 0,
+    "status": "complete",
+    "n": 48,
+    "estimate": 0,
+    "ci95": [
+      0,
+      0
+    ],
+    "p_two_sided": 1,
+    "bootstrap_draws": 10000,
+    "sign_flip_draws": 100000,
+    "method": "Paired percentile bootstrap and fixed-seed Monte Carlo sign-flip; two-sided absolute mean statistic, plus-one correction.",
+    "practical_effect": 0.1,
+    "estimate_at_least_practical_effect": false
+  },
+  "arms": {
+    "strict": {
+      "planned": 48,
+      "nontechnical": 48,
+      "technical_exhausted": 0,
+      "normalized_utility": 1,
+      "exact_optimal_rate": 1,
+      "feasible_rate": 1,
+      "selected_attempt_tokens": 2399.1458333333335
+    },
+    "permissive": {
+      "planned": 48,
+      "nontechnical": 48,
+      "technical_exhausted": 0,
+      "normalized_utility": 1,
+      "exact_optimal_rate": 1,
+      "feasible_rate": 1,
+      "selected_attempt_tokens": 2317.75
+    },
+    "full_information": {
+      "planned": 12,
+      "nontechnical": 12,
+      "technical_exhausted": 0,
+      "normalized_utility": 1,
+      "exact_optimal_rate": 1,
+      "feasible_rate": 1,
+      "selected_attempt_tokens": 799.1666666666666
+    }
+  },
+  "full_information_scope": "Predetermined descriptive diagnostic with equal requester iteration and output limits, all facts supplied and no ask tool; not a cost-matched baseline.",
+  "resource_accounting": {
+    "attempts": 108,
+    "successful_calls_across_all_attempts": 492,
+    "known_tokens_across_all_attempts": 236001,
+    "note": "Transport ledgers retain all attempts, including errors and any reported upstream usage; totals here sum verified successful llm events only."
+  },
+  "rows": [
+    {
+      "id": "W1027_permissive",
+      "seed": 1027,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 51,
+      "cost": 14,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 51,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1778,
+        "output_tokens": 515,
+        "reasoning_tokens": 112,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1778,
+            "output_tokens": 515,
+            "reasoning_tokens": 112,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1003_permissive",
+      "seed": 1003,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 55,
+      "cost": 12,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 55,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1775,
+        "output_tokens": 463,
+        "reasoning_tokens": 61,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1775,
+            "output_tokens": 463,
+            "reasoning_tokens": 61,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1007_permissive",
+      "seed": 1007,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 9,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1800,
+        "output_tokens": 480,
+        "reasoning_tokens": 56,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1800,
+            "output_tokens": 480,
+            "reasoning_tokens": 56,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1042_permissive",
+      "seed": 1042,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 62,
+      "cost": 13,
+      "hours": 5,
+      "reason": "feasible",
+      "optimum": 62,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1796,
+        "output_tokens": 483,
+        "reasoning_tokens": 64,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1796,
+            "output_tokens": 483,
+            "reasoning_tokens": 64,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1019_strict",
+      "seed": 1019,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 51,
+      "cost": 12,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 51,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1812,
+        "output_tokens": 562,
+        "reasoning_tokens": 152,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1812,
+            "output_tokens": 562,
+            "reasoning_tokens": 152,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1016_strict",
+      "seed": 1016,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 9,
+      "hours": 8,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1919,
+        "output_tokens": 570,
+        "reasoning_tokens": 107,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1919,
+            "output_tokens": 570,
+            "reasoning_tokens": 107,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1002_permissive",
+      "seed": 1002,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 53,
+      "cost": 14,
+      "hours": 6,
+      "reason": "feasible",
+      "optimum": 53,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1779,
+        "output_tokens": 448,
+        "reasoning_tokens": 44,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1779,
+            "output_tokens": 448,
+            "reasoning_tokens": 44,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1040_strict",
+      "seed": 1040,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 17,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1811,
+        "output_tokens": 550,
+        "reasoning_tokens": 145,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1811,
+            "output_tokens": 550,
+            "reasoning_tokens": 145,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1048_permissive",
+      "seed": 1048,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 58,
+      "cost": 18,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 58,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1793,
+        "output_tokens": 476,
+        "reasoning_tokens": 59,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1793,
+            "output_tokens": 476,
+            "reasoning_tokens": 59,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1023_strict",
+      "seed": 1023,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 50,
+      "cost": 11,
+      "hours": 12,
+      "reason": "feasible",
+      "optimum": 50,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1831,
+        "output_tokens": 547,
+        "reasoning_tokens": 132,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1831,
+            "output_tokens": 547,
+            "reasoning_tokens": 132,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1017_full_information",
+      "seed": 1017,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 44,
+      "cost": 16,
+      "hours": 12,
+      "reason": "feasible",
+      "optimum": 44,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 609,
+        "output_tokens": 169,
+        "reasoning_tokens": 140,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 609,
+            "output_tokens": 169,
+            "reasoning_tokens": 140,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1047_permissive",
+      "seed": 1047,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 39,
+      "cost": 11,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 39,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1785,
+        "output_tokens": 569,
+        "reasoning_tokens": 162,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1785,
+            "output_tokens": 569,
+            "reasoning_tokens": 162,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1004_permissive",
+      "seed": 1004,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 43,
+      "cost": 11,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 43,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1785,
+        "output_tokens": 552,
+        "reasoning_tokens": 142,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1785,
+            "output_tokens": 552,
+            "reasoning_tokens": 142,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1001_permissive",
+      "seed": 1001,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 36,
+      "cost": 13,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 36,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1788,
+        "output_tokens": 573,
+        "reasoning_tokens": 161,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1788,
+            "output_tokens": 573,
+            "reasoning_tokens": 161,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1016_permissive",
+      "seed": 1016,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 9,
+      "hours": 8,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1779,
+        "output_tokens": 525,
+        "reasoning_tokens": 121,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1779,
+            "output_tokens": 525,
+            "reasoning_tokens": 121,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1021_full_information",
+      "seed": 1021,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 43,
+      "cost": 15,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 43,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 610,
+        "output_tokens": 179,
+        "reasoning_tokens": 150,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 610,
+            "output_tokens": 179,
+            "reasoning_tokens": 150,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1041_full_information",
+      "seed": 1041,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 19,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 609,
+        "output_tokens": 98,
+        "reasoning_tokens": 69,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 609,
+            "output_tokens": 98,
+            "reasoning_tokens": 69,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1004_strict",
+      "seed": 1004,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 43,
+      "cost": 12,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 43,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1813,
+        "output_tokens": 538,
+        "reasoning_tokens": 128,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1813,
+            "output_tokens": 538,
+            "reasoning_tokens": 128,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1025_full_information",
+      "seed": 1025,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 44,
+      "cost": 12,
+      "hours": 15,
+      "reason": "feasible",
+      "optimum": 44,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 609,
+        "output_tokens": 285,
+        "reasoning_tokens": 256,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 609,
+            "output_tokens": 285,
+            "reasoning_tokens": 256,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1036_permissive",
+      "seed": 1036,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 14,
+      "hours": 6,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1783,
+        "output_tokens": 512,
+        "reasoning_tokens": 104,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1783,
+            "output_tokens": 512,
+            "reasoning_tokens": 104,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1030_permissive",
+      "seed": 1030,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 47,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 47,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1785,
+        "output_tokens": 596,
+        "reasoning_tokens": 187,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1785,
+            "output_tokens": 596,
+            "reasoning_tokens": 187,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1047_strict",
+      "seed": 1047,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 39,
+      "cost": 11,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 39,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1777,
+        "output_tokens": 569,
+        "reasoning_tokens": 180,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1777,
+            "output_tokens": 569,
+            "reasoning_tokens": 180,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1029_strict",
+      "seed": 1029,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 48,
+      "cost": 15,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 48,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1880,
+        "output_tokens": 520,
+        "reasoning_tokens": 76,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1880,
+            "output_tokens": 520,
+            "reasoning_tokens": 76,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1027_strict",
+      "seed": 1027,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 51,
+      "cost": 14,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 51,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1773,
+        "output_tokens": 533,
+        "reasoning_tokens": 140,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1773,
+            "output_tokens": 533,
+            "reasoning_tokens": 140,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1026_permissive",
+      "seed": 1026,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 38,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 38,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1780,
+        "output_tokens": 504,
+        "reasoning_tokens": 102,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1780,
+            "output_tokens": 504,
+            "reasoning_tokens": 102,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1044_permissive",
+      "seed": 1044,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 10,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1791,
+        "output_tokens": 478,
+        "reasoning_tokens": 65,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1791,
+            "output_tokens": 478,
+            "reasoning_tokens": 65,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1005_strict",
+      "seed": 1005,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 36,
+      "cost": 11,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 36,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1878,
+        "output_tokens": 845,
+        "reasoning_tokens": 414,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1878,
+            "output_tokens": 845,
+            "reasoning_tokens": 414,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1013_strict",
+      "seed": 1013,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 38,
+      "cost": 16,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 38,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1886,
+        "output_tokens": 700,
+        "reasoning_tokens": 255,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1886,
+            "output_tokens": 700,
+            "reasoning_tokens": 255,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1033_strict",
+      "seed": 1033,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 49,
+      "cost": 12,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 49,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1877,
+        "output_tokens": 537,
+        "reasoning_tokens": 95,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1877,
+            "output_tokens": 537,
+            "reasoning_tokens": 95,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1031_strict",
+      "seed": 1031,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 56,
+      "cost": 14,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 56,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1785,
+        "output_tokens": 526,
+        "reasoning_tokens": 129,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1785,
+            "output_tokens": 526,
+            "reasoning_tokens": 129,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1040_permissive",
+      "seed": 1040,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 17,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1776,
+        "output_tokens": 545,
+        "reasoning_tokens": 141,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1776,
+            "output_tokens": 545,
+            "reasoning_tokens": 141,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1038_strict",
+      "seed": 1038,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 12,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1817,
+        "output_tokens": 469,
+        "reasoning_tokens": 55,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1817,
+            "output_tokens": 469,
+            "reasoning_tokens": 55,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1020_permissive",
+      "seed": 1020,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 59,
+      "cost": 15,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 59,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1787,
+        "output_tokens": 451,
+        "reasoning_tokens": 41,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1787,
+            "output_tokens": 451,
+            "reasoning_tokens": 41,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1001_strict",
+      "seed": 1001,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 36,
+      "cost": 13,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 36,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1771,
+        "output_tokens": 512,
+        "reasoning_tokens": 120,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1771,
+            "output_tokens": 512,
+            "reasoning_tokens": 120,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1009_permissive",
+      "seed": 1009,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 53,
+      "cost": 16,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 53,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1796,
+        "output_tokens": 636,
+        "reasoning_tokens": 214,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1796,
+            "output_tokens": 636,
+            "reasoning_tokens": 214,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1041_permissive",
+      "seed": 1041,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 19,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1775,
+        "output_tokens": 464,
+        "reasoning_tokens": 62,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1775,
+            "output_tokens": 464,
+            "reasoning_tokens": 62,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1046_strict",
+      "seed": 1046,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 58,
+      "cost": 13,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 58,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1919,
+        "output_tokens": 578,
+        "reasoning_tokens": 115,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1919,
+            "output_tokens": 578,
+            "reasoning_tokens": 115,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1036_strict",
+      "seed": 1036,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 14,
+      "hours": 6,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1819,
+        "output_tokens": 520,
+        "reasoning_tokens": 106,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1819,
+            "output_tokens": 520,
+            "reasoning_tokens": 106,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1028_permissive",
+      "seed": 1028,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 49,
+      "cost": 10,
+      "hours": 16,
+      "reason": "feasible",
+      "optimum": 49,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1781,
+        "output_tokens": 507,
+        "reasoning_tokens": 102,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1781,
+            "output_tokens": 507,
+            "reasoning_tokens": 102,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1039_strict",
+      "seed": 1039,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 41,
+      "cost": 12,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 41,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1811,
+        "output_tokens": 468,
+        "reasoning_tokens": 59,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1811,
+            "output_tokens": 468,
+            "reasoning_tokens": 59,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1037_strict",
+      "seed": 1037,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 52,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 52,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1811,
+        "output_tokens": 480,
+        "reasoning_tokens": 71,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1811,
+            "output_tokens": 480,
+            "reasoning_tokens": 71,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1032_permissive",
+      "seed": 1032,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 34,
+      "cost": 16,
+      "hours": 12,
+      "reason": "feasible",
+      "optimum": 34,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1800,
+        "output_tokens": 705,
+        "reasoning_tokens": 285,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1800,
+            "output_tokens": 705,
+            "reasoning_tokens": 285,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1018_strict",
+      "seed": 1018,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 46,
+      "cost": 12,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 46,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1919,
+        "output_tokens": 569,
+        "reasoning_tokens": 106,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1919,
+            "output_tokens": 569,
+            "reasoning_tokens": 106,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1042_strict",
+      "seed": 1042,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 62,
+      "cost": 13,
+      "hours": 5,
+      "reason": "feasible",
+      "optimum": 62,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1865,
+        "output_tokens": 500,
+        "reasoning_tokens": 64,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1865,
+            "output_tokens": 500,
+            "reasoning_tokens": 64,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1010_permissive",
+      "seed": 1010,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 49,
+      "cost": 17,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 49,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1773,
+        "output_tokens": 526,
+        "reasoning_tokens": 125,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1773,
+            "output_tokens": 526,
+            "reasoning_tokens": 125,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1008_permissive",
+      "seed": 1008,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 16,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1795,
+        "output_tokens": 485,
+        "reasoning_tokens": 66,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1795,
+            "output_tokens": 485,
+            "reasoning_tokens": 66,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1008_strict",
+      "seed": 1008,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 16,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1827,
+        "output_tokens": 479,
+        "reasoning_tokens": 75,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1827,
+            "output_tokens": 479,
+            "reasoning_tokens": 75,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1032_strict",
+      "seed": 1032,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 34,
+      "cost": 16,
+      "hours": 12,
+      "reason": "feasible",
+      "optimum": 34,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1876,
+        "output_tokens": 732,
+        "reasoning_tokens": 294,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1876,
+            "output_tokens": 732,
+            "reasoning_tokens": 294,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1035_permissive",
+      "seed": 1035,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 58,
+      "cost": 13,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 58,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1803,
+        "output_tokens": 501,
+        "reasoning_tokens": 75,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1803,
+            "output_tokens": 501,
+            "reasoning_tokens": 75,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1019_permissive",
+      "seed": 1019,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 51,
+      "cost": 12,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 51,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1780,
+        "output_tokens": 515,
+        "reasoning_tokens": 107,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1780,
+            "output_tokens": 515,
+            "reasoning_tokens": 107,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1006_permissive",
+      "seed": 1006,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 43,
+      "cost": 9,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 43,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1777,
+        "output_tokens": 612,
+        "reasoning_tokens": 209,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1777,
+            "output_tokens": 612,
+            "reasoning_tokens": 209,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1037_permissive",
+      "seed": 1037,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 52,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 52,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1799,
+        "output_tokens": 460,
+        "reasoning_tokens": 38,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1799,
+            "output_tokens": 460,
+            "reasoning_tokens": 38,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1021_strict",
+      "seed": 1021,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 43,
+      "cost": 15,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 43,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1811,
+        "output_tokens": 532,
+        "reasoning_tokens": 123,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1811,
+            "output_tokens": 532,
+            "reasoning_tokens": 123,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1033_permissive",
+      "seed": 1033,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 49,
+      "cost": 12,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 49,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1804,
+        "output_tokens": 510,
+        "reasoning_tokens": 84,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1804,
+            "output_tokens": 510,
+            "reasoning_tokens": 84,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1046_permissive",
+      "seed": 1046,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 58,
+      "cost": 13,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 58,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1796,
+        "output_tokens": 495,
+        "reasoning_tokens": 76,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1796,
+            "output_tokens": 495,
+            "reasoning_tokens": 76,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1001_full_information",
+      "seed": 1001,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 36,
+      "cost": 13,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 36,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 609,
+        "output_tokens": 166,
+        "reasoning_tokens": 137,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 609,
+            "output_tokens": 166,
+            "reasoning_tokens": 137,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1034_permissive",
+      "seed": 1034,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 15,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1793,
+        "output_tokens": 687,
+        "reasoning_tokens": 270,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1793,
+            "output_tokens": 687,
+            "reasoning_tokens": 270,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1048_strict",
+      "seed": 1048,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 58,
+      "cost": 18,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 58,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1811,
+        "output_tokens": 480,
+        "reasoning_tokens": 75,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1811,
+            "output_tokens": 480,
+            "reasoning_tokens": 75,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1039_permissive",
+      "seed": 1039,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 41,
+      "cost": 12,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 41,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1777,
+        "output_tokens": 448,
+        "reasoning_tokens": 45,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1777,
+            "output_tokens": 448,
+            "reasoning_tokens": 45,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1009_full_information",
+      "seed": 1009,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 53,
+      "cost": 16,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 53,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 610,
+        "output_tokens": 307,
+        "reasoning_tokens": 278,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 610,
+            "output_tokens": 307,
+            "reasoning_tokens": 278,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1023_permissive",
+      "seed": 1023,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 50,
+      "cost": 11,
+      "hours": 12,
+      "reason": "feasible",
+      "optimum": 50,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1777,
+        "output_tokens": 475,
+        "reasoning_tokens": 71,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1777,
+            "output_tokens": 475,
+            "reasoning_tokens": 71,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1005_permissive",
+      "seed": 1005,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 36,
+      "cost": 11,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 36,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1799,
+        "output_tokens": 763,
+        "reasoning_tokens": 345,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1799,
+            "output_tokens": 763,
+            "reasoning_tokens": 345,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1014_strict",
+      "seed": 1014,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 48,
+      "cost": 16,
+      "hours": 17,
+      "reason": "feasible",
+      "optimum": 48,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1862,
+        "output_tokens": 678,
+        "reasoning_tokens": 256,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1862,
+            "output_tokens": 678,
+            "reasoning_tokens": 256,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1026_strict",
+      "seed": 1026,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 38,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 38,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1849,
+        "output_tokens": 542,
+        "reasoning_tokens": 114,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1849,
+            "output_tokens": 542,
+            "reasoning_tokens": 114,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1025_strict",
+      "seed": 1025,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 44,
+      "cost": 12,
+      "hours": 15,
+      "reason": "feasible",
+      "optimum": 44,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1775,
+        "output_tokens": 605,
+        "reasoning_tokens": 214,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1775,
+            "output_tokens": 605,
+            "reasoning_tokens": 214,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1031_permissive",
+      "seed": 1031,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 56,
+      "cost": 14,
+      "hours": 11,
+      "reason": "feasible",
+      "optimum": 56,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1782,
+        "output_tokens": 511,
+        "reasoning_tokens": 103,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1782,
+            "output_tokens": 511,
+            "reasoning_tokens": 103,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1033_full_information",
+      "seed": 1033,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 49,
+      "cost": 12,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 49,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 610,
+        "output_tokens": 109,
+        "reasoning_tokens": 80,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 610,
+            "output_tokens": 109,
+            "reasoning_tokens": 80,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1011_strict",
+      "seed": 1011,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 56,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 56,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1923,
+        "output_tokens": 539,
+        "reasoning_tokens": 71,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1923,
+            "output_tokens": 539,
+            "reasoning_tokens": 71,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1025_permissive",
+      "seed": 1025,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 44,
+      "cost": 12,
+      "hours": 15,
+      "reason": "feasible",
+      "optimum": 44,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1789,
+        "output_tokens": 568,
+        "reasoning_tokens": 156,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1789,
+            "output_tokens": 568,
+            "reasoning_tokens": 156,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1017_strict",
+      "seed": 1017,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 44,
+      "cost": 16,
+      "hours": 12,
+      "reason": "feasible",
+      "optimum": 44,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1822,
+        "output_tokens": 522,
+        "reasoning_tokens": 108,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1822,
+            "output_tokens": 522,
+            "reasoning_tokens": 108,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1037_full_information",
+      "seed": 1037,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 52,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 52,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 609,
+        "output_tokens": 72,
+        "reasoning_tokens": 43,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 609,
+            "output_tokens": 72,
+            "reasoning_tokens": 43,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1022_strict",
+      "seed": 1022,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 40,
+      "cost": 15,
+      "hours": 8,
+      "reason": "feasible",
+      "optimum": 40,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1918,
+        "output_tokens": 640,
+        "reasoning_tokens": 180,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1918,
+            "output_tokens": 640,
+            "reasoning_tokens": 180,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1007_strict",
+      "seed": 1007,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 9,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1811,
+        "output_tokens": 471,
+        "reasoning_tokens": 66,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1811,
+            "output_tokens": 471,
+            "reasoning_tokens": 66,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1011_permissive",
+      "seed": 1011,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 56,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 56,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1789,
+        "output_tokens": 474,
+        "reasoning_tokens": 58,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1789,
+            "output_tokens": 474,
+            "reasoning_tokens": 58,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1038_permissive",
+      "seed": 1038,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 12,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1789,
+        "output_tokens": 476,
+        "reasoning_tokens": 63,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1789,
+            "output_tokens": 476,
+            "reasoning_tokens": 63,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1045_permissive",
+      "seed": 1045,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 40,
+      "cost": 11,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 40,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1779,
+        "output_tokens": 648,
+        "reasoning_tokens": 247,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1779,
+            "output_tokens": 648,
+            "reasoning_tokens": 247,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1015_permissive",
+      "seed": 1015,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 53,
+      "cost": 13,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 53,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1775,
+        "output_tokens": 453,
+        "reasoning_tokens": 51,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1775,
+            "output_tokens": 453,
+            "reasoning_tokens": 51,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1018_permissive",
+      "seed": 1018,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 46,
+      "cost": 12,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 46,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1770,
+        "output_tokens": 498,
+        "reasoning_tokens": 99,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1770,
+            "output_tokens": 498,
+            "reasoning_tokens": 99,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1020_strict",
+      "seed": 1020,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 59,
+      "cost": 15,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 59,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1899,
+        "output_tokens": 502,
+        "reasoning_tokens": 50,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1899,
+            "output_tokens": 502,
+            "reasoning_tokens": 50,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1013_permissive",
+      "seed": 1013,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 38,
+      "cost": 16,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 38,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1796,
+        "output_tokens": 714,
+        "reasoning_tokens": 297,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1796,
+            "output_tokens": 714,
+            "reasoning_tokens": 297,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1012_permissive",
+      "seed": 1012,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 55,
+      "cost": 14,
+      "hours": 5,
+      "reason": "feasible",
+      "optimum": 55,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1797,
+        "output_tokens": 473,
+        "reasoning_tokens": 55,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1797,
+            "output_tokens": 473,
+            "reasoning_tokens": 55,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1029_full_information",
+      "seed": 1029,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 48,
+      "cost": 15,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 48,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 609,
+        "output_tokens": 79,
+        "reasoning_tokens": 50,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 609,
+            "output_tokens": 79,
+            "reasoning_tokens": 50,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1012_strict",
+      "seed": 1012,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 55,
+      "cost": 14,
+      "hours": 5,
+      "reason": "feasible",
+      "optimum": 55,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1787,
+        "output_tokens": 466,
+        "reasoning_tokens": 69,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1787,
+            "output_tokens": 466,
+            "reasoning_tokens": 69,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1045_strict",
+      "seed": 1045,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 40,
+      "cost": 11,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 40,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1848,
+        "output_tokens": 719,
+        "reasoning_tokens": 292,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1848,
+            "output_tokens": 719,
+            "reasoning_tokens": 292,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1029_permissive",
+      "seed": 1029,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 48,
+      "cost": 15,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 48,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1777,
+        "output_tokens": 451,
+        "reasoning_tokens": 48,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1777,
+            "output_tokens": 451,
+            "reasoning_tokens": 48,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1022_permissive",
+      "seed": 1022,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 40,
+      "cost": 15,
+      "hours": 8,
+      "reason": "feasible",
+      "optimum": 40,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1775,
+        "output_tokens": 584,
+        "reasoning_tokens": 186,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1775,
+            "output_tokens": 584,
+            "reasoning_tokens": 186,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1009_strict",
+      "seed": 1009,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 53,
+      "cost": 16,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 53,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1830,
+        "output_tokens": 670,
+        "reasoning_tokens": 259,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1830,
+            "output_tokens": 670,
+            "reasoning_tokens": 259,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1003_strict",
+      "seed": 1003,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 55,
+      "cost": 12,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 55,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1920,
+        "output_tokens": 553,
+        "reasoning_tokens": 89,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1920,
+            "output_tokens": 553,
+            "reasoning_tokens": 89,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1030_strict",
+      "seed": 1030,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 47,
+      "cost": 13,
+      "hours": 7,
+      "reason": "feasible",
+      "optimum": 47,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1877,
+        "output_tokens": 600,
+        "reasoning_tokens": 158,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1877,
+            "output_tokens": 600,
+            "reasoning_tokens": 158,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1021_permissive",
+      "seed": 1021,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 43,
+      "cost": 15,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 43,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1788,
+        "output_tokens": 515,
+        "reasoning_tokens": 104,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1788,
+            "output_tokens": 515,
+            "reasoning_tokens": 104,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1024_strict",
+      "seed": 1024,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 51,
+      "cost": 11,
+      "hours": 8,
+      "reason": "feasible",
+      "optimum": 51,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1772,
+        "output_tokens": 450,
+        "reasoning_tokens": 58,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1772,
+            "output_tokens": 450,
+            "reasoning_tokens": 58,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1043_permissive",
+      "seed": 1043,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 39,
+      "cost": 16,
+      "hours": 5,
+      "reason": "feasible",
+      "optimum": 39,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1787,
+        "output_tokens": 623,
+        "reasoning_tokens": 212,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1787,
+            "output_tokens": 623,
+            "reasoning_tokens": 212,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1044_strict",
+      "seed": 1044,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 10,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1862,
+        "output_tokens": 503,
+        "reasoning_tokens": 81,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1862,
+            "output_tokens": 503,
+            "reasoning_tokens": 81,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1006_strict",
+      "seed": 1006,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 43,
+      "cost": 9,
+      "hours": 14,
+      "reason": "feasible",
+      "optimum": 43,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1806,
+        "output_tokens": 544,
+        "reasoning_tokens": 135,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1806,
+            "output_tokens": 544,
+            "reasoning_tokens": 135,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1034_strict",
+      "seed": 1034,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 45,
+      "cost": 15,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 45,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1807,
+        "output_tokens": 735,
+        "reasoning_tokens": 332,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1807,
+            "output_tokens": 735,
+            "reasoning_tokens": 332,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1028_strict",
+      "seed": 1028,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 49,
+      "cost": 10,
+      "hours": 16,
+      "reason": "feasible",
+      "optimum": 49,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1789,
+        "output_tokens": 532,
+        "reasoning_tokens": 134,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1789,
+            "output_tokens": 532,
+            "reasoning_tokens": 134,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1015_strict",
+      "seed": 1015,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 53,
+      "cost": 13,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 53,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1811,
+        "output_tokens": 510,
+        "reasoning_tokens": 101,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1811,
+            "output_tokens": 510,
+            "reasoning_tokens": 101,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1013_full_information",
+      "seed": 1013,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 38,
+      "cost": 16,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 38,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 610,
+        "output_tokens": 250,
+        "reasoning_tokens": 224,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 610,
+            "output_tokens": 250,
+            "reasoning_tokens": 224,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1043_strict",
+      "seed": 1043,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 39,
+      "cost": 16,
+      "hours": 5,
+      "reason": "feasible",
+      "optimum": 39,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1918,
+        "output_tokens": 695,
+        "reasoning_tokens": 233,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1918,
+            "output_tokens": 695,
+            "reasoning_tokens": 233,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1041_strict",
+      "seed": 1041,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 54,
+      "cost": 19,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 54,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1805,
+        "output_tokens": 470,
+        "reasoning_tokens": 61,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1805,
+            "output_tokens": 470,
+            "reasoning_tokens": 61,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1017_permissive",
+      "seed": 1017,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 44,
+      "cost": 16,
+      "hours": 12,
+      "reason": "feasible",
+      "optimum": 44,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1770,
+        "output_tokens": 585,
+        "reasoning_tokens": 186,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1770,
+            "output_tokens": 585,
+            "reasoning_tokens": 186,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1014_permissive",
+      "seed": 1014,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 48,
+      "cost": 16,
+      "hours": 17,
+      "reason": "feasible",
+      "optimum": 48,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1783,
+        "output_tokens": 588,
+        "reasoning_tokens": 182,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1783,
+            "output_tokens": 588,
+            "reasoning_tokens": 182,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1005_full_information",
+      "seed": 1005,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 36,
+      "cost": 11,
+      "hours": 10,
+      "reason": "feasible",
+      "optimum": 36,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 610,
+        "output_tokens": 304,
+        "reasoning_tokens": 278,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 610,
+            "output_tokens": 304,
+            "reasoning_tokens": 278,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1035_strict",
+      "seed": 1035,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 58,
+      "cost": 13,
+      "hours": 13,
+      "reason": "feasible",
+      "optimum": 58,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1875,
+        "output_tokens": 545,
+        "reasoning_tokens": 104,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1875,
+            "output_tokens": 545,
+            "reasoning_tokens": 104,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1010_strict",
+      "seed": 1010,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 49,
+      "cost": 17,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 49,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1881,
+        "output_tokens": 601,
+        "reasoning_tokens": 155,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1881,
+            "output_tokens": 601,
+            "reasoning_tokens": 155,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1002_strict",
+      "seed": 1002,
+      "arm": "strict",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 53,
+      "cost": 14,
+      "hours": 6,
+      "reason": "feasible",
+      "optimum": 53,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1776,
+        "output_tokens": 429,
+        "reasoning_tokens": 35,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1776,
+            "output_tokens": 429,
+            "reasoning_tokens": 35,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1024_permissive",
+      "seed": 1024,
+      "arm": "permissive",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 51,
+      "cost": 11,
+      "hours": 8,
+      "reason": "feasible",
+      "optimum": 51,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 5,
+        "input_tokens": 1765,
+        "output_tokens": 436,
+        "reasoning_tokens": 44,
+        "reasoning_known_calls": 5,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 5,
+            "input_tokens": 1765,
+            "output_tokens": 436,
+            "reasoning_tokens": 44,
+            "reasoning_known_calls": 5,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "W1045_full_information",
+      "seed": 1045,
+      "arm": "full_information",
+      "status": "submitted",
+      "selected_attempt": 1,
+      "valid": true,
+      "feasible": true,
+      "value": 40,
+      "cost": 11,
+      "hours": 9,
+      "reason": "feasible",
+      "optimum": 40,
+      "normalized_utility": 1,
+      "exact_optimal": true,
+      "usage": {
+        "successful_calls": 1,
+        "input_tokens": 609,
+        "output_tokens": 259,
+        "reasoning_tokens": 233,
+        "reasoning_known_calls": 1,
+        "served": [
+          "gpt-6-astra"
+        ],
+        "cost_usd": null
+      },
+      "attempts": [
+        {
+          "attempt": 1,
+          "status": "submitted",
+          "usage": {
+            "successful_calls": 1,
+            "input_tokens": 609,
+            "output_tokens": 259,
+            "reasoning_tokens": 233,
+            "reasoning_known_calls": 1,
+            "served": [
+              "gpt-6-astra"
+            ],
+            "cost_usd": null
+          }
+        }
+      ]
+    }
+  ]
+}
